@@ -1,0 +1,84 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Uid:</strong>
+  <%= @event.uid %>
+</p>
+
+<p>
+  <strong>Categories:</strong>
+  <%= @event.categories %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @event.description %>
+</p>
+
+<p>
+  <strong>Location:</strong>
+  <%= @event.location %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @event.status %>
+</p>
+
+<p>
+  <strong>Summary:</strong>
+  <%= @event.summary %>
+</p>
+
+<p>
+  <strong>Dtstart:</strong>
+  <%= @event.dtstart %>
+</p>
+
+<p>
+  <strong>Dtend:</strong>
+  <%= @event.dtend %>
+</p>
+
+<p>
+  <strong>Recurrence:</strong>
+  <%= @event.recurrence_id %>
+</p>
+
+<p>
+  <strong>Related to:</strong>
+  <%= @event.related_to %>
+</p>
+
+<p>
+  <strong>Exdate:</strong>
+  <%= @event.exdate %>
+</p>
+
+<p>
+  <strong>Rdate:</strong>
+  <%= @event.rdate %>
+</p>
+
+<p>
+  <strong>Created:</strong>
+  <%= @event.created %>
+</p>
+
+<p>
+  <strong>Last modified:</strong>
+  <%= @event.last_modified %>
+</p>
+
+<p>
+  <strong>Sequence:</strong>
+  <%= @event.sequence %>
+</p>
+
+<p>
+  <strong>Rrule:</strong>
+  <%= @event.rrule %>
+</p>
+
+<%= link_to 'Edit', edit_event_path(@event) %> |
+<%= link_to 'Back', events_path %>
