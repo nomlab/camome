@@ -40,3 +40,9 @@ gem 'spring',        group: :development
 
 # RSpec
 gem 'rspec-rails', group: [:development, :test]
+
+# Bootstrap
+# https://github.com/seyhunak/twitter-bootstrap-rails
+gem "therubyracer"
+gem "less-rails"
+gem "twitter-bootstrap-rails"
