@@ -46,3 +46,5 @@ gem 'rspec-rails', group: [:development, :test]
 gem "therubyracer"
 gem "less-rails"
 gem "twitter-bootstrap-rails"
+gem "fullcalendar-rails"
+gem 'google-api-client', require: 'google/api_client'
