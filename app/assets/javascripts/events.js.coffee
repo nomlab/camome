@@ -4,6 +4,10 @@
 
 ready = ->
   $('#calendar').fullCalendar
+    timeFormat:
+      month: 'HH:mm'
+      week: 'HH:mm'
+      day: 'HH:mm'
     events: '/events.json'
 
 $(document).ready(ready)
