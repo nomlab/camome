@@ -10,5 +10,9 @@ ready = ->
       day: 'HH:mm'
     events: '/events.json'
 
+    eventClick:
+      (calEvent) ->
+        document.location = "../events/#{calEvent.id}/edit"
+
 $(document).ready(ready)
 $(document).on('page:load', ready)
