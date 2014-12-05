@@ -14,5 +14,27 @@ ready = ->
       (calEvent) ->
         document.location = "../events/#{calEvent.id}/edit"
 
+    selectable: true
+    selectHelper: true
+    ignoreTimezone: false
+    dayClick:
+      (date, allDay, jsEvent, view) ->
+        title = window.prompt("title")
+        data = {
+          event:
+            summary: title
+            dtstart: date.format() + "T00:00:00.000Z"
+            dtend: date.format() + "T23:59:59.000Z"
+        }
+        $ . ajax
+          type: 'POST'
+          url: '/events'
+          data: data
+          timeout: 9000
+          success: ->
+            $('#calendar').fullCalendar('refetchEvents');
+          error: ->
+            alert("error")
+
 $(document).ready(ready)
 $(document).on('page:load', ready)
