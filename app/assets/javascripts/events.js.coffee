@@ -4,37 +4,65 @@
 
 ready = ->
   $('#calendar').fullCalendar
+    defaultView: 'agendaWeek'
+    editable: true
+    selectable: true
+    timezone: 'local'
     timeFormat:
       month: 'HH:mm'
       week: 'HH:mm'
       day: 'HH:mm'
     events: '/events.json'
 
+    select:
+      (start, end, allDay) ->
+        starttime = moment(start).format("ddd, MMM d, H:mm")
+        endtime = moment(end)
+        endtime = endtime.format("ddd, MMM d, H:mm")
+        mywhen = starttime + ' - ' + endtime
+        $('#createEventModal #eventStartTime').val(start)
+        $('#createEventModal #eventEndTime').val(end)
+        $('#createEventModal #eventAllDay').val(allDay)
+        $('#createEventModal #when').text(mywhen)
+        $('#createEventModal').modal("show")
+
+  $('#submitButton').on 'click', (e) ->
+    e.preventDefault()
+    doSubmit()
+
+  doSubmit = ->
+    $("#createEventModal").modal('hide')
+    console.log($('#eventStartTime').val())
+    console.log($('#eventEndTime').val())
+    console.log($('#eventAllDay').val())
+
+    data = {
+      event:
+        summary: $('#eventSummary').val()
+        dtstart: new Date($('#eventStartTime').val())
+        dtend: new Date($('#eventEndTime').val())
+    }
+
+    $ . ajax
+      type: 'POST'
+      url: '/events'
+      data: data
+      timeout: 9000
+      success: ->
+        $("#calendar").fullCalendar('renderEvent',
+        {
+           title: $('#eventSummary').val()
+           start: new Date($('#eventStartTime').val())
+           end: new Date($('#eventEndTime').val())
+           allDay: ($('#eventAllDay').val() == "true")
+        },
+        true)
+      error: ->
+        alert("error")
+
     eventClick:
       (calEvent) ->
         document.location = "../events/#{calEvent.id}/edit"
-
-    selectable: true
-    selectHelper: true
-    ignoreTimezone: false
-    dayClick:
-      (date, allDay, jsEvent, view) ->
-        title = window.prompt("title")
-        data = {
-          event:
-            summary: title
-            dtstart: date.format() + "T00:00:00.000Z"
-            dtend: date.format() + "T23:59:59.000Z"
-        }
-        $ . ajax
-          type: 'POST'
-          url: '/events'
-          data: data
-          timeout: 9000
-          success: ->
-            $('#calendar').fullCalendar('refetchEvents');
-          error: ->
-            alert("error")
 
 $(document).ready(ready)
 $(document).on('page:load', ready)
