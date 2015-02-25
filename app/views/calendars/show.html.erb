@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Displayname:</strong>
+  <%= @calendar.displayname %>
+</p>
+
+<p>
+  <strong>Color:</strong>
+  <%= @calendar.color %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @calendar.description %>
+</p>
+
+<%= link_to 'Edit', edit_calendar_path(@calendar) %> |
+<%= link_to 'Back', calendars_path %>
