@@ -4,8 +4,10 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.json
   def index
-    @g_events  = EventImpoter.new.get_event_list
-    add_event_from_google(@g_events)
+    #g_caldav  = EventImpoter.new
+    #g_cal = g_caldav.get_calendar_data
+
+    #add_event_from_google(g_cal)
 
     respond_to do |format|
       format.html
@@ -13,19 +15,14 @@ class EventsController < ApplicationController
     end
   end
 
-  def add_event_from_google(events)
-    events.each do |event|
-      if Event.where("uid IS ?",event.id).blank?
+  def add_event_from_google(g_cal)
+    g_cal.events.each do |event|
+      if Event.where("uid IS ?","#{event.uid}").blank?
         ev = Event.new
-        ev.uid = event.id
-        ev.summary = event.summary
-        if event.start.date == nil
-          ev.dtstart = event.start['dateTime']
-          ev.dtend = event.end['dateTime']
-        else
-          ev.dtstart = event.start['date']
-          ev.dtend = event.end['date']
-        end
+        ev.uid = "#{event.uid}"
+        ev.summary = "#{event.summary}"
+        ev.dtstart = event.dtstart
+        ev.dtend = event.dtend
         ev.save
       end
     end
