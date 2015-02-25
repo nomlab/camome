@@ -7,18 +7,23 @@
       </div>
       <div class="modal-body">
         <form id="createEventForm" class="modal-body">
-          <div class="input-group">
-            <label class="control-label" for="inputSummary">Summary:</label>
-            <div class="controls">
-                <input type="text" name="eventSummary" id="eventSummary" tyle="margin: 0 auto;" data-provide="typeahead" data-items="4" data-source="[&quot;Value 1&quot;,&quot;Value 2&quot;,&quot;Value 3&quot;]">
-                  <input type="hidden" id="eventStartTime"/>
-                  <input type="hidden" id="eventEndTime"/>
-                  <input type="hidden" id="eventAllDay" />
+          <label class="control-label" for="inputSummary">Summary:</label>
+          <div class="controls">
+            <div class="input-group">
+              <input type="text" id="eventSummary" class="form-control">
             </div>
           </div>
-          <div class="control-group">
-            <label class="control-label" for="when">When:</label>
-            <div class="controls controls-row" id="when" style="margin-top:5px;">
+          <label class="control-label" for="inputDate">Start:</label>
+          <div class="controls">
+            <div class="input-group">
+              <input type="text" id="eventStartTime" class="form-control">
+            </div>
+          </div>
+          <label class="control-label" for="inputDate">End:</label>
+          <div class="controls">
+            <div class="input-group">
+              <input type="text" id="eventEndTime" class="form-control">
+                    <input type="hidden" id="eventAllDay" />
             </div>
           </div>
         </form>
@@ -26,7 +31,6 @@
       <div class="modal-footer">
         <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
         <button type="submit" class="btn btn-primary" id="submitButton">Save</button>
-      </div>
       </div>
     </div>
   </div>

@@ -47,5 +47,6 @@ gem "therubyracer"
 gem "less-rails"
 gem "twitter-bootstrap-rails"
 gem "fullcalendar-rails"
+gem "bootstrap3-datetimepicker-rails"
 
 gem "icalendar"

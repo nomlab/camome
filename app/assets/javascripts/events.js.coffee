@@ -4,7 +4,6 @@
 
 ready = ->
   $('#calendar').fullCalendar
-    defaultView: 'agendaWeek'
     editable: true
     selectable: true
     timezone: 'local'
@@ -16,14 +15,11 @@ ready = ->
 
     select:
       (start, end, allDay) ->
-        starttime = moment(start).format("ddd, MMM d, H:mm")
-        endtime = moment(end)
-        endtime = endtime.format("ddd, MMM d, H:mm")
-        mywhen = starttime + ' - ' + endtime
-        $('#createEventModal #eventStartTime').val(start)
-        $('#createEventModal #eventEndTime').val(end)
+        starttime = moment(start).format("YYYY/MM/DD H:mm")
+        endtime = moment(end).format("YYYY/MM/DD H:mm")
+        $('#createEventModal #eventStartTime').val(starttime)
+        $('#createEventModal #eventEndTime').val(endtime)
         $('#createEventModal #eventAllDay').val(allDay)
-        $('#createEventModal #when').text(mywhen)
         $('#createEventModal').modal("show")
 
   $('#submitButton').on 'click', (e) ->
@@ -32,6 +28,7 @@ ready = ->
 
   doSubmit = ->
     $("#createEventModal").modal('hide')
+    console.log($('#eventSummary').val())
     console.log($('#eventStartTime').val())
     console.log($('#eventEndTime').val())
     console.log($('#eventAllDay').val())
@@ -58,11 +55,17 @@ ready = ->
         },
         true)
       error: ->
-        alert("error")
+        alert "error"
 
     eventClick:
       (calEvent) ->
         document.location = "../events/#{calEvent.id}/edit"
+
+$ ->
+  $('#eventStartTime').datetimepicker
+    format: "YYYY/MM/DD H:mm"
+  $('#eventEndTime').datetimepicker
+    format: "YYYY/MM/DD H:mm"
 
 $(document).ready(ready)
 $(document).on('page:load', ready)
