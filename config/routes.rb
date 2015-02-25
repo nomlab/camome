@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   post "calendars/import"
   post "calendars/create_caldav"
   resources :calendars
-
+  resources :recurrences
   resources :events
 
   get "gate/index"

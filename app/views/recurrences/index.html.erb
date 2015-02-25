@@ -1,0 +1,27 @@
+<h1>Listing recurrences</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @recurrences.each do |recurrence| %>
+      <tr>
+        <td><%= recurrence.name %></td>
+        <td><%= recurrence.description %></td>
+        <td><%= link_to 'Show', recurrence %></td>
+        <td><%= link_to 'Edit', edit_recurrence_path(recurrence) %></td>
+        <td><%= link_to 'Destroy', recurrence, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Recurrence', new_recurrence_path %>

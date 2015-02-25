@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @recurrence.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @recurrence.description %>
+</p>
+
+<%= link_to 'Edit', edit_recurrence_path(@recurrence) %> |
+<%= link_to 'Back', recurrences_path %>
