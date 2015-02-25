@@ -18,3 +18,4 @@
 //= require fullcalendar
 //= require bootstrap-datetimepicker
 //= require_tree .
+#= require jquery-ui
