@@ -28,12 +28,14 @@
        data-toggle="table"
        data-height="500"
        data-striped="true"
-       data-click-to-select="true">
+       data-click-to-select="true"
+       data-sort-name="date"
+       data-sort-order="desc">
       <thead>
         <tr>
-          <th data-field="state" data-checkbox="true"></th>
-          <th data-field="title">Title</th>
-          <th data-field="date">Date</th>
+          <th data-field="state" data-checkbox="true" data-sortable="true"></th>
+          <th data-field="title" data-sortable="true">Title</th>
+          <th data-field="date" data-sortable="true">Date</th>
         </tr>
       </thead>
       <tbody class="event-inbox">
