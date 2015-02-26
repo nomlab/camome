@@ -22,11 +22,16 @@
   <!--   </table> -->
   <!-- </div> -->
   <div class="col-lg-6">
-    <table class="table table-hover table-bordered table-condensed">
+    <table
+       id="table"
+       data-class="table table-hover table-bordered table-condensed"
+       data-toggle="table"
+       data-height="500"
+       data-striped="true">
       <thead>
         <tr>
-          <th>Title</th>
-          <th>Date</th>
+          <th data-field="title">Title</th>
+          <th data-field="date">Date</th>
         </tr>
       </thead>
       <tbody class="event-inbox">

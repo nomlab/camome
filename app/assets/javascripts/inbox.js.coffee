@@ -1,3 +1,5 @@
+#= require bootstrap-table
+
 currentMissionForEvent = "nil"
 
 initDraggableEvent = -> $(".draggable-event").draggable
@@ -7,6 +9,7 @@ initDraggableEvent = -> $(".draggable-event").draggable
 
 ready = ->
   initDraggableEvent()
+  $('#table').bootstrapTable()
 
 $(document).ready(ready)
 $(document).on('page:load', ready)
