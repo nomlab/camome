@@ -4,7 +4,11 @@ currentMissionForEvent = "nil"
 
 initDraggableEvent = -> $(".draggable-event").draggable
   helper: (event) ->
-    $("<span style='white-space:nowrap;'>").text "event"
+    length =  $(".selected").length
+
+    # length = 1 if no check
+    length = 1 if length is 0
+    $("<span style='white-space:nowrap;'>").text length + "events"
   revert: true
 
 ready = ->
