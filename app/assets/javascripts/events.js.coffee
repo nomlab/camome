@@ -61,6 +61,13 @@ ready = ->
       (calEvent) ->
         document.location = "../events/#{calEvent.id}/edit"
 
+  $('.fc-event').each ->
+    $(this).draggable
+      appendTo: 'body'
+      zIndex: 999
+      revert: true
+      helper: 'clone'
+
   $('#eventStartTime').datetimepicker
     format: "YYYY/MM/DD H:mm"
     icons:
@@ -80,6 +87,12 @@ ready = ->
       down: "fa fa-chevron-down"
       previous: "fa fa-chevron-left"
       next: "fa fa-chevron-right"
+
+  $('#myTab a:last').tab('show')
+
+
+  console.log($('#point_date').position().top)
+  $('#external-events').scrollTop($('#point_date').position().top)
 
 $(document).ready(ready)
 $(document).on('page:load', ready)

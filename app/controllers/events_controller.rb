@@ -1,3 +1,5 @@
+require 'date'
+
 class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
 
@@ -8,6 +10,10 @@ class EventsController < ApplicationController
     #g_cal = g_caldav.get_calendar_data
 
     #add_event_from_google(g_cal)
+
+    @events = Event.all.order("dtstart ASC")
+    @point_date = DateTime.now.prev_year.beginning_of_month
+    @point_event = Event.where("dtstart  >= ?", @point_date).order("dtstart ASC").first
 
     respond_to do |format|
       format.html

@@ -1,0 +1,20 @@
+<div id="external-events">
+  <% prev_event_month = nil %>
+  <% events.each do |event| %>
+    <% if prev_event_month != event.dtstart.beginning_of_month %>
+      <% if event.id == point_event.id %>
+        <div id="point_date" class="date">
+        <%= event.dtstart.strftime('%B') %> <%= event.dtstart.year %>
+        </div>
+      <% else %>
+        <div class="date">
+        <%= event.dtstart.strftime('%B') %> <%= event.dtstart.year %>
+        </div>
+      <% end %>
+    <% end %>
+    <div class="fc-event">
+      <%= event.summary %>
+    </div>
+    <% prev_event_month = event.dtstart.beginning_of_month %>
+  <% end %>
+</div>
