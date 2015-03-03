@@ -5,6 +5,25 @@ application up and running.
 
 Things you may want to cover:
 
+* Install したあとにすること
+** 1. gem をインストール
+#+BEGIN_SRC sh
+$ bundle install --path vendor/bundle
+#+END_SRC
+** 2. secrets.yml を用意
+#+BEGIN_SRC sh
+$ bundle exec rake secret
+#+END_SRC
+上記のコマンドで生成した鍵を， config/secrets-example.yml 内の <SECRETKEY> と置換える．
+置換えたら，以下のコマンドで config/secrets-example.yml を config/secrets.yml に変更．
+#+BEGIN_SRC sh
+$ mv config/secrets-example.yml config/secrets.yml
+#+END_SRC
+** 3. サブモジュールの適用
+#+BEGIN_SRC sh
+$ git submodule init
+$ git submodule update
+#+END_SRC
 * Ruby version
 
 * System dependencies
