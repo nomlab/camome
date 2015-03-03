@@ -61,11 +61,25 @@ ready = ->
       (calEvent) ->
         document.location = "../events/#{calEvent.id}/edit"
 
-$ ->
   $('#eventStartTime').datetimepicker
     format: "YYYY/MM/DD H:mm"
+    icons:
+      time: "fa fa-clock-o"
+      date: "fa fa-calendar"
+      up: "fa fa-chevron-up"
+      down: "fa fa-chevron-down"
+      previous: "fa fa-chevron-left"
+      next: "fa fa-chevron-right"
+
   $('#eventEndTime').datetimepicker
     format: "YYYY/MM/DD H:mm"
+    icons:
+      time: "fa fa-clock-o"
+      date: "fa fa-calendar"
+      up: "fa fa-chevron-up"
+      down: "fa fa-chevron-down"
+      previous: "fa fa-chevron-left"
+      next: "fa fa-chevron-right"
 
 $(document).ready(ready)
 $(document).on('page:load', ready)
