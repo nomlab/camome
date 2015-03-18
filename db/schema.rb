@@ -11,7 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150225051548) do
+ActiveRecord::Schema.define(version: 20150318042437) do
+
+  create_table "auth_infos", force: true do |t|
+    t.string   "login_name"
+    t.string   "encrypted_pass"
+    t.string   "type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "parent_id"
+    t.string   "parent_type"
+  end
 
   create_table "calendars", force: true do |t|
     t.string   "displayname"
@@ -19,6 +29,7 @@ ActiveRecord::Schema.define(version: 20150225051548) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   create_table "event_impoters", force: true do |t|
@@ -46,6 +57,12 @@ ActiveRecord::Schema.define(version: 20150225051548) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "calendar_id"
+  end
+
+  create_table "users", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end
