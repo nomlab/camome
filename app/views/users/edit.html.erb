@@ -1,6 +1,21 @@
 <h1>Editing user</h1>
 
-<%= render 'form' %>
+<%= form_tag('/users') do %>
+
+<table>
+  <tr>
+    <td>Display Name:</td>
+    <td><%= text_field_tag "display_name", "" %></td>
+  </tr>
+
+  <tr>
+    <td><%= submit_tag "Login" %></td>
+    <td></td>
+  </tr>
+</table>
+
+<% end %>
+
 
 <%= link_to 'Show', @user %> |
 <%= link_to 'Back', users_path %>

@@ -24,7 +24,11 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    @user = User.new(user_params)
+    auth_info = MasterAuthInfo.new(:login_name => params["login_name"])
+    @user = User.new(:name => params["display_name"])
+    @user.master_pass = params["password"]
+    auth_info = KeyVault.lock(auth_info, @user)
+    @user.auth_info = auth_info
 
     respond_to do |format|
       if @user.save
