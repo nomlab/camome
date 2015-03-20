@@ -1,7 +1,7 @@
 <div>
 <% User.current.calendars.each do |c| %>
   <div>
-  <font color="#{c.color}">■</font><%= c.displayname %>
+  <font color=<%= c.color %>>■</font><%= c.displayname %>
   </div>
 <% end %>
 <div align="right">
