@@ -3,7 +3,7 @@ class AuthInfo < ActiveRecord::Base
   attr_accessor :decrypted_pass
 
   after_initialize do
-    self.salt ||= "abcdefgh" # OpenSSL::Random.random_bytes(8)
+    self.salt ||= SecureRandom.hex(4)
   end
 
   def decrypted_pass
