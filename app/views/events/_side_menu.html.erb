@@ -5,9 +5,10 @@
 
   <div class="tab-content" id="tab-con">
     <div role="tabpanel" class="tab-pane active" id="calendars">
+      <%= render :partial => "events/calendar_list" %>
     </div>
     <div role="tabpanel" class="tab-pane" id="old_events">
-        <%= render :partial => "events/event_list" , :locals => {:events => events, :point_event => point_event} %>
+      <%= render :partial => "events/event_list" , :locals => {:events => events, :point_event => point_event} %>
     </div>
   </div>
 
