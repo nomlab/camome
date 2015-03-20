@@ -1,0 +1,20 @@
+<h1>Google Calendar からインポート</h1>
+
+<h2> GoogleカレンダのIDとパスワードを入力してください </h1>
+<%= form_tag('/calendars/import') do %>
+  <table>
+    <tr>
+    <td>Account name:</td>
+    <td><%= text_field_tag "username", "", :size => 40%></td>
+    </tr>
+
+    <tr>
+      <td>Password:</td>
+      <td><%= password_field_tag "userpass", "", :size => 40 %></td>
+    </tr>
+
+    <tr>
+      <td><%= submit_tag "Login" %></td>
+      <td></td>
+  </table>
+<% end %>

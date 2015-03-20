@@ -9,6 +9,12 @@ class ApplicationController < ActionController::Base
   def login_state_setup
     if session[:user_id]
       User.current = User.find(session[:user_id]) rescue nil
+      if User.current && session[:master_decrypted]
+        User.current.auth_info.decrypted_pass =
+          session[:master_decrypted]
+      else
+        User.current = nil
+      end
     else
       User.current = nil
     end
@@ -25,11 +31,13 @@ class ApplicationController < ActionController::Base
 
   def set_current_user(user)
     session[:user_id] = user.id
+    session[:master_decrypted] = user.auth_info.decrypted_pass
     User.current = user
   end
 
   def reset_current_user
     session[:user_id] = nil
+    session[:masater_decrypted] = nil
     User.current = nil
   end
 

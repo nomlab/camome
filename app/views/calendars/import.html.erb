@@ -1,0 +1,31 @@
+<h1>Google Calendar からインポート</h1>
+<table>
+  <tr>
+    <th> </th>
+    <th> Calendar Name </th>
+    <th> Description </th>
+  </tr>
+  <tr>
+    <td colspan="3"><center>My Calendar List</center></td>
+  </tr>
+  <%= form_tag('/calendars/create_caldav')  do %>
+  <%= hidden_field_tag 'username',@username %>
+  <%= hidden_field_tag 'userpass',@userpass %>
+  <% @calendars.each_with_index{|c,i| %>
+  <% if i == @num_of_my_calendars then %>
+  <tr><td colspan="3"><center>Commissioned Calendar List</center></td></tr> 
+  <% end %>
+  <tr>
+    <td> <%= check_box_tag "calendars[#{i}]", c["url"] %></td>
+    <td> <font color= <%= c["color"] %> >■</font> <%= c["displayname"] %> </td>
+    <td> <%= c["description"] %>
+         <%= "(Already Imported)" if Calendar.already_impored_url?(c["url"]) %></td>
+  </tr>
+  <%= hidden_field_tag "displayname[#{i}]",c["displayname"] %>
+  <%= hidden_field_tag "url[#{i}]",c["url"] %>
+  <%= hidden_field_tag "color[#{i}]",c["color"] %>
+  <%= hidden_field_tag "description[#{i}]",c["description"] %>
+  <% } %>
+  <%= submit_tag "Import" %>
+  <% end %>
+</table>

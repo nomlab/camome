@@ -61,14 +61,35 @@ class CalendarsController < ApplicationController
     end
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_calendar
-      @calendar = Calendar.find(params[:id])
+  def import
+    if params["username"] && params["userpass"]
+      @username = params["username"]
+      @userpass = params["userpass"]
+      my_calendars, commissioned_calendars =
+        Calendar.all_calendar_list(@username, @userpass)
+      @num_of_my_calendars = my_calendars.length
+      @num_of_commissioned_calendars = commissioned_calendars.length
+      @calendars = [my_calendars, commissioned_calendars].flatten
+      render :action => "import"
+    else
+      render :action => "auth"
     end
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def calendar_params
-      params.require(:calendar).permit(:displayname, :color, :description)
-    end
+  def create_caldav
+    calendars = Calendar.create_from_params(params)
+    redirect_to "/events"
+  end
+
+
+  private
+  # Use callbacks to share common setup or constraints between actions.
+  def set_calendar
+    @calendar = Calendar.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def calendar_params
+    params.require(:calendar).permit(:displayname, :color, :description)
+  end
 end

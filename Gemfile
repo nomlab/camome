@@ -51,3 +51,4 @@ gem "fullcalendar-rails"
 gem "bootstrap3-datetimepicker-rails"
 
 gem "icalendar"
+gem "nokogiri"
