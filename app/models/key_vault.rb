@@ -1,6 +1,3 @@
-#require 'openssl'
-#require 'digest/sha1'
-
 class KeyVault
   def self.lock(auth_info, user)
     case auth_info.type
