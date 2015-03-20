@@ -6,10 +6,6 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.json
   def index
-    #g_caldav  = EventImpoter.new
-    #g_cal = g_caldav.get_calendar_data
-
-    #add_event_from_google(g_cal)
 
     @events = Event.all.order("dtstart ASC")
     @point_date = DateTime.now.prev_year.beginning_of_month
@@ -18,19 +14,6 @@ class EventsController < ApplicationController
     respond_to do |format|
       format.html
       format.json {render json: Event.all.map(&:to_event)}
-    end
-  end
-
-  def add_event_from_google(g_cal)
-    g_cal.events.each do |event|
-      if Event.where("uid IS ?","#{event.uid}").blank?
-        ev = Event.new
-        ev.uid = "#{event.uid}"
-        ev.summary = "#{event.summary}"
-        ev.dtstart = event.dtstart
-        ev.dtend = event.dtend
-        ev.save
-      end
     end
   end
 

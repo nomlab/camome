@@ -44,6 +44,15 @@ class Calendar < ActiveRecord::Base
       auth_info = KeyVault.lock(auth_info, User.current)
       calendar.auth_info = auth_info
 
+      ei = EventImpoter.new(calendar.auth_info.url,
+                            calendar.auth_info.login_name,
+                            KeyVault.unlock(auth_info, User.current).decrypted_pass)
+      events = ei.import
+      events.each do |e|
+        e.calendar = calendar
+        e.save
+      end
+
       success_cals << calendar if calendar.save
     end
     return success_cals
@@ -84,6 +93,7 @@ class Calendar < ActiveRecord::Base
     depth = 1
     split_url = URI.split(url)
     host_url = split_url[0] + "://" + split_url[2]
+
     body = <<-EOF_BODY
 <?xml version="1.0" encoding="UTF-8"?>
  <A:propfind xmlns:A="DAV:">
@@ -136,7 +146,7 @@ EOF_BODY
     calendars = []
     blocks.each do |block|
       if block.xpath('propstat/prop/calendar-color')[0].content != ""
-        href = block.xpath('href')[0].content<
+        href = block.xpath('href')[0].content
         displayname = block.xpath('propstat/prop/displayname')[0].content
         color = block.xpath('propstat/prop/calendar-color')[0].content
         if color =~ /\A#(..)(..)(..)/

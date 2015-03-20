@@ -1,7 +1,13 @@
 <div>
 <% User.current.calendars.each do |c| %>
   <div>
-  <%= c.displayname %>
+  <font color="#{c.color}">■</font><%= c.displayname %>
   </div>
 <% end %>
+<div align="right">
+  <%= link_to "他のカレンダーをインポート",
+      :controller => "calendars",
+      :action => "import"
+  %>
+</div>
 </div>

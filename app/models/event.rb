@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 class Event < ActiveRecord::Base
 
+  belongs_to :calendar
   validates_presence_of :summary, :dtstart, :dtend
 
   def to_event

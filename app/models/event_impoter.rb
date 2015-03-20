@@ -6,20 +6,38 @@ require 'icalendar'
 
 class EventImpoter < ActiveRecord::Base
 
-  def initialize(start_date=nil, end_date=nil)
+  def initialize(url, user, pass, start_date=nil, end_date=nil)
+    @url = url
+    @user = user
+    @pass = pass
     @calenar = nil
     @start_date = start_date
     @end_date = end_date
   end
 
-  def get_a_period_between_meetings
-    return @start_date, @end_date
+  def import
+    events = convert_icalendar_into_camome(get_calendar_data)
+  end
+
+  private
+
+  def convert_icalendar_into_camome(icalendar)
+    events = []
+    icalendar.events.each do |e|
+      if Event.where("uid IS ?","#{e.uid}").blank?
+        ev = Event.new
+        ev.uid = e.uid.to_s
+        ev.summary = e.summary.to_s
+        ev.dtstart = e.dtstart
+        ev.dtend = e.dtend
+        events << ev
+      end
+    end
+    return events
   end
 
   def get_calendar_data
-    data = YAML.load_file(File.dirname(__FILE__) + '/../../config/setting_google_calendar.yml')
-    range_start, range_end = get_a_period_between_meetings
-    events_data = get_schedule(data["url"], data["user"], data["pass"], range_start, range_end)
+    events_data = get_schedule(@url, @user, @pass, @start_date, @end_date)
   end
 
   def get_schedule(url, user, pass, start_date = nil, end_date = nil)
