@@ -61,6 +61,11 @@ class RecurrencesController < ApplicationController
     end
   end
 
+  def get_last
+  recurrence = Recurrence.last
+  {recurrence_name: recurrence.name}.to_json
+end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_recurrence

@@ -6,15 +6,18 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.json
   def index
-
     @events = Event.all.order("dtstart ASC")
     @point_date = DateTime.now.prev_year.beginning_of_month
     @point_event = Event.where("dtstart  >= ?", @point_date).order("dtstart ASC").first
+    @recurrences = Recurrence.all
+    #g_caldav  = EventImpoter.new
+    #g_cal = g_caldav.get_calendar_data
 
     respond_to do |format|
       format.html
       format.json {render json: Event.all.map(&:to_event)}
     end
+
   end
 
   # GET /events/1
@@ -72,6 +75,20 @@ class EventsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to events_url, notice: 'Event was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  ############# Recurrence ############
+  def create_recurrence
+    recurrence = Recurrence.create({
+                        name: params[:name],
+                      })
+
+    if recurrence.save
+      html = render_to_string :partial => "recurrence", :collection => [recurrence]
+      render :json => {:success => 1, :html => html}
+    else
+      render :json => {:error => recurrence.errors}
     end
   end
 

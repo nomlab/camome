@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :users
 
+<<<<<<< HEAD
   get "calendars/import"
   post "calendars/import"
   post "calendars/create_caldav"
@@ -14,6 +15,8 @@ Rails.application.routes.draw do
   post "gate/login"
 
   get "inbox/missions"
+  match "events/create_recurrence", :via => :post
+  resources :events
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
