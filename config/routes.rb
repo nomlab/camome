@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
   resources :users
 
-<<<<<<< HEAD
   get "calendars/import"
   post "calendars/import"
   post "calendars/create_caldav"
