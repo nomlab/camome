@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 20150320052128) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
+  end
 
   create_table "clams", force: true do |t|
     t.string   "title"
@@ -75,15 +76,15 @@ ActiveRecord::Schema.define(version: 20150320052128) do
     t.integer  "calendar_id"
   end
 
-  create_table "users", force: true do |t|
+  create_table "recurrences", force: true do |t|
     t.string   "name"
+    t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "recurrences", force: true do |t|
+  create_table "users", force: true do |t|
     t.string   "name"
-    t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
