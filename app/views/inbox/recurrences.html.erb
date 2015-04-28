@@ -1,21 +1,24 @@
 <h1>Organize to Recurrence</h1>
+<%= render :partial => "inbox/create_form_of_recurrence"%>
 <div class="row">
   <div class="col-lg-3">
-    <table class="recurrences table table-hover table-bordered table-condensed table-treegrid">
+    <table
+       id="table"
+       class="recurrences table table-hover table-bordered table-condensed"
+       data-toggle="table"
+       data-height="500">
       <thead>
         <tr>
           <th>Recurrences</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="recurrence-item">
         <tr>
           <td class="new-recurrence"> 新しいリカーレンス </td>
         </tr>
-        <tr>
-          <% @recurrences.each do |recurrence| %>
-          <%= render :partial => "inbox/recurrence_item", :locals => {:recurrence => recurrence} %>
-          <% end %>
-        </tr>
+        <% @recurrences.each do |recurrence| %>
+        <%= render :partial => "inbox/recurrence_item", :locals => {:recurrence => recurrence} %>
+        <% end %>
       </tbody>
     </table>
   </div>
