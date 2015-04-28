@@ -1,0 +1,47 @@
+<h1>Organize to Recurrence</h1>
+<div class="row">
+  <div class="col-lg-3">
+    <table class="recurrences table table-hover table-bordered table-condensed table-treegrid">
+      <thead>
+        <tr>
+          <th>Recurrences</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="new-recurrence"> 新しいリカーレンス </td>
+        </tr>
+        <tr>
+          <% @recurrences.each do |recurrence| %>
+          <%= render :partial => "inbox/recurrence_item", :locals => {:recurrence => recurrence} %>
+          <% end %>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="col-lg-8">
+    <table
+       id="table"
+       data-class="table table-hover table-bordered table-condensed"
+       data-toggle="table"
+       data-height="500"
+       data-striped="true"
+       data-click-to-select="true"
+       data-sort-name="date"
+       data-sort-order="desc">
+      <thead>
+        <tr>
+          <th data-field="state" data-checkbox="true" data-sortable="false"></th>
+          <th data-field="title" data-sortable="false">Title</th>
+          <th data-field="date" data-sortable="true">Date</th>
+        </tr>
+      </thead>
+      <tbody class="event-inbox">
+        <% @events.each do |event| %>
+          <%= render :partial => "inbox/inbox_item", :locals => {:event => event} %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
