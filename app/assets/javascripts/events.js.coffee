@@ -91,8 +91,8 @@ ready = ->
   $('#myTab a:last').tab('show')
 
 
-  console.log($('#point_date').position().top)
-  $('#external-events').scrollTop($('#point_date').position().top)
+  # console.log($('#point_date').position().top)
+  # $('#external-events').scrollTop($('#point_date').position().top)
 
 $(document).ready(ready)
 $(document).on('page:load', ready)
