@@ -1,3 +1,4 @@
-<tr class="recurrence" id="<%=recurrence.id%>">
- <td><%= recurrence.name %></td>
+<tr>
+  <% event_count = Event.where("recurrence_id IS ?", recurrence.id).size %>
+  <td class="recurrence" id="<%=recurrence.id%>"><%= recurrence.name %> (<%= event_count %>)</td>
 </tr>

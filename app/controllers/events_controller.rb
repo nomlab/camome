@@ -15,7 +15,7 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json {render json: Event.all.map(&:to_event)}
+      format.json {render json: Event.all.order("dtstart DESC").map(&:to_event)}
     end
 
   end

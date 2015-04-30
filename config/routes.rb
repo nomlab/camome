@@ -14,8 +14,11 @@ Rails.application.routes.draw do
   post "gate/login"
 
   match "events/create_recurrence", :via => :post
+
   get "inbox/missions"
   get "inbox/recurrences"
+
+  post "recurrences/add_events"
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

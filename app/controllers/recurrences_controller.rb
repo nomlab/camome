@@ -5,6 +5,11 @@ class RecurrencesController < ApplicationController
   # GET /recurrences.json
   def index
     @recurrences = Recurrence.all
+
+    respond_to do |format|
+      format.html
+      format.json {render json: Recurrence.all.map(&:to_recurrence)}
+    end
   end
 
   # GET /recurrences/1
@@ -65,6 +70,25 @@ class RecurrencesController < ApplicationController
   recurrence = Recurrence.last
   {recurrence_name: recurrence.name}.to_json
 end
+
+  def add_events
+    events_id = params[:events_id]== "nil" ? nil : params[:events_id] unless params[:events_id].nil?
+    recurrence_id = params[:recurrence_id]== "nil" ? nil : params[:recurrence_id] unless params[:recurrence_id].nil?
+
+    recurrence = Recurrence.find_by(id: recurrence_id)
+
+    events_id.each do |event_id|
+      recurrence.events << Event.find_by(id: event_id)
+    end
+
+    respond_to do |format|
+      format.html {
+        flash[:success] = 'Event was successfully add.'
+        redirect_to recurrence
+      }
+      format.json { render json: recurrence }
+    end
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.

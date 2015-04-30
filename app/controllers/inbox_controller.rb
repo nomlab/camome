@@ -5,7 +5,7 @@ class InboxController < ApplicationController
   end
 
   def recurrences
-    @events = Event.all
+    @events = Event.where("recurrence_id IS ?",nil).order("dtstart ASC")
     @recurrences = Recurrence.all
   end
 end
