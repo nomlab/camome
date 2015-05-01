@@ -15,8 +15,11 @@ initDroppableEvent = ->
     tolerance: 'pointer'
     drop: (event, ui) ->
       events_id = []
+
+      events_id.push ui.draggable.attr("id")
       $('.draggable-event.selected').each ->
         events_id.push $(this).attr("id")
+
       recurrence_id = @id
 
       $ . ajax
