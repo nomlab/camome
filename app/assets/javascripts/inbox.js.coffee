@@ -8,7 +8,7 @@ initDraggableEvent = ->
       # length = 1 if no check
       length = 1 if length is 0
       $("<span style='white-space:nowrap;'>").text length + "events"
-    revert: true
+    revert: "invalid"
 
 initDroppableEvent = ->
   $('.recurrence').droppable
