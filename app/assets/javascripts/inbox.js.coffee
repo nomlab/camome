@@ -65,6 +65,39 @@ initCreateRecurrence = ->
       error: ->
         alert ("error")
 
+initChangeRecurrenceBox = ->
+  $('.recurrence').click ->
+    recurrence_id = $(this).attr("id")
+
+    $ . ajax
+      type: 'GET'
+      url: '/events.json'
+      data: {
+        recurrence_id: recurrence_id
+      }
+      success: (data) ->
+        events = data.map (event) ->
+          """
+          <tr class="draggable-event" id="#{event["id"]}">
+            <td class="bs-checkbox">
+              <input type="checkbox" name="btSelectItem">
+            </td>
+            <td>#{event["title"]}</td>
+            <td>#{event["arrange_date"]}</td>
+          </tr>
+          """
+        $('.event-inbox').replaceWith("<tbody class='event-inbox'>#{events}</tbody>")
+      error: ->
+        alert("error")
+
+initChangeDisorganizedBox = ->
+  $('.disorganized-item').click ->
+    replaceEventInbox()
+
+initChangeOtherBox = ->
+  $('.other-item').click ->
+    replaceEventInbox()
+
 replaceEventInbox = ->
   $ . ajax
     type: 'GET'
@@ -82,7 +115,6 @@ replaceEventInbox = ->
           </tr>
           """
       $('.event-inbox').replaceWith("<tbody class='event-inbox'>#{events}</tbody>")
-      $(document).ready(ready)
     error: ->
       alert("error")
 
@@ -105,7 +137,6 @@ replaceRecurrenceList = ->
         #{recurrences}
         """
       $('.recurrence-item').replaceWith("<tbody class='recurrence-item'>#{html}</tbody>")
-      $(document).ready(ready)
     error: -> alert ("error")
 
 ready = ->
@@ -113,6 +144,9 @@ ready = ->
   initDraggableEvent()
   initDroppableEvent()
   initCreateRecurrence()
+  initChangeRecurrenceBox()
+  initChangeDisorganizedBox()
+  initChangeOtherBox()
 
 
 $(document).ready(ready)

@@ -6,16 +6,20 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.json
   def index
-    @events = Event.all.order("dtstart ASC")
+    unless params[:recurrence_id].nil?
+      recurrence_id = params[:recurrence_id]== "nil" ? nil : params[:recurrence_id]
+      @events = Event.where(recurrence_id: recurrence_id).order("dtstart ASC")
+    else
+      @events = Event.all.order("dtstart ASC")
+    end
+
     @point_date = DateTime.now.prev_year.beginning_of_month
     @point_event = Event.where("dtstart  >= ?", @point_date).order("dtstart ASC").first
     @recurrences = Recurrence.all
-    #g_caldav  = EventImpoter.new
-    #g_cal = g_caldav.get_calendar_data
 
     respond_to do |format|
       format.html
-      format.json {render json: Event.all.order("dtstart DESC").map(&:to_event)}
+      format.json {render json: @events.map(&:to_event)}
     end
 
   end
