@@ -134,6 +134,12 @@ replaceRecurrenceList = ->
         <tr>
           <td class="new-recurrence"> 新しいリカーレンス </td>
         </tr>
+        <tr>
+          <td class="disorganized-item"> 未整理 </td>
+        </tr>
+        <tr>
+          <td class="other-item"> その他 </td>
+        </tr>
         #{recurrences}
         """
       $('.recurrence-item').replaceWith("<tbody class='recurrence-item'>#{html}</tbody>")
