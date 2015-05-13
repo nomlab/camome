@@ -46,6 +46,7 @@ class EventsController < ApplicationController
   # POST /events.json
   def create
     @event = Event.new(event_params)
+    @event.recurrence_id = Recurrence.find_by(name: "inbox").id
 
     respond_to do |format|
       if @event.save

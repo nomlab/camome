@@ -65,14 +65,6 @@ initChangeRecurrenceBox = ->
       error: ->
         alert("error")
 
-initChangeDisorganizedBox = ->
-  $('.disorganized-item').click ->
-    replaceEventInbox()
-
-initChangeOtherBox = ->
-  $('.other-item').click ->
-    replaceEventInbox()
-
 initSubmitRecurrence = ->
   $('#submitRecurrenceButton').click ->
     $("#createRecurrenceModal").modal('hide')
@@ -137,12 +129,6 @@ replaceRecurrenceList = ->
         <tr>
           <td class="new-recurrence"> 新しいリカーレンス </td>
         </tr>
-        <tr>
-          <td class="disorganized-item"> 未整理 </td>
-        </tr>
-        <tr>
-          <td class="other-item"> その他 </td>
-        </tr>
         #{recurrences}
         """
       $('.recurrence-item').replaceWith("<tbody class='recurrence-item'>#{html}</tbody>")
@@ -151,8 +137,6 @@ replaceRecurrenceList = ->
 
 reloadRecurrenceList = ->
   initChangeRecurrenceBox()
-  initChangeDisorganizedBox()
-  initChangeOtherBox()
   initClickNewRecurrence()
   initDroppableEvent()
 
@@ -166,8 +150,6 @@ ready = ->
   initDroppableEvent()
   initClickNewRecurrence()
   initChangeRecurrenceBox()
-  initChangeDisorganizedBox()
-  initChangeOtherBox()
   initSubmitRecurrence()
 
 
