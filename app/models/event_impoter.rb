@@ -30,7 +30,7 @@ class EventImpoter < ActiveRecord::Base
         ev.summary = e.summary.to_s
         ev.dtstart = e.dtstart
         ev.dtend = e.dtend
-        ev.recurrence_id = Recurrence.find_by(name: "inbox").id
+        ev.recurrence_id = Recurrence.inbox.id
         events << ev
       end
     end

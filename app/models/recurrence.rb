@@ -9,4 +9,8 @@ class Recurrence < ActiveRecord::Base
       events: self.events.size
     }
   end
+
+  def self.inbox
+    return Recurrence.find_by(name: "inbox")
+  end
 end
