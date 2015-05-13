@@ -16,4 +16,16 @@ def create_admin_user
   puts "ok: admin user is created."
 end
 
+def create_inbox_recurrence
+  Recurrence.create(:name => "inbox")
+  puts "ok: inbox recurrence is created"
+end
+
+def create_other_recurrence
+  Recurrence.create(:name => "other")
+  puts "ok: other recurrence is created"
+end
+
 create_admin_user
+create_inbox_recurrence
+create_other_recurrence
