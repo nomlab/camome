@@ -2,16 +2,21 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-ready = ->
+fullCalendar = ->
   $('#calendar').fullCalendar
-    editable: true
+    editable: false
     selectable: true
-    timezone: 'local'
+    droppable: true
+    timezone: 'Tokyo'
     timeFormat:
       month: 'HH:mm'
       week: 'HH:mm'
       day: 'HH:mm'
     events: '/events.json'
+
+    eventClick:
+      (calEvent) ->
+        document.location = "../events/#{calEvent.id}/edit"
 
     select:
       (start, end, allDay) ->
@@ -22,11 +27,28 @@ ready = ->
         $('#createEventModal #eventAllDay').val(allDay)
         $('#createEventModal').modal("show")
 
+    drop:
+      (date) ->
+        data = {
+          event:
+            summary: $(this).data('event').title
+            dtstart: (moment(date).format("YYYY/MM/DD H:mm"))
+            dtend: (moment(date).format("YYYY/MM/DD H:mm"))
+            origin_event_id: $(this).data('event').id
+        }
+
+        $ . ajax
+          type: 'POST'
+          url: '/events/ajax_create_event_from_old_event'
+          data: data
+          timeout: 9000
+          success: ->
+          error: ->
+            alert "error"
+
+doSubmit = ->
   $('#submitButton').on 'click', (e) ->
     e.preventDefault()
-    doSubmit()
-
-  doSubmit = ->
     $("#createEventModal").modal('hide')
     console.log($('#eventSummary').val())
     console.log($('#eventStartTime').val())
@@ -57,16 +79,27 @@ ready = ->
       error: ->
         alert "error"
 
-    eventClick:
-      (calEvent) ->
-        document.location = "../events/#{calEvent.id}/edit"
-
+initDraggableOldEvent = ->
   $('.fc-event').each ->
+    event = {
+      id: $(this).attr("id")
+      title: $.trim($(this).text())
+      color: "#9FC6E7"
+      textColor: "#000000"
+    }
+
+    $(this).data('event', event)
+
     $(this).draggable
-      appendTo: 'body'
+      appendTo: "body"
       zIndex: 999
-      revert: true
-      helper: 'clone'
+      revert: "invalid"
+      helper: "clone"
+
+ready = ->
+  fullCalendar()
+  doSubmit()
+  initDraggableOldEvent()
 
   $('#eventStartTime').datetimepicker
     format: "YYYY/MM/DD H:mm"
@@ -89,7 +122,6 @@ ready = ->
       next: "fa fa-chevron-right"
 
   $('#myTab a:last').tab('show')
-
 
   # console.log($('#point_date').position().top)
   # $('#external-events').scrollTop($('#point_date').position().top)

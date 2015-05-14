@@ -83,17 +83,34 @@ class EventsController < ApplicationController
     end
   end
 
-  ############# Recurrence ############
-  def create_recurrence
-    recurrence = Recurrence.create({
-                        name: params[:name],
-                      })
+  def ajax_create_event_from_old_event
+    event = params[:event]== "nil" ? nil : params[:event] unless params[:event].nil?
+    summary = event["summary"]
+    dtstart = event["dtstart"]
+    dtend = event["dtend"]
+    origin_event_id = event["origin_event_id"]
 
-    if recurrence.save
-      html = render_to_string :partial => "recurrence", :collection => [recurrence]
-      render :json => {:success => 1, :html => html}
+    origin_event = Event.find_by(id: origin_event_id)
+
+    puts "aaaaaaaaaaaaaaaa"
+    puts dtstart
+
+    event = Event.new(summary: summary,
+                      dtstart: dtstart,
+                      dtend: dtend)
+    if origin_event == nil
+      event.save
     else
-      render :json => {:error => recurrence.errors}
+      event.recurrence_id = origin_event.recurrence_id
+      event.save
+    end
+
+    respond_to do |format|
+      format.html {
+        flash[:success] = 'Event was successfully created.'
+        redirect_to event
+      }
+      format.json { render json: recurrence }
     end
   end
 

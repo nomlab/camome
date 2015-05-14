@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   get "inbox/recurrences"
 
   post "recurrences/add_events"
+  post "events/ajax_create_event_from_old_event"
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

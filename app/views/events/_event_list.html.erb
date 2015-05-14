@@ -12,7 +12,7 @@
         </div>
       <% end %>
     <% end %>
-    <div class="fc-event">
+    <div id="<%=event.id%>" class="fc-event">
       <%= event.summary %>
     </div>
     <% prev_event_month = event.dtstart.beginning_of_month %>
