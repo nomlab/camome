@@ -17,6 +17,8 @@ module Camome
   class Application < Rails::Application
     config.assets.paths << Rails.root.join("vendor","bundle","ruby","2.1.0","gems","momentjs-rails-2.8.3","vendor","assets","javascripts")
     config.assets.paths << Rails.root.join("vendor", "assets", "bootstrap-table", "src").to_s
+
+    config.time_zone = 'Tokyo'
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
