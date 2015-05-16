@@ -14,6 +14,8 @@
     <% end %>
     <div id="<%=event.id%>" class="fc-event" dtstart="<%=event.dtstart.to_s(:to_js)%>" duration="<%=event.duration%>">
       <%= event.summary %>
+      <br>
+      <%= event.dtstart.strftime("%Y-%m-%d %H:%M") %>
     </div>
     <% prev_event_month = event.dtstart.beginning_of_month %>
   <% end %>
