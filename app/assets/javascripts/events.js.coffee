@@ -89,7 +89,7 @@ initDraggableOldEvent = ->
   $('.fc-event').each ->
     event = {
       id: $(this).attr("id")
-      title: $.trim($(this).text())
+      title: $.trim($(this).text()).match(/.*/).toString()
       dtstart: $(this).attr("dtstart")
       duration: $(this).attr("duration")
       color: "#9FC6E7"
