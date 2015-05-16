@@ -29,11 +29,17 @@ fullCalendar = ->
 
     drop:
       (date) ->
+        duration = $(this).data('event').duration
+        origin_dtstart = new Date($(this).data('event').dtstart)
+        dtstart = new Date(date)
+        dtstart = moment(dtstart).hour(moment(origin_dtstart).hour())
+        dtstart = moment(dtstart).minute(moment(origin_dtstart).minute())
+        dtend = moment(dtstart).add(duration,'seconds')
         data = {
           event:
             summary: $(this).data('event').title
-            dtstart: (moment(date).format("YYYY/MM/DD H:mm"))
-            dtend: (moment(date).format("YYYY/MM/DD H:mm"))
+            dtstart: new Date(dtstart)
+            dtend: new Date(dtend)
             origin_event_id: $(this).data('event').id
         }
 
@@ -84,6 +90,8 @@ initDraggableOldEvent = ->
     event = {
       id: $(this).attr("id")
       title: $.trim($(this).text())
+      dtstart: $(this).attr("dtstart")
+      duration: $(this).attr("duration")
       color: "#9FC6E7"
       textColor: "#000000"
     }

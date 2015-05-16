@@ -46,7 +46,7 @@ class EventsController < ApplicationController
   # POST /events.json
   def create
     @event = Event.new(event_params)
-    # @event.recurrence_id = Recurrence.inbox.id
+    @event.recurrence_id = Recurrence.inbox.id
 
     respond_to do |format|
       if @event.save
@@ -92,18 +92,11 @@ class EventsController < ApplicationController
 
     origin_event = Event.find_by(id: origin_event_id)
 
-    puts "aaaaaaaaaaaaaaaa"
-    puts dtstart
-
     event = Event.new(summary: summary,
                       dtstart: dtstart,
                       dtend: dtend)
-    if origin_event == nil
-      event.save
-    else
-      event.recurrence_id = origin_event.recurrence_id
-      event.save
-    end
+    event.recurrence_id = origin_event.recurrence_id
+    event.save
 
     respond_to do |format|
       format.html {

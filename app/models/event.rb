@@ -5,6 +5,11 @@ class Event < ActiveRecord::Base
   belongs_to :recurrence
   validates_presence_of :summary, :dtstart, :dtend
 
+  def duration
+    duration = self.dtend - self.dtstart
+    return duration
+  end
+
   def to_event
     return {
       id: id,
