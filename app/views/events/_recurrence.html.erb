@@ -1,3 +1,21 @@
-<div class="recurrence">
- <%=h recurrence.name %>
+<div class="recurrence calendar">
+  <table
+     id="table"
+     date-class="recurrences table table-hover table-bordered table-condensed"
+     data-toggle="table"
+     data-height="500">
+    <thead>
+      <tr>
+        <th>Recurrences</th>
+      </tr>
+    </thead>
+    <tbody class="recurrencees">
+      <tr>
+        <td class="new-recurrence"> 新しいリカーレンス </td>
+      </tr>
+      <% @recurrences.each do |recurrence| %>
+      <%= render :partial => "events/recurrence_item", :locals => {:recurrence => recurrence} %>
+      <% end %>
+    </tbody>
+  </table>
 </div>

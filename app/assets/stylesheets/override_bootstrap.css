@@ -4,15 +4,15 @@
 
 #calendar{
     width: 80%;
-    float: right;
+    float: left;
 }
 
 .nav-tabs{
-    width: 19%;
+    width: 100%;
 }
 
 .tab-content{
-    width: 19%;
+    width: 100%;
 }
 
 #external-events {
@@ -28,9 +28,5 @@
 #external-events .fc-event {
 	margin: 10px 0;
 	cursor: pointer;
-    height: 20px;
-}
-
-.date{
-    font-size: 20px;
+    height: 30px;
 }

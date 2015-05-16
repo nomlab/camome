@@ -109,6 +109,15 @@ ready = ->
   doSubmit()
   initDraggableOldEvent()
 
+  $('.right-display').click ->
+    $('.side-menu.calendar').css('display','none')
+    $('.recurrence.calendar').css('display','')
+
+  $('.left-display').click ->
+    $('.side-menu.calendar').css('display','')
+    $('.recurrence.calendar').css('display','none')
+
+
   $('#eventStartTime').datetimepicker
     format: "YYYY/MM/DD H:mm"
     icons:
