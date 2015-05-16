@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <h1>Calendar</h1>
+<div class="display-side">
+<a class="btn btn-default left-display" href="#"><</a>
+<a class="btn btn-default right-display" href="#">></a>
+</div>
 <%= render :partial => "events/side_menu" , :locals => {:events => @events, :point_event => @point_event} %>
 <%= render :partial => "events/create_form_of_modal" %>
 <div id="calendar"></div>
+<%= render :partial => "events/recurrence" , :locals => {:recurrences => @recurrences} %>
 
