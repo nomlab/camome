@@ -11,7 +11,7 @@ initDraggableEvent = ->
     revert: "invalid"
 
 initDroppableEvent = ->
-  $('.recurrence').droppable
+  $('.recurrence-item').droppable
     tolerance: 'pointer'
     drop: (event, ui) ->
       events_id = []
@@ -40,7 +40,7 @@ initClickNewRecurrence = ->
     $('#createRecurrenceModal').modal("show")
 
 initChangeRecurrenceBox = ->
-  $('.recurrence').click ->
+  $('.recurrence-item').click ->
     recurrence_id = $(this).attr("id")
 
     $ . ajax
@@ -121,7 +121,7 @@ replaceRecurrenceList = ->
       recurrences = data.map (recurrence) ->
         """
          <tr>
-          <td class="recurrence" id="#{recurrence["id"]}">#{recurrence["name"]} (#{recurrence["events"]})</td>
+          <td class="recurrence-item" id="#{recurrence["id"]}">#{recurrence["name"]} (#{recurrence["events"]})</td>
         </tr>
         """
       html =
@@ -131,7 +131,7 @@ replaceRecurrenceList = ->
         </tr>
         #{recurrences}
         """
-      $('.recurrence-item').replaceWith("<tbody class='recurrence-item'>#{html}</tbody>")
+      $('.recurrences').replaceWith("<tbody class='recurrences'>#{html}</tbody>")
       reloadRecurrenceList()
     error: -> alert ("error")
 
