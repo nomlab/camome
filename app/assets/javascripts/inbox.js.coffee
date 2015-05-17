@@ -1,5 +1,7 @@
 #= require bootstrap-table
 
+currentRecurrence = null
+
 initDraggableEvent = ->
   $('.draggable-event').draggable
     helper: (event) ->
@@ -41,29 +43,8 @@ initClickNewRecurrence = ->
 
 initChangeRecurrenceBox = ->
   $('.recurrence-item').click ->
-    recurrence_id = $(this).attr("id")
-
-    $ . ajax
-      type: 'GET'
-      url: '/events.json'
-      data: {
-        recurrence_id: recurrence_id
-      }
-      success: (data) ->
-        events = data.map (event) ->
-          """
-          <tr class="draggable-event" id="#{event["id"]}">
-            <td class="bs-checkbox">
-              <input type="checkbox" name="btSelectItem">
-            </td>
-            <td>#{event["title"]}</td>
-            <td>#{event["arrange_date"]}</td>
-          </tr>
-          """
-        $('.event-inbox').replaceWith("<tbody class='event-inbox'>#{events}</tbody>")
-        reloadEventList()
-      error: ->
-        alert("error")
+    currentRecurrence = $(this).attr("id")
+    replaceEventInbox()
 
 initSubmitRecurrence = ->
   $('#submitRecurrenceButton').click ->
@@ -96,9 +77,11 @@ replaceEventInbox = ->
   $ . ajax
     type: 'GET'
     url: '/events.json'
+    data: {
+      recurrence_id: currentRecurrence
+    }
     success: (data) ->
       events = data.map (event) ->
-        if event.recurrence_id == null
           """
           <tr class="draggable-event" id="#{event["id"]}">
             <td class="bs-checkbox">
