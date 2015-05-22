@@ -8,9 +8,9 @@ class EventsController < ApplicationController
   def index
     unless params[:recurrence_id].nil?
       recurrence_id = params[:recurrence_id]== "nil" ? nil : params[:recurrence_id]
-      @events = Event.where(recurrence_id: recurrence_id).order("dtstart ASC")
+      @events = Event.where(recurrence_id: recurrence_id).order("dtstart DESC")
     else
-      @events = Event.all.order("dtstart ASC")
+      @events = Event.all.order("dtstart DESC")
     end
 
     @point_date = DateTime.now.prev_year.beginning_of_month
