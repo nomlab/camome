@@ -1,0 +1,55 @@
+$base-color: #9FC6E7;
+
+.container{
+    width: 95%;
+}
+
+#calendar{
+    width: 100%;
+    float: left;
+}
+
+.nav-tabs{
+    width: 100%;
+}
+
+.tab-content{
+    width: 100%;
+}
+
+#external-events {
+	float: left;
+    position: relative;
+    width: 100%;
+    height: 500px;
+    padding: 0 10px;
+    text-align: left;
+    overflow: scroll;
+}
+
+#external-calendars {
+	float: left;
+    position: relative;
+    width: 100%;
+    height: 500px;
+    padding: 0 10px;
+    text-align: left;
+    overflow: scroll;
+}
+
+#external-events .fc-event {
+    margin: 10px 0;
+	cursor: pointer;
+    color: black;
+    background-color: lighten($base-color,10%);
+    border: none;
+
+}
+
+.date-label{
+    color: gray;
+}
+
+.summary-label{
+    font-size: 100%;
+}
