@@ -127,14 +127,18 @@ ready = ->
   doSubmit()
   initDraggableOldEvent()
 
-  $('.right-display').click ->
-    $('.side-menu.calendar').css('display','none')
-    $('.recurrence.calendar').css('display','')
-
-  $('.left-display').click ->
-    $('.side-menu.calendar').css('display','')
-    $('.recurrence.calendar').css('display','none')
-
+  $('.maru').click ->
+    if ($('.side-menu.calendar').is(':visible') == true)
+      $('.side-menu.calendar').hide(200, ->
+        $('#calendar').css('width','100%')
+        )
+    else
+      $('.side-menu.calendar').show(200, ->
+        view = $('#calendar').fullCalendar('getView')
+        target_id = "#start" + view.intervalStart.clone().subtract(1,'years').format("YYYYMM")
+        scrollOldEvents(target_id)
+        )
+      $('#calendar').css('width','80%')
 
   $('#eventStartTime').datetimepicker
     format: "YYYY/MM/DD H:mm"
