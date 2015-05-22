@@ -2,21 +2,15 @@
   <% prev_event_month = nil %>
   <% events.each do |event| %>
     <% if prev_event_month != event.dtstart.beginning_of_month %>
-      <% if event.id == point_event.id %>
-        <div id="point_date" class="date">
-        <%= event.dtstart.strftime('%B') %> <%= event.dtstart.year %>
-        </div>
-      <% else %>
-        <div class="date">
-        <%= event.dtstart.strftime('%B') %> <%= event.dtstart.year %>
-        </div>
-      <% end %>
-    <% end %>
-    <div id="<%=event.id%>" class="fc-event" dtstart="<%=event.dtstart.to_s(:to_js)%>" duration="<%=event.duration%>">
-      <%= event.summary %>
-      <br>
-      <%= event.dtstart.strftime("%Y-%m-%d %H:%M") %>
+    <div id="<%=event.dtstart.strftime("start%Y%m")%>" class="date">
+    <%= event.dtstart.strftime('%B') %> <%= event.dtstart.year %>
     </div>
-    <% prev_event_month = event.dtstart.beginning_of_month %>
+    <% end %>
+  <div id="<%=event.id%>" class="fc-event" dtstart="<%=event.dtstart.to_s(:to_js)%>" duration="<%=event.duration%>">
+    <p class="summary-label"><%= event.summary %>
+      <small class="date-label"><%= event.dtstart.strftime("%b %d") %></small>
+    </p>
+  </div>
+  <% prev_event_month = event.dtstart.beginning_of_month %>
   <% end %>
 </div>

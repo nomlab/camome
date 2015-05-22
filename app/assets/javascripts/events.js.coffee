@@ -52,6 +52,24 @@ fullCalendar = ->
           error: ->
             alert "error"
 
+    eventAfterAllRender:
+      (view) ->
+        target_id = "#start" + view.intervalStart.clone().subtract(1,'years').format("YYYYMM")
+        scrollOldEvents(target_id)
+        $('#calendar').droppable
+          tolerance: 'pointer'
+
+scrollOldEvents = (target)->
+  current_top = $('#external-events').scrollTop()
+  point_date_top = $(target).position().top
+  scroll_top = point_date_top + current_top
+
+  console.log("current_top: #{current_top}")
+  console.log("point_date_top: #{point_date_top}")
+  console.log("scroll_top: #{scroll_top}")
+
+  $('#external-events').scrollTop(scroll_top)
+
 doSubmit = ->
   $('#submitButton').on 'click', (e) ->
     e.preventDefault()
@@ -139,9 +157,6 @@ ready = ->
       next: "fa fa-chevron-right"
 
   $('#myTab a:last').tab('show')
-
-  # console.log($('#point_date').position().top)
-  # $('#external-events').scrollTop($('#point_date').position().top)
 
 $(document).ready(ready)
 $(document).on('page:load', ready)
