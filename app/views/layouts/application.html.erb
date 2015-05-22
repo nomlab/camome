@@ -37,22 +37,25 @@
     <%= javascript_include_tag "application" %>
   </head>
   <body>
-
     <div class="navbar navbar-default navbar-static-top">
-      <div class="container">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
+      <div class="navbar-header">
+        <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse"> -->
+        <!--   <span class="icon-bar"></span> -->
+        <!--   <span class="icon-bar"></span> -->
+        <!--   <span class="icon-bar"></span> -->
+        <!-- </button> -->
         <a class="navbar-brand" href="#">Camome</a>
-        <div class="navbar-collapse collapse navbar-responsive-collapse">
-          <ul class="nav navbar-nav">
-            <li><%= link_to "Calendar", "/events"  %></li>
-            <li><%= link_to "Organize_mission", "/inbox/missions"  %></li>
-            <li><%= link_to "Organize_recurrence", "/inbox/recurrences"  %></li>
-          </ul>
-        </div>
+        <!-- <div class="navbar-collapse collapse navbar-responsive-collapse"> -->
+        <p class="navbar-text">
+          <!-- <ul class="nav navbar-nav"> -->
+            <!-- <li><%= link_to "Calendar", "/events"  %></li> -->
+            <%= link_to "Calendar", "/events"  %>
+            <!-- <li><%= link_to "Organize_mission", "/inbox/missions"  %></li> -->
+            <!-- <li><%= link_to "Inbox", "/inbox/recurrences"  %></li> -->
+            <%= link_to "Inbox", "/inbox/recurrences"  %>
+          <!-- </ul> -->
+        </p>
+        <!-- </div> -->
       </div>
     </div>
 
