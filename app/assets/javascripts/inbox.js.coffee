@@ -1,6 +1,6 @@
 #= require bootstrap-table
 
-currentRecurrence = null
+currentRecurrence = 208
 
 initDraggableEvent = ->
   $('.draggable-event').draggable
@@ -33,7 +33,7 @@ initDroppableEvent = ->
         }
         success: ->
           replaceRecurrenceList()
-          replaceEventInbox()
+          replaceEventInbox(currentRecurrence)
         error: ->
           alert ("error")
 
@@ -43,8 +43,9 @@ initClickNewRecurrence = ->
 
 initChangeRecurrenceBox = ->
   $('.recurrence-item').click ->
-    currentRecurrence = $(this).attr("id")
-    replaceEventInbox()
+    current_recurrence = $(this).attr("id")
+    currentRecurrence = current_recurrence
+    replaceEventInbox(current_recurrence)
 
 initSubmitRecurrence = ->
   $('#submitRecurrenceButton').click ->
@@ -73,12 +74,12 @@ initSubmitRecurrence = ->
       error: ->
         alert ("error")
 
-replaceEventInbox = ->
+replaceEventInbox = (current_recurrence)->
   $ . ajax
     type: 'GET'
     url: '/events.json'
     data: {
-      recurrence_id: currentRecurrence
+      recurrence_id: current_recurrence
     }
     success: (data) ->
       events = data.map (event) ->
