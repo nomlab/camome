@@ -43,9 +43,9 @@ Login name:admin
 Password:  admin
 #+END_SRC
 ** 3.ユーザの作成
-http://ホスト名:3000/users にアクセスし New User からユーザを作成
-http://ホスト名:3000/gate/logout にアクセスし admin をログアウト
-作成したユーザで再度ログイン
+   1)http://ホスト名:3000/users にアクセスし New User からユーザを作成
+   2)1http://ホスト名:3000/gate/logout にアクセスし admin をログアウト
+   3)作成したユーザで再度ログイン
 * Ruby version
 
 * System dependencies
