@@ -1,9 +1,10 @@
-<h1>Organize to Recurrence</h1>
+<h1>Inbox</h1>
 <%= render :partial => "inbox/create_form_of_recurrence"%>
 <div class="row">
   <div class="recurrence inbox">
     <table
        id="table"
+       class="recurrences table"
        date-class="recurrences table table-hover table-bordered table-condensed"
        data-toggle="table"
        data-height="500">
@@ -25,7 +26,8 @@
 
   <div class="event-item inbox">
     <table
-       id="table"
+       id="table events"
+       class="events table"
        data-class="table table-hover table-bordered table-condensed"
        data-toggle="table"
        data-height="500"
@@ -36,8 +38,8 @@
       <thead>
         <tr>
           <th data-field="state" data-checkbox="true" data-sortable="false"></th>
-          <th data-field="title" data-sortable="false">Title</th>
-          <th data-field="date" data-width="40%" data-sortable="true">Date</th>
+          <th data-field="title" data-sortable="false" data-width="50%">Title</th>
+          <th data-field="date" data-width="45%" data-sortable="true">Date</th>
         </tr>
       </thead>
       <tbody class="event-inbox">

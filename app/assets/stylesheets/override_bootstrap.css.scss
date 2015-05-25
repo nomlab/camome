@@ -6,8 +6,19 @@ $base-color: #9FC6E7;
 
 #calendar{
     width: 100%;
-    float: left;
+    float: right;
 }
+
+#calendar td {
+    border: 1px solid black;
+}
+
+#calendar th {
+    border: 1px solid black;
+}
+
+.fc-sun { color: red; }  /* 日曜日 */
+.fc-sat { color: blue; } /* 土曜日 */
 
 .nav-tabs{
     width: 100%;

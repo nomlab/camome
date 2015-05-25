@@ -138,7 +138,7 @@ ready = ->
         target_id = "#start" + view.intervalStart.clone().subtract(1,'years').format("YYYYMM")
         scrollOldEvents(target_id)
         )
-      $('#calendar').css('width','80%')
+      $('#calendar').css('width','78%')
 
   $('#eventStartTime').datetimepicker
     format: "YYYY/MM/DD H:mm"

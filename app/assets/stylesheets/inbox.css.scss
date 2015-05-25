@@ -1,0 +1,42 @@
+$base-color: #9FC6E7;
+
+.recurrence.inbox{
+    width: 19%;
+    float: left;
+}
+
+.recurrences.table th {
+    background: $base-color;
+}
+
+.events.table th {
+    background: #8dc7c7;
+}
+
+.event-item.inbox{
+    width: 70%;
+    margin: 0 0 0 10px;
+    float: left;
+}
+
+/* .recurrence.inbox tr{ */
+/*     border: 1px solid yellow; */
+/* } */
+
+/* .recurrence.inbox td{ */
+/*     border: 1px solid red; */
+/* } */
+
+/* .recurrence.inbox th{ */
+/*     border: 1px solid green; */
+/* } */
+
+/* .recurrence.inbox table{ */
+/*     border: 1px solid black; */
+/* } */
+
+
+.recurrence.inbox tr, td, th, table{
+    border: 1px solid black;
+}
+
