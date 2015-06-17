@@ -1,10 +1,10 @@
 <h1>Organize to Recurrence</h1>
 <%= render :partial => "inbox/create_form_of_recurrence"%>
 <div class="row">
-  <div class="recurrence inbox">
+  <div class="recurrence-box">
     <table
        id="table"
-       date-class="recurrences table table-hover table-bordered table-condensed"
+       date-class="table table-hover table-bordered table-condensed"
        data-toggle="table"
        data-height="500">
       <thead>
@@ -23,7 +23,7 @@
     </table>
   </div>
 
-  <div class="event-item inbox">
+  <div class="event-box">
     <table
        id="table"
        data-class="table table-hover table-bordered table-condensed"
@@ -40,7 +40,7 @@
           <th data-field="date" data-width="40%" data-sortable="true">Date</th>
         </tr>
       </thead>
-      <tbody class="event-inbox">
+      <tbody class="events">
         <% @events.each do |event| %>
           <%= render :partial => "inbox/inbox_item", :locals => {:event => event} %>
         <% end %>

@@ -91,7 +91,7 @@ replaceEventInbox = ->
             <td>#{event["arrange_date"]}</td>
           </tr>
           """
-      $('.event-inbox').replaceWith("<tbody class='event-inbox'>#{events}</tbody>")
+      $('.events').replaceWith("<tbody class='events'>#{events}</tbody>")
       reloadEventList()
     error: ->
       alert("error")

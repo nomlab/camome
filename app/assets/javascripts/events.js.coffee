@@ -127,7 +127,7 @@ ready = ->
   doSubmit()
   initDraggableOldEvent()
 
-  $('.maru').click ->
+  $('.open-side-menu').click ->
     if ($('.side-menu.calendar').is(':visible') == true)
       $('.side-menu.calendar').hide(200, ->
         $('#calendar').css('width','100%')
