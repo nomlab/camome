@@ -1,49 +1,10 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Name:</strong>
+<% if @mission.present? %>
   <%= @mission.name %>
-</p>
-
-<p>
-  <strong>Description:</strong>
   <%= @mission.description %>
-</p>
-
-<p>
-  <strong>Deadline:</strong>
   <%= @mission.deadline %>
-</p>
-
-<p>
-  <strong>State:</strong>
-  <%= @mission.state_id %>
-</p>
-
-<p>
-  <strong>Keyword:</strong>
+  <%= @mission.state.name if @mission.state.present? %>
   <%= @mission.keyword %>
-</p>
+  <%= @mission.parent.name if @mission.parent.present? %>
+<% end %>
 
-<p>
-  <strong>Parent:</strong>
-  <%= @mission.parent_id %>
-</p>
-
-<p>
-  <strong>Lft:</strong>
-  <%= @mission.lft %>
-</p>
-
-<p>
-  <strong>Rgt:</strong>
-  <%= @mission.rgt %>
-</p>
-
-<p>
-  <strong>Depth:</strong>
-  <%= @mission.depth %>
-</p>
-
-<%= link_to 'Edit', edit_mission_path(@mission) %> |
-<%= link_to 'Back', missions_path %>
+<%= render partial: "clam_list", locals: {clams: @clams} %>

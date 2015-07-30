@@ -10,6 +10,8 @@ class MissionsController < ApplicationController
   # GET /missions/1
   # GET /missions/1.json
   def show
+    @missions = Mission.all
+    @clams = @mission ? @mission.clams : Clam.find_by(mission_id: nil)
   end
 
   # GET /missions/new

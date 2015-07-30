@@ -1,0 +1,23 @@
+<table <%= inbox_classes %>>
+  <thead>
+    <tr>
+      <th data-checkbox="true"></th>
+      <th date-field="content_type" data-sortable="false">content_type</th>
+      <th date-field="summary" data-sortable="false">summary</th>
+      <th date-field="date" data-sortable="true">date</th>
+      <th date-field="fixed" data-sortable="false">fixed</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if clams.present? %>
+      <% clams.each do |clam| %>
+        <tr>
+          <tr><%= clam.content_type %></tr>
+          <tr><%= clam.summary %></tr>
+          <tr><%= clam.date %></tr>
+          <tr><%= clam.fixed %></tr>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
