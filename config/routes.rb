@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  resources :states
+
+  resources :missions
+
+  resources :resources
+
+  resources :clams
+
   resources :users
 
   get "calendars/import"

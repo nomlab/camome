@@ -52,3 +52,7 @@ gem "bootstrap3-datetimepicker-rails"
 
 gem "icalendar"
 gem "nokogiri"
+
+# For mission nested set
+# https://github.com/collectiveidea/awesome_nested_set
+gem "awesome_nested_set"

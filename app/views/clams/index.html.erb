@@ -1,0 +1,39 @@
+<h1>Listing clams</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Uid</th>
+      <th>Date</th>
+      <th>Summary</th>
+      <th>Options</th>
+      <th>Content type</th>
+      <th>Fixed</th>
+      <th>Mission</th>
+      <th>Mission</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @clams.each do |clam| %>
+      <tr>
+        <td><%= clam.uid %></td>
+        <td><%= clam.date %></td>
+        <td><%= clam.summary %></td>
+        <td><%= clam.options %></td>
+        <td><%= clam.content_type %></td>
+        <td><%= clam.fixed %></td>
+        <td><%= clam.mission_id %></td>
+        <td><%= clam.mission %></td>
+        <td><%= link_to 'Show', clam %></td>
+        <td><%= link_to 'Edit', edit_clam_path(clam) %></td>
+        <td><%= link_to 'Destroy', clam, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Clam', new_clam_path %>

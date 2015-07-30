@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150320052128) do
+ActiveRecord::Schema.define(version: 20150730071527) do
 
   create_table "auth_infos", force: true do |t|
     t.string   "login_name"
@@ -35,19 +35,18 @@ ActiveRecord::Schema.define(version: 20150320052128) do
   end
 
   create_table "clams", force: true do |t|
-    t.string   "title"
-    t.string   "description"
-    t.string   "type"
-    t.date     "date"
-    t.string   "link"
+    t.string   "uid"
+    t.datetime "date"
+    t.string   "summary"
+    t.text     "options"
+    t.string   "content_type"
+    t.boolean  "fixed",        default: false
+    t.integer  "mission_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "event_clams", force: true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
+  add_index "clams", ["mission_id"], name: "index_clams_on_mission_id"
 
   create_table "event_impoters", force: true do |t|
     t.datetime "created_at"
@@ -76,9 +75,48 @@ ActiveRecord::Schema.define(version: 20150320052128) do
     t.integer  "calendar_id"
   end
 
+  create_table "missions", force: true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.string   "deadline"
+    t.integer  "state_id"
+    t.string   "keyword"
+    t.integer  "parent_id"
+    t.integer  "lft",                     null: false
+    t.integer  "rgt",                     null: false
+    t.integer  "depth",       default: 0, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "missions", ["depth"], name: "index_missions_on_depth"
+  add_index "missions", ["lft"], name: "index_missions_on_lft"
+  add_index "missions", ["parent_id"], name: "index_missions_on_parent_id"
+  add_index "missions", ["rgt"], name: "index_missions_on_rgt"
+
   create_table "recurrences", force: true do |t|
     t.string   "name"
     t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "resources", force: true do |t|
+    t.text     "source"
+    t.string   "type"
+    t.integer  "clam_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "resources", ["clam_id"], name: "index_resources_on_clam_id"
+  add_index "resources", ["type"], name: "index_resources_on_type"
+
+  create_table "states", force: true do |t|
+    t.string   "name"
+    t.string   "color"
+    t.integer  "position"
+    t.boolean  "default"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

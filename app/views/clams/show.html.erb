@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Uid:</strong>
+  <%= @clam.uid %>
+</p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @clam.date %>
+</p>
+
+<p>
+  <strong>Summary:</strong>
+  <%= @clam.summary %>
+</p>
+
+<p>
+  <strong>Options:</strong>
+  <%= @clam.options %>
+</p>
+
+<p>
+  <strong>Content type:</strong>
+  <%= @clam.content_type %>
+</p>
+
+<p>
+  <strong>Fixed:</strong>
+  <%= @clam.fixed %>
+</p>
+
+<p>
+  <strong>Mission:</strong>
+  <%= @clam.mission_id %>
+</p>
+
+<p>
+  <strong>Mission:</strong>
+  <%= @clam.mission %>
+</p>
+
+<%= link_to 'Edit', edit_clam_path(@clam) %> |
+<%= link_to 'Back', clams_path %>

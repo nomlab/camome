@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Source:</strong>
+  <%= @resource.source %>
+</p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @resource.type %>
+</p>
+
+<p>
+  <strong>Clam:</strong>
+  <%= @resource.clam %>
+</p>
+
+<%= link_to 'Edit', edit_resource_path(@resource) %> |
+<%= link_to 'Back', resources_path %>

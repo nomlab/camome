@@ -1,0 +1,2 @@
+module ClamsHelper
+end
