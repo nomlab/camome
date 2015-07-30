@@ -1,5 +1,5 @@
 class MissionsController < ApplicationController
-  before_action :set_mission, only: [:show, :edit, :update, :destroy]
+  before_action :set_mission, only: [:show, :edit, :update, :destroy, :capture], if: :is_valid_id?
 
   # GET /missions
   # GET /missions.json
@@ -61,6 +61,20 @@ class MissionsController < ApplicationController
     end
   end
 
+  def capture
+    Clam.transaction do
+      clam = Clam.create!(params[:clam])
+      clam.resource = Resource.create!(params[:resource])
+      if @mission.present?
+        @mission.clam = clam
+        @Mission.save!
+      end
+      render json: clam, include: :resource
+    end
+    rescue => e
+      render json: e.message, status: :unprocessable_entity
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_mission
@@ -70,5 +84,9 @@ class MissionsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def mission_params
       params.require(:mission).permit(:name, :description, :deadline, :state_id, :keyword, :parent_id, :lft, :rgt, :depth)
+    end
+
+    def is_valid_id?
+      params[:id].to_i != 0
     end
 end

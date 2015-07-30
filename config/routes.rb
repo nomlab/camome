@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   resources :states
 
+  post "missions/inbox", to: "missions#capture"
+  post "missions/:id", to: "missions#capture"
   resources :missions
 
   resources :resources
