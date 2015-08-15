@@ -4,6 +4,9 @@ class Event < ActiveRecord::Base
   belongs_to :calendar
   belongs_to :recurrence
   validates_presence_of :summary, :dtstart, :dtend
+  has_many :clam_events
+  has_many :clams, through: :clam_events
+
 
   def duration
     duration = self.dtend - self.dtstart
