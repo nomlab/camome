@@ -6,5 +6,6 @@
   <%= @mission.keyword %>
   <%= @mission.parent.name if @mission.parent.present? %>
 <% end %>
-
+<i class="fa fa-calendar fa-2x calendar-icon"></i><br>
+<div id="calendar" class="mini-calendar"></div>
 <%= render partial: "clam_list", locals: {clams: @clams} %>

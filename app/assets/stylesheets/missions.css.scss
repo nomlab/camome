@@ -1,3 +1,16 @@
 // Place all the styles related to the missions controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.calendar-icon{
+  padding: 0 0 2px 0;
+  cursor: pointer;
+}
+
+#calendar.mini-calendar {
+    z-index: 999;
+    position: relative;
+    width: 40%;
+    margin: 0 auto;
+    font-size: 10px;
+}
