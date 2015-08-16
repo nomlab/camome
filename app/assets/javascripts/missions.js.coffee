@@ -72,14 +72,7 @@ submitEvent = ->
     data: data
     timeout: 9000
     success: ->
-      $("#calendar").fullCalendar('renderEvent',
-        {
-          title: $('#eventSummary').val()
-          start: new Date($('#eventStartTime').val())
-          end: new Date($('#eventEndTime').val())
-          allDay: ($('#eventAllDay').val() == "true")
-        },
-        true)
+      $("#calendar").fullCalendar('refetchEvents')
     error: ->
       alert("error")
 
