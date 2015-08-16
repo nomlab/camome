@@ -3,7 +3,7 @@
 <br>
 <p><%= @event.dtstart %> 〜 <%= @event.dtend %></p>
 <br>
-<% if @clams.first != nil %>
+<% if @clams != nil %>
   <p>関連するメール<p>
   <ul>
   <% @clams.each do |clam| %>
