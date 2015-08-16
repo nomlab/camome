@@ -14,6 +14,10 @@ fullCalendar = ->
       day: 'HH:mm'
     events: '/events.json'
 
+    eventClick:
+      (calEvent) ->
+        document.location = "../events/#{calEvent.id}"
+
     drop:
       (date) ->
         $('#createEventFromMail #eventStartTime').val(moment(date).format("YYYY/MM/DD H:mm"))
