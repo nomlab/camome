@@ -6,13 +6,15 @@
         <h4 class="modal-title">New Event</h4>
       </div>
       <div class="modal-body">
-        <form id="createEventForm" class="modal-body">
-          <input type="text" id="eventSummary" class="form-control" />
+        <form id="createEventForm">
+          <p><b>summary</b></p>
+          <input type="text" id="eventSummary" class="form-control" style="width:200px;" />
           <br>
-            <input type="text" id="eventStartTime" class="form-control" style="width:150px;" /> 〜 <input type="text" id="eventEndTime" class="form-control" style="width:150px;" />
-            <input type="hidden" id="eventAllDay" />
-            <br>
-          <p>Mail</p>
+          <p><b>date</b><p>
+          <input type="text" id="eventStartTime" class="form-control" style="width:150px; display:inline;" /> 〜 <input type="text" id="eventEndTime" class="form-control" style="width:150px; display:inline;" />
+          <input type="hidden" id="eventAllDay" />
+          <br><br>
+          <p><b>Mail</b></p>
           <p class="mail">&nbsp;&nbsp;<p>
         </form>
       </div>

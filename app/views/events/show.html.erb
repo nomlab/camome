@@ -1,10 +1,11 @@
 <br>
-<p><font size="5"><%= @event.summary %></font></p>
+<p><font size="4"><%= @event.summary %></font></p>
 <br>
-<p><%= @event.dtstart %> 〜 <%= @event.dtend %></p>
+<b>date</b>
+<p><%= arrange_date(@event.dtstart, @event.dtend) %></p>
 <br>
 <% if @clams != nil %>
-  <p>関連するメール<p>
+  <b>関連するメール</b>
   <ul>
   <% @clams.each do |clam| %>
     <li><%= link_to clam.summary, "" %></li>
