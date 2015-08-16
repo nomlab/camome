@@ -1,3 +1,4 @@
+# coding: utf-8
 class ClamsController < ApplicationController
   before_action :set_clam, only: [:show, :edit, :update, :destroy]
 
@@ -69,6 +70,6 @@ class ClamsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def clam_params
-      params.require(:clam).permit(:uid, :date, :summary, :options, :content_type, :fixed, :mission_id, :mission_id)
+      params.require(:clam).permit(:uid, :date, :summary, {:options => ['description', 'originator', 'recipients']}, :content_type, :fixed, :mission_id, :mission_id, :description, :originator, :recipients)
     end
 end

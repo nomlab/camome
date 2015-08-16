@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'mail/new'
+
   resources :states
 
   get "missions/inbox", to: "missions#show"

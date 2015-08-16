@@ -5,6 +5,7 @@
         <th data-checkbox="true"></th>
         <th date-field="summary" data-sortable="false">title</th>
         <th date-field="date" data-sortable="true">date</th>
+	<th></th>
       </tr>
     </thead>
     <tbody>
@@ -16,6 +17,7 @@
         <td></td>
         <td><%= clam.summary %></td>
         <td><%= clam.date %></td>
+	<td><%= link_to "", { controller: "mail", action: "new", clam_id: clam.id }, class: "fa fa-repeat" %></td>
       </tr>
       <% end %>
       <% end %>

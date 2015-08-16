@@ -1,0 +1,33 @@
+<h1>メール送信</h1>
+
+<%= form_for(@mail) do |f| %>
+  <table class="table">
+    <tr>
+      <th>From</th>
+      <td>
+        <%= f.text_field :originator, size: '50' %>
+      </td>
+    </tr>
+    <tr>
+      <th>To</th>
+      <td>
+        <%= f.text_field :recipients, size: '50' %>
+      </td>
+    </tr>
+    <tr>
+      <th>Subject</th>
+      <td>
+        <%= f.text_field :summary, size: '50' %>
+      </td>
+    </tr>
+    <tr>
+      <th>Body</th>
+      <td>
+        <%= f.text_area :description, size: '60x10' %>
+      </td>
+    </tr>
+  </table>
+  <div class="actions">
+    <%= f.submit '送信', class: 'btn btn-primary' %>
+  </div>
+<% end %>
