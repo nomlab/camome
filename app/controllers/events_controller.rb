@@ -47,6 +47,10 @@ class EventsController < ApplicationController
   def create
     @event = Event.new(event_params)
     @event.recurrence_id = Recurrence.inbox.id
+    if params[:clam_id] != nil
+      @clam = Clam.find(params[:clam_id])
+      @clam.events << @event
+    end
 
     respond_to do |format|
       if @event.save

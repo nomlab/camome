@@ -10,7 +10,9 @@
     <tbody>
       <% if clams.present? %>
       <% clams.each do |clam| %>
-      <tr class="draggable-clam">
+      <tr class="draggable-clam"
+          data-id="<%= clam.id%>"
+          data-summary="<%= clam.summary%>">
         <td></td>
         <td><%= clam.summary %></td>
         <td><%= clam.date %></td>
