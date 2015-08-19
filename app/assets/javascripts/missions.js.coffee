@@ -20,11 +20,23 @@ fullCalendar = ->
 
     drop:
       (date) ->
-        $('#createEventFromMail #eventStartTime').val(moment(date).format("YYYY/MM/DD H:mm"))
-        $('#createEventFromMail #eventEndTime').val(moment(date).format("YYYY/MM/DD H:mm"))
-        $('#createEventFromMail #eventSummary').val($(this).data('clam').summary)
-        $('.mail').append("<a href='#' id='mail' data-id='#{$(this).data('clam').id}'>#{$(this).data('clam').summary}</a>")
-        $('#createEventFromMail').modal('show')
+        clam  = getClam($(this).data('clam').id)
+        $('#create-event-modal #event-dtstart').val(moment(date).format("YYYY/MM/DD H:mm"))
+        $('#create-event-modal #event-dtend').val(moment(date).format("YYYY/MM/DD H:mm"))
+        $('#create-event-modal #event-summary').val(clam.summary)
+        $('#create-event-modal #event-description').val(clam.options.description)
+        $('.mail').append("<a href='#' id='mail' data-id='#{clam.id}'>#{clam.summary}</a>")
+        $('#create-event-modal').modal('show')
+
+getClam = (id) ->
+  res = $ . ajax
+    type: 'GET'
+    url: "/clams/#{id}.json"
+    dataType: "json"
+    async: false
+    error: ->
+      alert("error")
+  res.responseJSON
 
 initDraggableClam = ->
   $('.draggable-clam').each ->
@@ -56,14 +68,15 @@ displayCalendar = ->
     $('.clams-table').css('float','right')
 
 submitEvent = ->
-  $("#createEventFromMail").modal('hide')
+  $("#create-event-modal").modal('hide')
 
   data = {
-    clam_id: $('#createEventFromMail #mail').attr("data-id")
+    clam_id: $('#create-event-modal #mail').attr("data-id")
     event:
-      summary: $('#createEventFromMail #eventSummary').val()
-      dtstart: $('#createEventFromMail #eventStartTime').val()
-      dtend: $('#createEventFromMail #eventEndTime').val()
+      summary: $('#create-event-modal #event-summary').val()
+      dtstart: $('#create-event-modal #event-dtstart').val()
+      dtend: $('#create-event-modal #event-dtend').val()
+      description: $('#create-event-modal #event-description').val()
   }
 
   $ . ajax

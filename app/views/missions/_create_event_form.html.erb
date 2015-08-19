@@ -1,4 +1,4 @@
-<div id="createEventFromMail" class="modal fade">
+<div id="create-event-modal" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -8,14 +8,16 @@
       <div class="modal-body">
         <form id="createEventForm">
           <p><b>summary</b></p>
-          <input type="text" id="eventSummary" class="form-control" style="width:200px;" />
+          <input type="text" id="event-summary" class="form-control" style="width:200px;" />
           <br>
           <p><b>date</b><p>
-          <input type="text" id="eventStartTime" class="form-control" style="width:150px; display:inline;" /> 〜 <input type="text" id="eventEndTime" class="form-control" style="width:150px; display:inline;" />
-          <input type="hidden" id="eventAllDay" />
+          <input type="text" id="event-dtstart" class="form-control" style="width:150px; display:inline;" /> 〜 <input type="text" id="event-dtend" class="form-control" style="width:150px; display:inline;" />
+          <input type="hidden" id="event-allday" />
           <br><br>
           <p><b>Mail</b></p>
-          <p class="mail">&nbsp;&nbsp;<p>
+          <p class="mail">&nbsp;&nbsp;</p>
+          <p><b>Description</b></p>
+          <textarea id="event-description" class="form-control"></textarea>
         </form>
       </div>
       <div class="modal-footer">
