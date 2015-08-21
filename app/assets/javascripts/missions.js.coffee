@@ -89,6 +89,31 @@ submitEvent = ->
     error: ->
       alert("error")
 
+showBodyColumns = (clickedClam) ->
+  clam  = getClam(clickedClam.data('clam').id)
+  clamBody =
+    """
+    <tr class='clam-body'>
+      <td colspan='4'>
+        <div>
+          <pre>
+            <table>
+              <tr><th>差出人</th><td>#{clam.options.originator}</td></tr>
+              <tr><th>件名</th><td>#{clam.summary}</td></tr>
+              <tr><th>宛先</th><td>#{clam.options.recipients}</td></tr>
+              <tr><td colspan='2'>#{clam.options.description}</td></tr>
+            </table>
+          </pre>
+        </div>
+      </td>
+    </tr>
+    """
+
+  if ($('.clam-body').is(':visible') == true)
+    $(".clam-body").remove()
+  $(".draggable-clam[data-id=#{clam.id}]").after(clamBody)
+  $(".clam-body > td > div").hide().slideDown(200)
+
 ready = ->
   initDraggableClam()
   $('.mini-calendar').hide()
@@ -96,6 +121,8 @@ ready = ->
     displayCalendar()
   $('#submitButton').click ->
     submitEvent()
+  $('.draggable-clam').click ->
+    showBodyColumns($(this))
 
 $(document).ready(ready)
 $(document).on('page:load', ready)
