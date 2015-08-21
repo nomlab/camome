@@ -94,7 +94,7 @@ showBodyColumns = (clickedClam) ->
   clamBody =
     """
     <tr class='clam-body'>
-      <td colspan='4'>
+      <td colspan='5'>
         <div>
           <pre>
             <table>
