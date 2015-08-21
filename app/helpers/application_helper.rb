@@ -5,7 +5,6 @@ module ApplicationHelper
       data-toggle="table"
       data-height="500"
       data-striped="true"
-      data-click-to-select="true"
       data-sort-name="date"
       data-sort-order="desc")
   end
