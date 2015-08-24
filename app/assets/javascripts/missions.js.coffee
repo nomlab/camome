@@ -56,16 +56,19 @@ initDraggableClam = ->
       revert: "invalid"
 
 displayCalendar = ->
-  if ($('.mini-calendar').is(':visible') == true)
-    $('.mini-calendar').hide(100, ->
-      $('.clams-table').css('width','100%')
-    )
-  else
+  if ($('.mini-calendar').is(':visible') != true)
     $('.mini-calendar').show(100, ->
       fullCalendar()
       )
+    $('.missions-table').hide(100)
     $('.clams-table').css('width','55%')
     $('.clams-table').css('float','right')
+
+displayMissions = ->
+  if ($('.missions-table').is(':visible') != true)
+    $('.missions-table').show(100)
+    $('.mini-calendar').hide(100)
+    $('.clams-table').css('width','80%')
 
 submitEvent = ->
   $("#create-event-modal").modal('hide')
@@ -119,6 +122,8 @@ ready = ->
   $('.mini-calendar').hide()
   $('.calendar-icon').click ->
     displayCalendar()
+  $('.missions-icon').click ->
+    displayMissions()
   $('#submitButton').click ->
     submitEvent()
   $('.draggable-clam').click ->

@@ -6,7 +6,26 @@
   <%= @mission.keyword %>
   <%= @mission.parent.name if @mission.parent.present? %>
 <% end %>
-<i class="fa fa-calendar fa-2x calendar-icon"></i><br>
-<div id="calendar" class="mini-calendar"></div>
+<ul class="nav nav-tabs" role="tablist">
+  <li role="presentation" class="active">
+    <a aria-controls="missions" data-toggle="tab" href="#missions" role="tab">
+      <i class="fa fa-folder-open-o fa-2x missions-icon"></i>
+    </a>
+  </li>
+  <li role="presentation">
+    <a aria-controls="mini-calendar" data-toggle="tab" href="#mini-calendar" role="tab">
+      <i class="fa fa-calendar fa-2x calendar-icon"></i>
+    </a>
+  </li>
+</ul>
+<br>
+<div class="tab-content" id="tab-con">
+  <div role="tabpanel" class="tab-pane active" id="missions">
+    <%= render partial: "mission_list", locals: {missions: @missions} %>
+  </div>
+  <div role="tabpanel" class="tab-pane" id="mini-calendar">
+    <div id="calendar" class="mini-calendar"></div>
+  </div>
+</div>
 <%= render partial: "clam_list", locals: {clams: @clams} %>
 <%= render partial: "missions/create_event_form" %>

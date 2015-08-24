@@ -1,0 +1,23 @@
+<div class="missions-table">
+  <table
+     id="table"
+     date-class="table table-hover table-bordered table-condensed"
+     data-toggle="table"
+     data-height="500">
+    <thead>
+      <tr>
+        <th>Missions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="new-mission">
+        <td> new mission </td>
+      </tr>
+      <% missions.each do |mission| %>
+      <tr class="mission">
+        <td><%= mission.summary %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
