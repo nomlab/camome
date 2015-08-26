@@ -124,7 +124,7 @@ ready = ->
     displayCalendar()
   $('.missions-icon').click ->
     displayMissions()
-  $('#submitButton').click ->
+  $('#submit-button').click ->
     submitEvent()
   $('.draggable-clam').click ->
     showBodyColumns($(this))
