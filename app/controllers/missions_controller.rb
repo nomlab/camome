@@ -11,7 +11,7 @@ class MissionsController < ApplicationController
   # GET /missions/1.json
   def show
     @missions = Mission.all
-    @clams = @mission ? @mission.clams : Clam.all.where("mission_id IS ?", nil)
+    @clams = @mission ? @mission.clams : Clam.search(params[:search]).where("mission_id IS ?", nil)
   end
 
   # GET /missions/new

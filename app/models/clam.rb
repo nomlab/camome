@@ -19,5 +19,13 @@ class Clam < ActiveRecord::Base
     end
   end
 
+  def self.search(search)
+    if search
+      Clam.where(['options LIKE ? or summary LIKE ?', "%#{search}%", "%#{search}%"])
+    else
+      Clam.all
+    end
+  end
+
   serialized_attr_accessor :description, :originator, :recipients
 end
