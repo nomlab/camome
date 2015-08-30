@@ -16,6 +16,8 @@
 //= require moment
 //= require fullcalendar
 //= require bootstrap-datetimepicker
+//= stub missions
+//= stub events
 //= require_tree .
 //= require jquery-ui
 //= require bootstrap-table
