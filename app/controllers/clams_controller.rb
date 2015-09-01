@@ -26,7 +26,6 @@ class ClamsController < ApplicationController
   # POST /clams.json
   def create
     @clam = Clam.new(clam_params)
-    @mission = Mission.all
 
     respond_to do |format|
       if @clam.save
@@ -40,6 +39,8 @@ class ClamsController < ApplicationController
         format.json { render json: @clam.errors, status: :unprocessable_entity }
       end
     end
+
+    create_reuse_info(params[:clam][:parent_id], Clam.last.id)
   end
 
   # PATCH/PUT /clams/1
@@ -67,6 +68,11 @@ class ClamsController < ApplicationController
   end
 
   private
+    def create_reuse_info(parent_id, child_id)
+      reuse_info = ReuseInfo.new(parent_id: parent_id, child_id: child_id)
+      reuse_info.save
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_clam
       @clam = Clam.find(params[:id])
