@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150815115121) do
+ActiveRecord::Schema.define(version: 20150830182718) do
 
   create_table "auth_infos", force: true do |t|
     t.string   "login_name"
@@ -118,6 +118,13 @@ ActiveRecord::Schema.define(version: 20150815115121) do
 
   add_index "resources", ["clam_id"], name: "index_resources_on_clam_id"
   add_index "resources", ["type"], name: "index_resources_on_type"
+
+  create_table "reuse_infos", force: true do |t|
+    t.integer  "parent_id"
+    t.integer  "child_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "states", force: true do |t|
     t.string   "name"

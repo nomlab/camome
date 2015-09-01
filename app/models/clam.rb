@@ -4,6 +4,11 @@ class Clam < ActiveRecord::Base
   serialize :options
   has_many :clam_events
   has_many :events, through: :clam_events
+  # for reuse info
+  has_one :parent_relation, foreign_key: 'child_id', class_name: 'ReuseInfo'
+  has_many :child_relations, foreign_key: 'parent_id', class_name: 'ReuseInfo'
+  has_one :reuse_parent, through: :parent_relation, source: :parent
+  has_many :reuse_children, through: :child_relations, source: :child
 
   def self.serialized_attr_accessor(*args)
     args.each do |method_name|
