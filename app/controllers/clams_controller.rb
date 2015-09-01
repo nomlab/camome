@@ -26,10 +26,14 @@ class ClamsController < ApplicationController
   # POST /clams.json
   def create
     @clam = Clam.new(clam_params)
+    @mission = Mission.all
 
     respond_to do |format|
       if @clam.save
-        format.html { redirect_to @clam, notice: 'Clam was successfully created.' }
+        format.html {
+          flash[:success] = 'メールを送信しました．'
+          redirect_to "/missions/inbox"
+        }
         format.json { render :show, status: :created, location: @clam }
       else
         format.html { render :new }
