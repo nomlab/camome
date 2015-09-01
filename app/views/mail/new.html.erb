@@ -26,6 +26,9 @@
         <%= f.text_area :description, size: '60x10' %>
       </td>
     </tr>
+    <%= f.hidden_field :uid %>
+    <%= f.hidden_field :content_type %>
+    <%= f.hidden_field :date, value: DateTime.now %>
   </table>
   <div class="actions">
     <%= f.submit '送信', class: 'btn btn-primary' %>
