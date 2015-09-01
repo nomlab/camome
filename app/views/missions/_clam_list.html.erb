@@ -1,7 +1,8 @@
-<%= form_tag '/missions/inbox', :method => 'get' do %>
-  <p align="right">
-    <%= text_field_tag :search %>
-    <%= submit_tag "Search", :name => nil %>
+<%= form_tag '/missions/inbox', :method => 'get', :class => 'search' do %>
+  <p class="form-inline" align="right">
+    <%= text_field_tag :search, nil, class: 'form-control', style: 'width:150px' %>
+    <i class="fa fa-search search-icon" onclick="$('.search').submit()"></i>
+
   </p>
 <% end %>
 <div class="clams-table">
