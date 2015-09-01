@@ -145,10 +145,10 @@ ready = ->
     displayMissions()
   $('#submit-button').click ->
     submitEvent()
-  $('.draggable-clam').click ->
-    showBodyColumns($(this))
-    if $(this).hasClass("fixed")
-      changeFixed($(this))
+  $('.show-clam').click ->
+    showBodyColumns($(this).parent())
+    if $(this).parent().hasClass("fixed")
+      changeFixed($(this).parent())
 
 $(document).ready(ready)
 $(document).on('page:load', ready)
