@@ -18,9 +18,15 @@
     <tbody>
       <% if clams.present? %>
         <% clams.each do |clam| %>
+        <% if clam.fixed == false %>
+          <tr class="draggable-clam fixed"
+              data-id="<%= clam.id %>"
+              data-summary="<%= clam.summary %>">
+        <% else %>
           <tr class="draggable-clam"
-              data-id="<%= clam.id%>"
-              data-summary="<%= clam.summary%>">
+              data-id="<%= clam.id %>"
+              data-summary="<%= clam.summary %>">
+        <% end %>
             <td></td>
             <td><%= clam.summary %></td>
             <td><%= clam.originator %></td>
@@ -32,3 +38,4 @@
     </tbody>
   </table>
 </div>
+

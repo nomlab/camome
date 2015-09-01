@@ -93,7 +93,7 @@ submitEvent = ->
       alert("error")
 
 showBodyColumns = (clickedClam) ->
-  clam  = getClam(clickedClam.data('clam').id)
+  clam  = getClam(clickedClam.attr("data-id"))
   clamBody =
     """
     <tr class='clam-body'>
@@ -117,6 +117,25 @@ showBodyColumns = (clickedClam) ->
   $(".draggable-clam[data-id=#{clam.id}]").after(clamBody)
   $(".clam-body > td > div").hide().slideDown(200)
 
+changeFixed = (clickedClam) ->
+  clickedClam.removeClass("fixed")
+  clickedClam.css("font-weight","normal")
+
+  data = {
+    clam:
+      fixed: true
+    }
+
+  $ . ajax
+    type: 'PUT'
+    url: "/clams/#{clickedClam.attr("data-id")}"
+    data: data
+    dataType: 'json'
+    async: false
+    timeout: 9000
+    error: ->
+      alert("error")
+
 ready = ->
   initDraggableClam()
   $('.mini-calendar').hide()
@@ -128,6 +147,8 @@ ready = ->
     submitEvent()
   $('.draggable-clam').click ->
     showBodyColumns($(this))
+    if $(this).hasClass("fixed")
+      changeFixed($(this))
 
 $(document).ready(ready)
 $(document).on('page:load', ready)
