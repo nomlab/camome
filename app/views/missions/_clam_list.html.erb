@@ -31,7 +31,7 @@
             <td></td>
             <td><%= clam.summary %></td>
             <td><%= clam.originator %></td>
-            <td><%= clam.date %></td>
+            <td><%= process_date(clam.date, clam.date) %></td>
             <td><%= link_to "", { controller: "mail", action: "new", clam_id: clam.id }, class: "fa fa-repeat" %></td>
           </tr>
         <% end %>
