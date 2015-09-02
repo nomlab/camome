@@ -94,6 +94,9 @@ submitEvent = ->
 
 showBodyColumns = (clickedClam) ->
   clam  = getClam(clickedClam.attr("data-id"))
+  parent_clam = getParentClam(clam.id)
+  events = getEventOfRelatedClam(clam.id)
+
   clamBody =
     """
     <tr class='clam-body'>
@@ -108,6 +111,12 @@ showBodyColumns = (clickedClam) ->
             </table>
           </pre>
         </div>
+        <div>
+          再利用元のメール：#{if parent_clam? then parent_clam.summary else "なし"}
+        </div>
+        <div>
+          関連するタスク：#{if events.length then event.summary for event in events else "なし"}
+        </div>
       </td>
     </tr>
     """
@@ -116,6 +125,26 @@ showBodyColumns = (clickedClam) ->
     $(".clam-body").remove()
   $(".draggable-clam[data-id=#{clam.id}]").after(clamBody)
   $(".clam-body > td > div").hide().slideDown(200)
+
+getParentClam = (id) ->
+  res = $ . ajax
+    type: 'GET'
+    url: "/clams/#{id}/reuse_parent.json"
+    dataType: "json"
+    async: false
+    error: ->
+      alert("error")
+  res.responseJSON
+
+getEventOfRelatedClam = (id) ->
+  res = $ . ajax
+    type: 'GET'
+    url: "/clams/#{id}/events.json"
+    dataType: "json"
+    async: false
+    error: ->
+      alert("error")
+  res.responseJSON
 
 changeFixed = (clickedClam) ->
   clickedClam.removeClass("fixed")

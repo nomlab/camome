@@ -10,6 +10,8 @@ Rails.application.routes.draw do
 
   resources :resources
 
+  get "clams/:id/reuse_parent", to: "clams#get_parent_clam"
+  get "clams/:id/events", to: "clams#get_related_events"
   resources :clams
 
   resources :users
