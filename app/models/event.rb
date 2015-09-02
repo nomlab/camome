@@ -20,7 +20,7 @@ class Event < ActiveRecord::Base
       title: summary,
       start: dtstart,
       end: dtend,
-      arrange_date: ApplicationController.helpers.arrange_date(self.dtstart, self.dtend),
+      arrange_date: ApplicationController.helpers.process_date(self.dtstart, self.dtend),
       color: "#9FC6E7",
       textColor: "#000000"
     }
