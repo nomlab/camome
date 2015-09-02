@@ -86,6 +86,7 @@ submitEvent = ->
     type: 'POST'
     url: '/events'
     data: data
+    dataType: 'json'
     timeout: 9000
     success: ->
       $("#calendar").fullCalendar('refetchEvents')
