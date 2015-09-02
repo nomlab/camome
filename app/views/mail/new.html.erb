@@ -15,6 +15,12 @@
       </td>
     </tr>
     <tr>
+      <th>再利用元メール</th>
+      <td>
+	<%= @mail.uid %>
+      </td>
+    </tr>
+    <tr>
       <th>Subject</th>
       <td>
         <%= f.text_field :summary, size: '50' %>
@@ -26,7 +32,7 @@
         <%= f.text_area :description, size: '60x10' %>
       </td>
     </tr>
-    <%= f.hidden_field :uid %>
+    <%= f.hidden_field :uid, value: create_uid(@mail.uid) %>
     <%= f.hidden_field :content_type %>
     <%= f.hidden_field :date, value: DateTime.now %>
     <%= f.hidden_field :parent_id, value: @parent_id %>
