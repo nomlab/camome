@@ -2,7 +2,7 @@
 <p><font size="4"><%= @event.summary %></font></p>
 <br>
 <b>date</b>
-<p><%= arrange_date(@event.dtstart, @event.dtend) %></p>
+<p><%= process_date(@event.dtstart, @event.dtend) %></p>
 <br>
 <% if @clams != nil %>
   <b>関連するメール</b>

@@ -9,7 +9,7 @@ fullCalendar = ->
     droppable: true
     timezone: 'Tokyo'
     timeFormat:
-      month: 'HH:mm'
+      month: ''
       week: 'HH:mm'
       day: 'HH:mm'
     events: '/events.json'
