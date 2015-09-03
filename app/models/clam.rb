@@ -32,5 +32,11 @@ class Clam < ActiveRecord::Base
     end
   end
 
+  # return clams that has been reused, or has been created by reusing
+  def self.narrow_by_reuseinfo
+    r_clams = Clam.joins(:parent_relation).uniq + Clam.joins(:child_relations).uniq
+    Clam.where(id: r_clams.map{|r_clam| r_clam.id})
+  end
+
   serialized_attr_accessor :description, :originator, :recipients
 end
