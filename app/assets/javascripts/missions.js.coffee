@@ -94,13 +94,18 @@ submitEvent = ->
       alert("error")
 
 showBodyColumns = (clickedClam) ->
+  if ($('.clam-body').is(':visible') == true)
+    clamBodyId = $('.clam-body').attr('clam-id')
+    $(".clam-body").remove()
+    return if clamBodyId == clickedClam.attr("data-id")
+
   clam  = getClam(clickedClam.attr("data-id"))
   parent_clam = getParentClam(clam.id)
   events = getEventOfRelatedClam(clam.id)
 
   clamBody =
     """
-    <tr class='clam-body'>
+    <tr class='clam-body' clam-id='#{clam.id}' >
       <td colspan='5'>
         <div>
           <pre>
@@ -122,8 +127,6 @@ showBodyColumns = (clickedClam) ->
     </tr>
     """
 
-  if ($('.clam-body').is(':visible') == true)
-    $(".clam-body").remove()
   $(".draggable-clam[data-id=#{clam.id}]").after(clamBody)
   $(".clam-body > td > div").hide().slideDown(200)
 
