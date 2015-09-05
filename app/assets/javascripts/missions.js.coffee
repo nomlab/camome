@@ -182,6 +182,19 @@ ready = ->
     showBodyColumns($(this).parent())
     if $(this).parent().hasClass("fixed")
       changeFixed($(this).parent())
+    $(this).parent().find(".suggest-icon").focus()
+
+  content = """
+      このメールは再利用されています．<br>
+      カレンダに登録したらどうでしょう<br>
+      <a href="#">NO!!</a>
+      """
+  $(".suggest-icon").popover({
+    html: 'true'
+    trigger: 'focus'
+    placement: 'left'
+    content: content
+    })
 
 $(document).ready(ready)
 $(document).on('page:load', ready)
