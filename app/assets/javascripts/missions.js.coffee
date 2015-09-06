@@ -103,6 +103,20 @@ showBodyColumns = (clickedClam) ->
   parent_clam = getParentClam(clam.id)
   events = getEventOfRelatedClam(clam.id)
 
+  reuse_parent =
+    if parent_clam?
+      "再利用元のメール：<a href='#' class='show-reuse-parent' parent-id='#{parent_clam.id}'>#{parent_clam.summary}</a>"
+    else ""
+
+  related_tasks =
+    if events.length
+      buf = "関連するタスク："
+      for event in events
+        buf += "<a href='#' class='show-related-task' task-id='#{event.id}'>#{event.summary}</a>"
+        buf += ", "
+      buf.slice(0, -2)
+    else ""
+
   clamBody =
     """
     <tr class='clam-body' clam-id='#{clam.id}' >
@@ -118,10 +132,10 @@ showBodyColumns = (clickedClam) ->
           </pre>
         </div>
         <div>
-          再利用元のメール：#{if parent_clam? then parent_clam.summary else "なし"}
+          #{reuse_parent}
         </div>
         <div>
-          関連するタスク：#{if events.length then event.summary for event in events else "なし"}
+          #{related_tasks}
         </div>
       </td>
     </tr>
