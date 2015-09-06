@@ -30,7 +30,12 @@
               data-summary="<%= clam.summary %>">
         <% end %>
             <td></td>
-            <td class="show-clam"><%= clam.summary %></td>
+            <td class="show-clam">
+	      <% if !clam.fixed %>
+	        <a href="#" class="fa fa-comment-o suggest-icon"></a>
+	      <% end %>
+	      <%= clam.summary %>
+	    </td>
             <td class="show-clam"><%= clam.originator %></td>
             <td class="show-clam"><%= process_date(clam.date, clam.date) %></td>
             <td><%= link_to "", { controller: "mail", action: "new", clam_id: clam.id }, class: "fa fa-repeat" %></td>

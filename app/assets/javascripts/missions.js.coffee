@@ -169,12 +169,6 @@ changeFixed = (clickedClam) ->
     error: ->
       alert("error")
 
-initAddSuggestIcon = ->
-  $('.draggable-clam').each ->
-    clam = getClam($(this).attr("data-id"))
-    if !clam.fixed
-      $(this).children().eq(1).prepend('<a href="#" class="fa fa-comment-o suggest-icon">')
-
 showPopover = (clickedClam) ->
   createPopover(clickedClam)
   clickedClam.find(".suggest-icon").focus()
@@ -201,7 +195,6 @@ createPopover = (clickedClam) ->
 
 ready = ->
   initDraggableClam()
-  initAddSuggestIcon()
   $('.mini-calendar').hide()
   $('.calendar-icon').click ->
     displayCalendar()
