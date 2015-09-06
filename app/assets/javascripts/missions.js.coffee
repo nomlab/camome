@@ -169,8 +169,39 @@ changeFixed = (clickedClam) ->
     error: ->
       alert("error")
 
+initAddSuggestIcon = ->
+  $('.draggable-clam').each ->
+    clam = getClam($(this).attr("data-id"))
+    if !clam.fixed
+      $(this).children().eq(1).prepend('<a href="#" class="fa fa-comment-o suggest-icon">')
+
+showPopover = (clickedClam) ->
+  createPopover(clickedClam)
+  clickedClam.find(".suggest-icon").focus()
+
+createPopover = (clickedClam) ->
+  id = clickedClam.attr("data-id")
+  parent_id = getParentClam(id).id
+  event_name = getEventOfRelatedClam(parent_id)[0].summary
+
+  content = """
+    このメールの再利用元メールは<br>
+    「#{event_name}」<br>
+    という名前のタスクと関連しています．<br>
+    このメールも同様のタスクと関連付けてはどうでしょうか．<br>
+    <div align="right"><a href="#">今後表示しない</a></div>
+  """
+
+  $(".suggest-icon").popover({
+    html: 'true'
+    trigger: 'focus'
+    placement: 'left'
+    content: content
+  })
+
 ready = ->
   initDraggableClam()
+  initAddSuggestIcon()
   $('.mini-calendar').hide()
   $('.calendar-icon').click ->
     displayCalendar()
@@ -179,22 +210,11 @@ ready = ->
   $('#submit-button').click ->
     submitEvent()
   $('.show-clam').click ->
-    showBodyColumns($(this).parent())
-    if $(this).parent().hasClass("fixed")
-      changeFixed($(this).parent())
-    $(this).parent().find(".suggest-icon").focus()
-
-  content = """
-      このメールは再利用されています．<br>
-      カレンダに登録したらどうでしょう<br>
-      <a href="#">NO!!</a>
-      """
-  $(".suggest-icon").popover({
-    html: 'true'
-    trigger: 'focus'
-    placement: 'left'
-    content: content
-    })
+    clam = $(this).parent()
+    showBodyColumns(clam)
+    if clam.hasClass("fixed")
+      changeFixed(clam)
+    showPopover(clam) if clam.find('.suggest-icon').size()
 
 $(document).ready(ready)
 $(document).on('page:load', ready)
