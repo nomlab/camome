@@ -207,6 +207,11 @@ createPopover = (clickedClam) ->
     content: content
   })
 
+changeRelatedEventColor = (eventId) ->
+  event = $('#calendar').fullCalendar('clientEvents', eventId)[0]
+  event.color = "#ffaaaa"
+  $('#calendar').fullCalendar('updateEvent', event)
+
 ready = ->
   initDraggableClam()
   $('.mini-calendar').hide()
@@ -222,6 +227,9 @@ ready = ->
     if clam.hasClass("fixed")
       changeFixed(clam)
     showPopover(clam) if clam.find('.suggest-icon').size()
+  $(this).on 'click','.show-related-task', ->
+    $('.calendar-icon').trigger('click')
+    changeRelatedEventColor($(this).attr('task-id'))
 
 $(document).ready(ready)
 $(document).on('page:load', ready)
