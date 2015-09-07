@@ -210,7 +210,11 @@ createPopover = (clickedClam) ->
 changeRelatedEventColor = (eventId) ->
   event = $('#calendar').fullCalendar('clientEvents', eventId)[0]
   event.color = "#ffaaaa"
-  $('#calendar').fullCalendar('updateEvent', event)
+  $('#calendar').fullCalendar('refetchEvents')
+  $('#calendar').fullCalendar('gotoDate', event.start)
+  setTimeout ->
+    $('#calendar').fullCalendar('updateEvent', event)
+  , 200
 
 ready = ->
   initDraggableClam()
