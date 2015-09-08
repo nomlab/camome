@@ -203,7 +203,7 @@ createPopover = (clickedClam) ->
   $(".suggest-icon").popover({
     html: 'true'
     trigger: 'focus'
-    placement: 'left'
+    placement: 'bottom'
     content: content
   })
 

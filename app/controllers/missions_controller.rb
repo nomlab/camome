@@ -14,7 +14,7 @@ class MissionsController < ApplicationController
     show_clams = Clam.where("mission_id IS ?", nil)
     show_clams = show_clams.search(params[:search]) if params[:search]
     show_clams = show_clams.narrow_by_reuseinfo if params[:narrow]
-    @clams = @mission ? @mission.clams : show_clams
+    @clams = @mission ? @mission.clams : show_clams.order("date desc")
   end
 
   # GET /missions/new
