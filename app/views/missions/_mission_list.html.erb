@@ -6,18 +6,22 @@
      data-height="500">
     <thead>
       <tr>
-        <th>Missions</th>
+        <th><i class="fa fa-inbox fa-lg"></i> Missions </th>
       </tr>
     </thead>
     <tbody>
-      <tr class="new-mission">
-        <td> new mission </td>
-      </tr>
-      <% missions.each do |mission| %>
       <tr class="mission">
-        <td><%= mission.summary %></td>
+	<td>&nbsp&nbsp<i class="fa fa-folder-o fa-lg"></i> 研究関連 </td>
       </tr>
-      <% end %>
+      <tr class="mission">
+	<td>&nbsp&nbsp<i class="fa fa-folder-o fa-lg"></i> 講義 </td>
+      </tr>
+      <tr class="mission">
+	<td>&nbsp&nbsp<i class="fa fa-folder-o fa-lg"></i> 幹事 </td>
+      </tr>
+      <tr class="mission">
+	<td>&nbsp&nbsp<i class="fa fa-folder-o fa-lg"></i> 研究学会 </td>
+      </tr>
     </tbody>
   </table>
 </div>
