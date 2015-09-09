@@ -193,10 +193,8 @@ createPopover = (clickedClam) ->
   event_name = getEventOfRelatedClam(parent_id)[0].summary
 
   content = """
-    このメールの再利用元メールは<br>
-    「#{event_name}」<br>
-    という名前のタスクと関連しています．<br>
-    このメールも同様のタスクと関連付けてはどうでしょうか．<br>
+    「#{event_name}」というタスクを<br>
+    登録してはどうでしょうか？<br>
     <div align="right"><a href="#">今後表示しない</a></div>
   """
 
