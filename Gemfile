@@ -59,3 +59,4 @@ gem "awesome_nested_set"
 
 # For generation API document automatically
 gem "autodoc", group: :test
+gem "factory_girl_rails", group: :test
