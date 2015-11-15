@@ -40,7 +40,7 @@ class ClamsController < ApplicationController
       end
     end
 
-    create_reuse_info(params[:clam][:parent_id], Clam.last.id)
+    create_reuse_info(params[:clam][:parent_id], Clam.last.id) if params[:clam][:parent_id].present?
   end
 
   # PATCH/PUT /clams/1
