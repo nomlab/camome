@@ -27,10 +27,10 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.json
   def show
-    @clams = Event.find(params[:id]).clams
+    @clams = @event.clams
     respond_to do |format|
       format.html
-      format.json {render json: Event.all.map(&:to_event)}
+      format.json {render json: @event}
     end
   end
 
