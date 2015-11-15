@@ -25,7 +25,7 @@ fullCalendar = ->
         $('#create-event-modal #event-dtend').val(moment(date).format("YYYY/MM/DD H:mm"))
         $('#create-event-modal #event-summary').val(clam.summary)
         $('#create-event-modal #event-description').val(clam.options.description)
-        $('.mail').append("<a href='#' id='mail' data-id='#{clam.id}'>#{clam.summary}</a>")
+        $('.mail').empty().append("<a href='#' id='mail' data-id='#{clam.id}'>#{clam.summary}</a>")
         $('#create-event-modal').modal('show')
 
 getClam = (id) ->
