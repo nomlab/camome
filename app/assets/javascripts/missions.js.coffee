@@ -18,15 +18,67 @@ fullCalendar = ->
       (calEvent) ->
         document.location = "../events/#{calEvent.id}"
 
-    drop:
-      (date) ->
-        clam  = getClam($(this).data('clam').id)
-        $('#create-event-modal #event-dtstart').val(moment(date).format("YYYY/MM/DD H:mm"))
-        $('#create-event-modal #event-dtend').val(moment(date).format("YYYY/MM/DD H:mm"))
-        $('#create-event-modal #event-summary').val(clam.summary)
-        $('#create-event-modal #event-description').val(clam.options.description)
-        $('.mail').empty().append("<a href='#' id='mail' data-id='#{clam.id}'>#{clam.summary}</a>")
-        $('#create-event-modal').modal('show')
+    dayRender: (date, cell) ->
+      cell.droppable
+        tolerance: 'pointer'
+        drop: (ev, ui) ->
+          clam  = getClam(ui.draggable.data('clam').id)
+          $('#create-event-modal #event-dtstart').val(moment(date).format("YYYY/MM/DD H:mm"))
+          $('#create-event-modal #event-dtend').val(moment(date).format("YYYY/MM/DD H:mm"))
+          $('#create-event-modal #event-summary').val(clam.summary)
+          $('#create-event-modal #event-description').val(clam.options.description)
+          $('.mail').empty().append("<a href='#' id='mail' data-id='#{clam.id}'>#{clam.summary}</a>")
+          $('#create-event-modal').modal('show')
+
+    eventRender: (event, element) ->
+      element.droppable
+        tolerance: 'pointer'
+        activeClass: 'ui-state-focus'
+        hoverClass: 'ui-state-hover'
+        over: ->
+          $(".fc-day").droppable("disable")
+        out: ->
+          $(".fc-day").droppable("enable")
+        drop: (ev, ui) ->
+          clamId = ui.draggable.data("clam").id
+          eventId = event.id
+          clamSummary = ui.draggable.data("clam").summary
+          eventSummary = event.title
+          data = {
+            clam_id: clamId
+            event: getEvent(eventId)
+          }
+
+          patchEvent(eventId, data).done( ->
+            alert("「#{eventSummary}」に「#{clamSummary}」を関連付けました．")
+          ).fail ->
+            alert("関連付けに失敗しました．")
+
+          $(".fc-day").droppable("enable")
+
+getEvent = (id) ->
+  res = $ . ajax
+    type: 'GET'
+    url: "/events/#{id}.json"
+    dataType: "json"
+    async: false
+    error: ->
+      alert("error")
+  res.responseJSON
+
+patchEvent = (id, data) ->
+  dfd = $.Deferred()
+  $ . ajax
+    type: "PATCH"
+    url: "/events/#{id}"
+    data: data
+    dataType: "json"
+    timeout: 9000
+    success: ->
+      dfd.resolve()
+    error: ->
+      dfd.reject()
+  dfd.promise()
 
 getClam = (id) ->
   res = $ . ajax
