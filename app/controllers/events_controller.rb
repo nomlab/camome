@@ -28,10 +28,6 @@ class EventsController < ApplicationController
   # GET /events/1.json
   def show
     @clams = @event.clams
-    respond_to do |format|
-      format.html
-      format.json {render json: @event}
-    end
   end
 
   # GET /events/new
