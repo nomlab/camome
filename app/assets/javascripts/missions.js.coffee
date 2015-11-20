@@ -14,6 +14,13 @@ fullCalendar = ->
       day: 'HH:mm'
     events: '/events.json'
 
+    dayClick:
+      (date) ->
+        $('#create-event-modal').find("input, textarea").val('')
+        $('#create-event-modal #event-dtstart').val(moment(date).format("YYYY/MM/DD H:mm"))
+        $('#create-event-modal #event-dtend').val(moment(date).format("YYYY/MM/DD H:mm"))
+        $('#create-event-modal').modal("show")
+
     eventClick:
       (calEvent) ->
         document.location = "../events/#{calEvent.id}"
