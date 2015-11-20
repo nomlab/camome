@@ -152,8 +152,8 @@ showBodyColumns = (clickedClam) ->
     return if clamBodyId == clickedClam.attr("data-id")
 
   clam  = getClam(clickedClam.attr("data-id"))
-  parent_clam = getParentClam(clam.id)
-  events = getEventOfRelatedClam(clam.id)
+  parent_clam = clam.reuse_parent
+  events = clam.events
 
   reuse_parent =
     if parent_clam?
@@ -196,26 +196,6 @@ showBodyColumns = (clickedClam) ->
   $(".draggable-clam[data-id=#{clam.id}]").after(clamBody)
   $(".clam-body > td > div").hide().slideDown(200)
 
-getParentClam = (id) ->
-  res = $ . ajax
-    type: 'GET'
-    url: "/clams/#{id}/reuse_parent.json"
-    dataType: "json"
-    async: false
-    error: ->
-      alert("error")
-  res.responseJSON
-
-getEventOfRelatedClam = (id) ->
-  res = $ . ajax
-    type: 'GET'
-    url: "/clams/#{id}/events.json"
-    dataType: "json"
-    async: false
-    error: ->
-      alert("error")
-  res.responseJSON
-
 changeFixed = (clickedClam) ->
   clickedClam.removeClass("fixed")
   clickedClam.css("font-weight","normal")
@@ -241,8 +221,8 @@ showPopover = (clickedClam) ->
 
 createPopover = (clickedClam) ->
   id = clickedClam.attr("data-id")
-  parent_id = getParentClam(id).id
-  event_name = getEventOfRelatedClam(parent_id)[0].summary
+  parent_id = getClam(id).reuse_parent.id
+  event_name = getClam(parent_id).events[0].summary
 
   content = """
     「#{event_name}」というタスクを<br>

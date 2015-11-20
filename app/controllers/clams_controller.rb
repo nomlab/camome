@@ -67,23 +67,6 @@ class ClamsController < ApplicationController
     end
   end
 
-  # GET /clams/1/reuse_parent.json
-  def get_parent_clam
-    parent = Clam.find(params[:id]).reuse_parent
-    respond_to do |format|
-      format.json { render json: parent }
-    end
-  end
-
-  # GET /clams/1/events.json
-  def get_related_events
-    parent = Clam.find(params[:id]).events
-    respond_to do |format|
-      format.json { render json: parent }
-    end
-  end
-
-
   private
     def create_reuse_info(parent_id, child_id)
       reuse_info = ReuseInfo.new(parent_id: parent_id, child_id: child_id)
