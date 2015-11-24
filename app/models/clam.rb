@@ -5,10 +5,10 @@ class Clam < ActiveRecord::Base
   has_many :clam_events
   has_many :events, through: :clam_events
   # for reuse info
-  has_one :parent_relation, foreign_key: 'child_id', class_name: 'ReuseRelationship'
-  has_many :child_relations, foreign_key: 'parent_id', class_name: 'ReuseRelationship'
-  has_one :reuse_parent, through: :parent_relation, source: :parent
-  has_many :reuse_children, through: :child_relations, source: :child
+  has_one :source_relation, foreign_key: 'destination_id', class_name: 'ReuseRelationship'
+  has_many :destination_relations, foreign_key: 'source_id', class_name: 'ReuseRelationship'
+  has_one :reuse_source, through: :source_relation, source: :source
+  has_many :reuse_destinations, through: :destination_relations, source: :destination
 
   def self.serialized_attr_accessor(*args)
     args.each do |method_name|
@@ -34,7 +34,7 @@ class Clam < ActiveRecord::Base
 
   # return clams that has been reused, or has been created by reusing
   def self.narrow_by_reuseinfo
-    r_clams = Clam.joins(:parent_relation).uniq + Clam.joins(:child_relations).uniq
+    r_clams = Clam.joins(:source_relation).uniq + Clam.joins(:destination_relations).uniq
     Clam.where(id: r_clams.map{|r_clam| r_clam.id})
   end
 

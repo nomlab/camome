@@ -159,12 +159,12 @@ showBodyColumns = (clickedClam) ->
     return if clamBodyId == clickedClam.attr("data-id")
 
   clam  = getClam(clickedClam.attr("data-id"))
-  parent_clam = clam.reuse_parent
+  source_clam = clam.reuse_source
   events = clam.events
 
-  reuse_parent =
-    if parent_clam?
-      "再利用元のメール：<a href='#' class='show-reuse-parent' parent-id='#{parent_clam.id}'>#{parent_clam.summary}</a>"
+  reuse_source =
+    if source_clam?
+      "再利用元のメール：<a href='#' class='show-reuse-source' source-id='#{source_clam.id}'>#{source_clam.summary}</a>"
     else ""
 
   related_tasks =
@@ -191,7 +191,7 @@ showBodyColumns = (clickedClam) ->
           </pre>
         </div>
         <div>
-          #{reuse_parent}
+          #{reuse_source}
         </div>
         <div>
           #{related_tasks}
@@ -228,8 +228,8 @@ showPopover = (clickedClam) ->
 
 createPopover = (clickedClam) ->
   id = clickedClam.attr("data-id")
-  parent_id = getClam(id).reuse_parent.id
-  event_name = getClam(parent_id).events[0].summary
+  source_id = getClam(id).reuse_source.id
+  event_name = getClam(source_id).events[0].summary
 
   content = """
     「#{event_name}」というタスクを<br>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151124041444) do
+ActiveRecord::Schema.define(version: 20151124043140) do
 
   create_table "auth_infos", force: true do |t|
     t.string   "login_name"
@@ -120,8 +120,8 @@ ActiveRecord::Schema.define(version: 20151124041444) do
   add_index "resources", ["type"], name: "index_resources_on_type"
 
   create_table "reuse_relationships", force: true do |t|
-    t.integer  "parent_id"
-    t.integer  "child_id"
+    t.integer  "source_id"
+    t.integer  "destination_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

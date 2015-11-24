@@ -40,7 +40,7 @@ class ClamsController < ApplicationController
       end
     end
 
-    create_reuse_relationship(params[:clam][:parent_id], Clam.last.id) if params[:clam][:parent_id].present?
+    create_reuse_relationship(params[:clam][:source_id], Clam.last.id) if params[:clam][:source_id].present?
   end
 
   # PATCH/PUT /clams/1
@@ -68,8 +68,8 @@ class ClamsController < ApplicationController
   end
 
   private
-    def create_reuse_relationship(parent_id, child_id)
-      reuse_relationship = ReuseRelationship.new(parent_id: parent_id, child_id: child_id)
+    def create_reuse_relationship(source_id, destination_id)
+      reuse_relationship = ReuseRelationship.new(source_id: source_id, destination_id: destination_id)
       reuse_relationship.save
     end
 

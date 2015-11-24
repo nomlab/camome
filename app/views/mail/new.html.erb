@@ -35,7 +35,7 @@
     <%= f.hidden_field :uid, value: create_uid(@mail.uid) %>
     <%= f.hidden_field :content_type %>
     <%= f.hidden_field :date, value: DateTime.now %>
-    <%= f.hidden_field :parent_id, value: @parent_id %>
+    <%= f.hidden_field :source_id, value: @source_id %>
   </table>
   <div class="actions">
     <%= f.submit '送信', class: 'btn btn-primary' %>
