@@ -40,7 +40,7 @@ class ClamsController < ApplicationController
       end
     end
 
-    create_reuse_info(params[:clam][:parent_id], Clam.last.id) if params[:clam][:parent_id].present?
+    create_reuse_relationship(params[:clam][:parent_id], Clam.last.id) if params[:clam][:parent_id].present?
   end
 
   # PATCH/PUT /clams/1
@@ -68,9 +68,9 @@ class ClamsController < ApplicationController
   end
 
   private
-    def create_reuse_info(parent_id, child_id)
-      reuse_info = ReuseInfo.new(parent_id: parent_id, child_id: child_id)
-      reuse_info.save
+    def create_reuse_relationship(parent_id, child_id)
+      reuse_relationship = ReuseRelationship.new(parent_id: parent_id, child_id: child_id)
+      reuse_relationship.save
     end
 
     # Use callbacks to share common setup or constraints between actions.

@@ -1,4 +1,4 @@
-class ReuseInfo < ActiveRecord::Base
+class ReuseRelationship < ActiveRecord::Base
   belongs_to :parent, class_name: 'Clam'
   belongs_to :child, class_name: 'Clam'
 end
