@@ -21,9 +21,10 @@ fullCalendar = ->
         $('#create-event-modal #event-dtend').val(moment(date).format("YYYY/MM/DD H:mm"))
         $('#create-event-modal').modal("show")
 
-    eventClick:
-      (calEvent) ->
-        document.location = "../events/#{calEvent.id}"
+    eventClick: (calEvent) ->
+      $(".fc-event[event-id!=#{calEvent.id}]").popover('destroy')
+      createEventPopover(calEvent)
+      $(".fc-event[event-id=#{calEvent.id}]").popover('toggle')
 
     dayRender: (date, cell) ->
       cell.droppable
@@ -38,6 +39,7 @@ fullCalendar = ->
           $('#create-event-modal').modal('show')
 
     eventRender: (event, element) ->
+      element.attr("event-id", event.id)
       element.droppable
         tolerance: 'pointer'
         activeClass: 'ui-state-focus'
@@ -222,11 +224,11 @@ changeFixed = (clickedClam) ->
     error: ->
       alert("error")
 
-showPopover = (clickedClam) ->
-  createPopover(clickedClam)
+showClamPopover = (clickedClam) ->
+  createClamPopover(clickedClam)
   clickedClam.find(".suggest-icon").focus()
 
-createPopover = (clickedClam) ->
+createClamPopover = (clickedClam) ->
   id = clickedClam.attr("data-id")
   source_id = getClam(id).reuse_source.id
   event_name = getClam(source_id).events[0].summary
@@ -243,6 +245,32 @@ createPopover = (clickedClam) ->
     placement: 'bottom'
     content: content
   })
+
+createEventPopover = (clickedEvent) ->
+  ev = getEvent(clickedEvent.id)
+
+  related_clams =
+    if ev.clams.length
+      buf = "<br>関連するメール:<br>"
+      for clam in ev.clams
+        buf += "<a href='javascript:void(0)' related-clam-id='#{clam.id}'>#{clam.summary}</a><br>"
+      buf
+    else ""
+
+  content = """
+    #{clickedEvent.start.format('YYYY/MM/DD H:mm')} 〜 #{clickedEvent.end.format('YYYY/MM/DD H:mm')}<br>
+    #{related_clams}
+    <div align="right"><a href='/events/#{clickedEvent.id}'>詳細</a></div>
+  """
+
+  $(".fc-event[event-id=#{clickedEvent.id}]").popover
+    html: 'true'
+    container: 'body'
+    trigger: 'manual'
+    placement: 'bottom'
+    title: clickedEvent.title
+    content: content
+
 
 changeRelatedEventColor = (eventId) ->
   event = $('#calendar').fullCalendar('clientEvents', eventId)[0]
@@ -267,7 +295,7 @@ ready = ->
     showBodyColumns(clam)
     if clam.hasClass("fixed")
       changeFixed(clam)
-    showPopover(clam) if clam.find('.suggest-icon').size()
+    showClamPopover(clam) if clam.find('.suggest-icon').size()
   $(this).on 'click','.show-related-task', ->
     $('.calendar-icon').trigger('click')
     changeRelatedEventColor($(this).attr('task-id'))
