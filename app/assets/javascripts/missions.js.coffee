@@ -246,6 +246,12 @@ createClamPopover = (clickedClam) ->
     content: content
   })
 
+showEventPopover = (eventId) ->
+  $(".fc-event[event-id=#{eventId}]").ready ->
+    event = $('#calendar').fullCalendar('clientEvents', eventId)[0]
+    $('#calendar').fullCalendar('gotoDate', event.start)
+    $(".fc-event[event-id=#{eventId}]").click()
+
 createEventPopover = (clickedEvent) ->
   ev = getEvent(clickedEvent.id)
 
@@ -270,16 +276,6 @@ createEventPopover = (clickedEvent) ->
     placement: 'bottom'
     title: clickedEvent.title
     content: content
-
-
-changeRelatedEventColor = (eventId) ->
-  event = $('#calendar').fullCalendar('clientEvents', eventId)[0]
-  event.color = "#ffaaaa"
-  $('#calendar').fullCalendar('refetchEvents')
-  $('#calendar').fullCalendar('gotoDate', event.start)
-  setTimeout ->
-    $('#calendar').fullCalendar('updateEvent', event)
-  , 200
 
 scrollClamsTable = (clamId) ->
   $clamsTable = $('.clams-table .fixed-table-body')
@@ -310,7 +306,7 @@ ready = ->
     showClamPopover(clam) if clam.find('.suggest-icon').size()
   $(this).on 'click','.show-related-task', ->
     $('.calendar-icon').trigger('click')
-    changeRelatedEventColor($(this).attr('task-id'))
+    showEventPopover($(this).attr('task-id'))
   $(this).on 'click', 'a[related-clam-id]', ->
     scrollClamsTable($(this).attr('related-clam-id'))
 
