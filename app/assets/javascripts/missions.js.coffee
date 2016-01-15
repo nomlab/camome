@@ -22,7 +22,6 @@ fullCalendar = ->
         $('#create-event-modal').modal("show")
 
     eventClick: (calEvent) ->
-      $(".fc-event[event-id!=#{calEvent.id}]").popover('destroy')
       createEventPopover(calEvent)
       $(".fc-event[event-id=#{calEvent.id}]").popover('toggle')
 
@@ -58,9 +57,10 @@ fullCalendar = ->
             event: getEvent(eventId)
           }
 
-          patchEvent(eventId, data).done( ->
+          patchEvent(eventId, data)
+          .done ->
             alert("「#{eventSummary}」に「#{clamSummary}」を関連付けました．")
-          ).fail ->
+          .fail ->
             alert("関連付けに失敗しました．")
 
           $(".fc-day").droppable("enable")
@@ -247,10 +247,11 @@ createClamPopover = (clickedClam) ->
   })
 
 showEventPopover = (eventId) ->
-  $(".fc-event[event-id=#{eventId}]").ready ->
+  $(".fc-event").onReady ->
     event = $('#calendar').fullCalendar('clientEvents', eventId)[0]
     $('#calendar').fullCalendar('gotoDate', event.start)
-    $(".fc-event[event-id=#{eventId}]").click()
+    $(".fc-event[event-id=#{eventId}]").onReady ->
+      $(".fc-event[event-id=#{eventId}]").click()
 
 createEventPopover = (clickedEvent) ->
   ev = getEvent(clickedEvent.id)
@@ -269,20 +270,26 @@ createEventPopover = (clickedEvent) ->
     <div align="right"><a href='/events/#{clickedEvent.id}'>詳細</a></div>
   """
 
-  $(".fc-event[event-id=#{clickedEvent.id}]").popover
+  $(".fc-event[event-id=#{clickedEvent.id}]")
+  .popover
     html: 'true'
     container: 'body'
     trigger: 'manual'
     placement: 'bottom'
     title: clickedEvent.title
     content: content
+  .on 'show.bs.popover', ->
+    $('.popover').remove()
+    # $(".fc-event").not(this).popover('destroy')
+  .on 'hidden.bs.popover', ->
+    $(this).popover('destroy')
 
 scrollClamsTable = (clamId) ->
   $clamsTable = $('.clams-table .fixed-table-body')
   $clam = $clamsTable.find("[data-id=#{clamId}]")
 
   $clam.find(".show-clam").click()
-  $clamsTable.find(".clam-body").ready ->
+  $clamsTable.find(".clam-body").onReady ->
     clamPosition = $clam.offset().top
     tableTop = $clamsTable.find("table tbody").offset().top
     $clamsTable.animate
@@ -312,3 +319,24 @@ ready = ->
 
 $(document).ready(ready)
 $(document).on('page:load', ready)
+
+$.fn.extend
+  # Add handler which is called when the element is loaded.
+  # This is like "$(document).ready", but this can be used with selecter.
+  # Reference: https://github.com/mach3/js-jquery-onready
+  onReady: (func, delay = 100, limit = 5000) ->
+    s = @selector
+    start = (new Date).getTime()
+
+    progress = ->
+      e = $(s)
+      if e.length
+        func.apply(e)
+        return
+      if (new Date).getTime() - start > limit
+        return
+      setTimeout(progress, delay)
+      return
+
+    progress()
+    return
