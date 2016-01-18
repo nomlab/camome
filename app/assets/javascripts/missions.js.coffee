@@ -229,13 +229,14 @@ showClamPopover = (clickedClam) ->
   clickedClam.find(".suggest-icon").focus()
 
 createClamPopover = (clickedClam) ->
-  id = clickedClam.attr("data-id")
-  source_id = getClam(id).reuse_source.id
-  event_name = getClam(source_id).events[0].summary
+  clamId = clickedClam.attr("data-id")
+  source_clam_id = getClam(clamId).reuse_source.id
+  source_event = getClam(source_clam_id).events[0]
 
   content = """
-    「#{event_name}」というタスクを<br>
+    「#{source_event.summary}」というタスクを<br>
     登録してはどうでしょうか？<br>
+    <div align="right"><a href='javascript:void(0)' clam-id='#{clamId}' source-event-id='#{source_event.id}'>登録する</a>
     <div align="right"><a href="#">今後表示しない</a></div>
   """
 
@@ -295,6 +296,20 @@ scrollClamsTable = (clamId) ->
     $clamsTable.animate
       scrollTop: clamPosition - tableTop
 
+showEventModal = (clamId,sourceEventId) ->
+  clam = getClam(clamId)
+  sourceEvent  = getEvent(sourceEventId)
+  year = new Date().getFullYear()
+  dtstart = new Date(sourceEvent.dtstart).setFullYear(year)
+  dtend = new Date(sourceEvent.dtend).setFullYear(year)
+
+  $('#create-event-modal #event-dtstart').val(moment(dtstart).format("YYYY/MM/DD H:mm"))
+  $('#create-event-modal #event-dtend').val(moment(dtend).format("YYYY/MM/DD H:mm"))
+  $('#create-event-modal #event-summary').val(sourceEvent.summary)
+  $('#create-event-modal #event-description').val(sourceEvent.clams[0].options.description)
+  $('.mail').empty().append("<a href='#' id='mail' data-id='#{clam.id}'>#{clam.summary}</a>")
+  $('#create-event-modal').modal('show')
+
 
 ready = ->
   initDraggableClam()
@@ -316,6 +331,8 @@ ready = ->
     showEventPopover($(this).attr('task-id'))
   $(this).on 'click', 'a[related-clam-id]', ->
     scrollClamsTable($(this).attr('related-clam-id'))
+  $(this).on 'click', 'a[source-event-id]', ->
+    showEventModal($(this).attr('clam-id'),$(this).attr('source-event-id'))
 
 $(document).ready(ready)
 $(document).on('page:load', ready)
