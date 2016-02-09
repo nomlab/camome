@@ -88,6 +88,14 @@ class EventsController < ApplicationController
     end
   end
 
+  # GET /events/1/clams.json
+  def get_related_clams
+    clams = Event.find(params[:id]).clams
+    respond_to do |format|
+      format.json { render json: clams }
+    end
+  end
+
   def ajax_create_event_from_old_event
     event = params[:event]== "nil" ? nil : params[:event] unless params[:event].nil?
     summary = event["summary"]
@@ -104,11 +112,7 @@ class EventsController < ApplicationController
     event.save
 
     respond_to do |format|
-      format.html {
-        flash[:success] = 'Event was successfully created.'
-        redirect_to event
-      }
-      format.json { render json: recurrence }
+      format.json { render json: event }
     end
   end
 

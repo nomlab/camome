@@ -35,22 +35,19 @@ fullCalendar = ->
         dtstart = moment(dtstart).hour(moment(origin_dtstart).hour())
         dtstart = moment(dtstart).minute(moment(origin_dtstart).minute())
         dtend = moment(dtstart).add(duration,'seconds')
+        origin_event_id = $(this).data('event').id
         data = {
           event:
             summary: $(this).data('event').title
             dtstart: new Date(dtstart)
             dtend: new Date(dtend)
-            origin_event_id: $(this).data('event').id
+            origin_event_id: origin_event_id
         }
 
-        $ . ajax
-          type: 'POST'
-          url: '/events/ajax_create_event_from_old_event'
-          data: data
-          timeout: 9000
-          success: ->
-          error: ->
-            alert "error"
+        event = createEventFromOldEvent(data)
+        clam = getClamRelatedEvent(origin_event_id)
+        if (clam.length > 0)
+          displayNoticeIcon(clam[0], event)
 
     eventAfterAllRender:
       (view) ->
@@ -58,6 +55,46 @@ fullCalendar = ->
         scrollOldEvents(target_id)
         $('#calendar').droppable
           tolerance: 'pointer'
+
+displayNoticeIcon = (clam, event) ->
+  $(".calendar-header").prepend("<i class='fa fa-bell fa-2x notice-icon'></i>")
+  setInterval (->
+    $('.notice-icon').fadeOut(500).fadeIn(500)
+  ), 1000
+
+  $(".notice-icon").click ->
+    content = """
+      「#{event['summary']}」に関して<br>
+      メール「#{clam['summary']}」を送信してはどうですか？<br>
+      <a href="/mail/new?clam_id=#{clam['id']}">送信する</a>
+    """
+    $(this).popover({
+      html: 'true'
+      placement: 'left'
+      content: content
+     })
+
+
+getClamRelatedEvent = (id) ->
+  res = $ . ajax
+    type: 'GET'
+    url: "/events/#{id}/clams"
+    dataType: "json"
+    async: false
+    error: ->
+      alert("error")
+  res.responseJSON
+
+createEventFromOldEvent = (data) ->
+  res = $ . ajax
+    type: 'POST'
+    url: '/events/ajax_create_event_from_old_event'
+    data: data
+    async: false
+    timeout: 9000
+    error: ->
+      alert "error"
+  res.responseJSON
 
 scrollOldEvents = (target)->
   current_top = $('#external-events').scrollTop()
@@ -129,15 +166,18 @@ ready = ->
 
   $('.open-side-menu').click ->
     if ($('.side-menu.calendar').is(':visible') == true)
+      # $('.side-menu.calendar').hide(200)
+      # $("#calendar").css('width','100%')
       $('.side-menu.calendar').hide(200, ->
         $('#calendar').css('width','100%')
         )
     else
-      $('.side-menu.calendar').show(200, ->
-        view = $('#calendar').fullCalendar('getView')
-        target_id = "#start" + view.intervalStart.clone().subtract(1,'years').format("YYYYMM")
-        scrollOldEvents(target_id)
-        )
+      $('.side-menu.calendar').show(200)
+      # $('.side-menu.calendar').show(200, ->
+      #   view = $('#calendar').fullCalendar('getView')
+      #   target_id = "#start" + view.intervalStart.clone().subtract(1,'years').format("YYYYMM")
+      #   scrollOldEvents(target_id)
+      #   )
       $('#calendar').css('width','80%')
 
   $('#eventStartTime').datetimepicker
