@@ -52,7 +52,8 @@ fullCalendar = ->
     eventAfterAllRender:
       (view) ->
         target_id = "#start" + view.intervalStart.clone().subtract(1,'years').format("YYYYMM")
-        scrollOldEvents(target_id)
+        if $(target_id).length
+          scrollOldEvents(target_id)
         $('#calendar').droppable
           tolerance: 'pointer'
 
@@ -166,18 +167,16 @@ ready = ->
 
   $('.open-side-menu').click ->
     if ($('.side-menu.calendar').is(':visible') == true)
-      # $('.side-menu.calendar').hide(200)
-      # $("#calendar").css('width','100%')
       $('.side-menu.calendar').hide(200, ->
         $('#calendar').css('width','100%')
         )
     else
-      $('.side-menu.calendar').show(200)
-      # $('.side-menu.calendar').show(200, ->
-      #   view = $('#calendar').fullCalendar('getView')
-      #   target_id = "#start" + view.intervalStart.clone().subtract(1,'years').format("YYYYMM")
-      #   scrollOldEvents(target_id)
-      #   )
+      $('.side-menu.calendar').show(200, ->
+        view = $('#calendar').fullCalendar('getView')
+        target_id = "#start" + view.intervalStart.clone().subtract(1,'years').format("YYYYMM")
+        if $(target_id).length
+          scrollOldEvents(target_id)
+        )
       $('#calendar').css('width','80%')
 
   $('#eventStartTime').datetimepicker
