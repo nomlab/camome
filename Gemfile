@@ -56,3 +56,7 @@ gem "nokogiri"
 # For mission nested set
 # https://github.com/collectiveidea/awesome_nested_set
 gem "awesome_nested_set"
+
+# For generation API document automatically
+gem "autodoc", group: :test
+gem "factory_girl_rails", group: :test

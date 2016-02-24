@@ -28,6 +28,10 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
     arel (5.0.1.20140414130214)
+    autodoc (0.5.2)
+      actionpack
+      activesupport (>= 3.0.0)
+      rspec
     awesome_nested_set (3.0.2)
       activerecord (>= 4.0.0, < 5)
     bootstrap3-datetimepicker-rails (4.0.0)
@@ -44,6 +48,11 @@ GEM
     diff-lcs (1.2.5)
     erubis (2.7.0)
     execjs (2.2.2)
+    factory_girl (4.5.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.5.0)
+      factory_girl (~> 4.5.0)
+      railties (>= 3.0.0)
     fullcalendar-rails (2.2.2.0)
       jquery-rails (>= 3.1.1, < 5.0.0)
       momentjs-rails (~> 2.8, >= 2.8.3)
@@ -97,6 +106,10 @@ GEM
     rdoc (4.1.2)
       json (~> 1.4)
     ref (1.0.5)
+    rspec (3.1.0)
+      rspec-core (~> 3.1.0)
+      rspec-expectations (~> 3.1.0)
+      rspec-mocks (~> 3.1.0)
     rspec-core (3.1.7)
       rspec-support (~> 3.1.0)
     rspec-expectations (3.1.2)
@@ -156,9 +169,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  autodoc
   awesome_nested_set
   bootstrap3-datetimepicker-rails
   coffee-rails (~> 4.0.0)
+  factory_girl_rails
   fullcalendar-rails
   icalendar
   jbuilder (~> 2.0)
