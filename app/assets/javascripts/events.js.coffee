@@ -162,5 +162,31 @@ ready = ->
 
   $('#myTab a:last').tab('show')
 
+  vm =
+    optionValues: [
+      "Weekly"
+      "Monthly"
+      "Yearly"
+    ]
+    optionNum: [1..30]
+    selectedOptionValue : ko.observable("Weekly")
+    repeatChecked : ko.observable(false)
+
+  vm.repeatByWeek = ko.computed((->
+    vm.selectedOptionValue() == "Weekly"
+  ), vm)
+  vm.repeatByMonth = ko.computed((->
+    vm.selectedOptionValue() == "Monthly"
+  ), vm)
+  vm.repeatByYear = ko.computed((->
+    vm.selectedOptionValue() == "Yearly"
+  ), vm)
+  ko.computed((->
+    if vm.repeatChecked()
+      $('#repeatSettings').modal()
+  ), vm)
+
+  ko.applyBindings vm
+
 $(document).ready(ready)
 $(document).on('page:load', ready)

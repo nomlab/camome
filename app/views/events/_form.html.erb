@@ -63,6 +63,112 @@
       </div>
     </div>
   </div>
+
+  <div class="modal fade" id="repeatSettings" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content modal-repeat">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title"><b>Repeat</b></h4>
+        </div>
+        <div class="modal-body">
+          <table align="center">
+            <tbody>
+              <tr>
+                <th class="form-th">
+                  Repeats:
+                </th>
+                <td>
+                  <select data-bind="options: optionValues, value: selectedOptionValue" class="repeat-type"></select>
+                </td>
+              </tr>
+              <tr data-bind="visible: repeatByWeek">
+                <th class="form-th">
+                  Repeat every:
+                </th>
+                <td>
+                  <select data-bind="options: optionNum"></select>
+                  weeks
+                </td>
+              </tr>
+              <tr data-bind="visible: repeatByWeek">
+                <th class="form-th">
+                  Repeat on:
+                </th>
+                <td>
+                  <input type="checkbox" name="wday" value="1">S
+                  <input type="checkbox" name="wday" value="2">M
+                  <input type="checkbox" name="wday" value="3">T
+                  <input type="checkbox" name="wday" value="4">W
+                  <input type="checkbox" name="wday" value="5">T
+                  <input type="checkbox" name="wday" value="6">F
+                  <input type="checkbox" name="wday" value="7">S
+                </td>
+              </tr><!-- /.weekly -->
+              <tr data-bind="visible: repeatByMonth">
+                <th class="form-th">
+                  Repeat every:
+                </th>
+                <td>
+                  <select data-bind="options: optionNum"></select>
+                  months
+                </td>
+              </tr>
+              <tr data-bind="visible: repeatByMonth">
+                <th class="form-th">
+                  Repeat by:
+                </th>
+                <td>
+                  <input type="radio" name="repeat_by_month" value="by_month" checked>day of the month
+                  <input type="radio" name="repeat_by_week" value="by_week">day of the week
+                </td>
+              </tr><!-- /.monthly -->
+              <tr data-bind="visible: repeatByYear">
+                <th class="form-th">
+                  Repeat every:
+                </th>
+                <td>
+                  <select data-bind="options: optionNum"></select>
+                  years
+                </td>
+              </tr><!-- /.yearly -->
+              <tr>
+                <th class="form-th">
+                  Starts on:
+                </th>
+                <td>
+                  <input type="text" value="Select date" disabled="disabled" />
+                </td>
+              </tr>
+              <tr>
+                <th valign="top" class="form-th">
+                  Ends:
+                </th>
+                <td>
+                  <input type="radio" name="never" checked> Never <br>
+                  <input type="radio" name="times"> After <input type="text" size="5" name="tims_input" value="15"> occurrences <br>
+                  <input type="radio" name="until"> On <input type="date" name="until_input">
+                </td>
+              </tr>
+              <tr>
+                <th class="form-th">
+                  Summary:
+                </th>
+                <td>
+                  Summary
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div><!-- /.modal-body -->
+        <div class="modal-footer center">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Done</button>
+          <button type="button" class="btn btn-default"  data-dismiss="modal">Cancel</button>
+        </div><!-- /.modal-footer -->
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
   <%= f.hidden_field :categories %>
   <%= f.hidden_field :status %>
   <%= f.hidden_field :recurrence_id, :value => "Inbox" %>
