@@ -160,6 +160,18 @@ ready = ->
       previous: "fa fa-chevron-left"
       next: "fa fa-chevron-right"
 
+  $('#eventStartDate').datetimepicker
+    format: "YYYY/MM/DD"
+    icons:
+      previous: "fa fa-chevron-left"
+      next: "fa fa-chevron-right"
+
+  $('#eventEndDate').datetimepicker
+    format: "YYYY/MM/DD"
+    icons:
+      previous: "fa fa-chevron-left"
+      next: "fa fa-chevron-right"
+
   $('#myTab a:last').tab('show')
 
   vm =
@@ -171,6 +183,7 @@ ready = ->
     optionNum: [1..30]
     selectedOptionValue : ko.observable("Weekly")
     repeatChecked : ko.observable(false)
+    allDayChecked : ko.observable(false)
 
   vm.repeatByWeek = ko.computed((->
     vm.selectedOptionValue() == "Weekly"
@@ -185,6 +198,9 @@ ready = ->
     if vm.repeatChecked()
       $('#repeatSettings').modal()
   ), vm)
+  vm.notAllDayChecked = ko.computed((->
+    !vm.allDayChecked()
+  ),vm)
 
   ko.applyBindings vm
 

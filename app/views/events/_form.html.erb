@@ -22,8 +22,11 @@
   <div class="field">
     <%= f.text_field :summary, :placeholder => "Untitled event" %>
   </div>
-  <div class="field input-group">
+  <div class="field input-group" data-bind="visible: notAllDayChecked">
     <%= f.text_field :dtstart, id:"eventStartTime" %>  to  <%= f.text_field :dtend, id:"eventEndTime" %>
+  </div>
+  <div class="field input-group" data-bind="visible: allDayChecked">
+    <%= f.text_field :dtstart, id:"eventStartDate" %>  to  <%= f.text_field :dtend, id:"eventEndDate" %>
   </div>
   <div>
     <input type="checkbox" data-bind="checked: allDayChecked"> All day
