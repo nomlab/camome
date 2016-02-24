@@ -11,71 +11,173 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :uid %><br>
-    <%= f.text_area :uid %>
-  </div>
-  <div class="field">
-    <%= f.label :categories %><br>
-    <%= f.text_area :categories %>
-  </div>
-  <div class="field">
-    <%= f.label :description %><br>
-    <%= f.text_area :description %>
-  </div>
-  <div class="field">
-    <%= f.label :location %><br>
-    <%= f.text_area :location %>
-  </div>
-  <div class="field">
-    <%= f.label :status %><br>
-    <%= f.text_area :status %>
-  </div>
-  <div class="field">
-    <%= f.label :summary %><br>
-    <%= f.text_area :summary %>
-  </div>
-  <div class="field">
-    <%= f.label :dtstart %><br>
-    <%= f.datetime_select :dtstart %>
-  </div>
-  <div class="field">
-    <%= f.label :dtend %><br>
-    <%= f.datetime_select :dtend %>
-  </div>
-  <div class="field">
-    <%= f.label :recurrence_id %><br>
-    <%= f.number_field :recurrence_id %>
-  </div>
-  <div class="field">
-    <%= f.label :related_to %><br>
-    <%= f.text_area :related_to %>
-  </div>
-  <div class="field">
-    <%= f.label :exdate %><br>
-    <%= f.datetime_select :exdate %>
-  </div>
-  <div class="field">
-    <%= f.label :rdate %><br>
-    <%= f.datetime_select :rdate %>
-  </div>
-  <div class="field">
-    <%= f.label :created %><br>
-    <%= f.datetime_select :created %>
-  </div>
-  <div class="field">
-    <%= f.label :last_modified %><br>
-    <%= f.datetime_select :last_modified %>
-  </div>
-  <div class="field">
-    <%= f.label :sequence %><br>
-    <%= f.datetime_select :sequence %>
-  </div>
-  <div class="field">
-    <%= f.label :rrule %><br>
-    <%= f.text_field :rrule %>
-  </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= link_to :back, {:class=>"btn btn-default"} do %>
+      <i class="fa fa-arrow-left"></i>
+    <% end %>
+    <%= f.submit "SAVE", class:"btn btn-danger" %>
+    <%= link_to 'Discard', events_path, {:class=>"btn btn-default"} %>
   </div>
+  <hr>
+  <div class="field">
+    <%= f.text_field :summary, :placeholder => "Untitled event" %>
+  </div>
+  <div class="field input-group" data-bind="visible: notAllDayChecked">
+    <%= f.text_field :dtstart, id:"eventStartTime" %>  to  <%= f.text_field :dtend, id:"eventEndTime" %>
+  </div>
+  <div class="field input-group" data-bind="visible: allDayChecked">
+    <%= f.text_field :dtstart, id:"eventStartDate" %>  to  <%= f.text_field :dtend, id:"eventEndDate" %>
+  </div>
+  <div>
+    <input type="checkbox" data-bind="checked: allDayChecked"> All day
+    <input type="checkbox" data-bind="checked: repeatChecked"> Repeat...
+  </div>
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="active" role="presentation">
+      <a aria-controls="detail" data-toggle="tab" href="#detail" id="detail-tab" role="tab">Event details</a>
+    </li>
+  </ul>
+
+  <div class="field form-group">
+    <div class="tab-content">
+      <div class="tab-pane active" id="detail" role="tabpanel">
+        <div class="field">
+          <table>
+            <tbody>
+              <tr>
+                <th class="form-th">
+                  <%= f.label :Where %>
+                </th>
+                <td>
+                  <%= f.text_field :location, :placeholder => "Enter a location" %>
+                </td>
+              </tr>
+              <tr>
+                <th valign="top" class="form-th">
+                  <%= f.label :description %>
+                </th>
+                <td>
+                  <%= f.text_area :description %>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="repeatSettings" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content modal-repeat">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title"><b>Repeat</b></h4>
+        </div>
+        <div class="modal-body">
+          <table align="center">
+            <tbody>
+              <tr>
+                <th class="form-th">
+                  Repeats:
+                </th>
+                <td>
+                  <select data-bind="options: optionValues, value: selectedOptionValue" class="repeat-type"></select>
+                </td>
+              </tr>
+              <tr data-bind="visible: repeatByWeek">
+                <th class="form-th">
+                  Repeat every:
+                </th>
+                <td>
+                  <select data-bind="options: optionNum"></select>
+                  weeks
+                </td>
+              </tr>
+              <tr data-bind="visible: repeatByWeek">
+                <th class="form-th">
+                  Repeat on:
+                </th>
+                <td>
+                  <input type="checkbox" name="wday" value="1">S
+                  <input type="checkbox" name="wday" value="2">M
+                  <input type="checkbox" name="wday" value="3">T
+                  <input type="checkbox" name="wday" value="4">W
+                  <input type="checkbox" name="wday" value="5">T
+                  <input type="checkbox" name="wday" value="6">F
+                  <input type="checkbox" name="wday" value="7">S
+                </td>
+              </tr><!-- /.weekly -->
+              <tr data-bind="visible: repeatByMonth">
+                <th class="form-th">
+                  Repeat every:
+                </th>
+                <td>
+                  <select data-bind="options: optionNum"></select>
+                  months
+                </td>
+              </tr>
+              <tr data-bind="visible: repeatByMonth">
+                <th class="form-th">
+                  Repeat by:
+                </th>
+                <td>
+                  <input type="radio" name="repeat_by_month" value="by_month" checked>day of the month
+                  <input type="radio" name="repeat_by_week" value="by_week">day of the week
+                </td>
+              </tr><!-- /.monthly -->
+              <tr data-bind="visible: repeatByYear">
+                <th class="form-th">
+                  Repeat every:
+                </th>
+                <td>
+                  <select data-bind="options: optionNum"></select>
+                  years
+                </td>
+              </tr><!-- /.yearly -->
+              <tr>
+                <th class="form-th">
+                  Starts on:
+                </th>
+                <td>
+                  <input type="text" value="Select date" disabled="disabled" />
+                </td>
+              </tr>
+              <tr>
+                <th valign="top" class="form-th">
+                  Ends:
+                </th>
+                <td>
+                  <input type="radio" name="never" checked> Never <br>
+                  <input type="radio" name="times"> After <input type="text" size="5" name="tims_input" value="15"> occurrences <br>
+                  <input type="radio" name="until"> On <input type="date" name="until_input">
+                </td>
+              </tr>
+              <tr>
+                <th class="form-th">
+                  Summary:
+                </th>
+                <td>
+                  Summary
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div><!-- /.modal-body -->
+        <div class="modal-footer center">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Done</button>
+          <button type="button" class="btn btn-default"  data-dismiss="modal">Cancel</button>
+        </div><!-- /.modal-footer -->
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <%= f.hidden_field :categories %>
+  <%= f.hidden_field :status %>
+  <%= f.hidden_field :recurrence_id, :value => "Inbox" %>
+  <%= f.hidden_field :related_to %>
+  <%= f.hidden_field :uid %>
+  <%= f.hidden_field :created %>
+  <%= f.hidden_field :last_modified %>
+  <%= f.hidden_field :sequence %>
 <% end %>
