@@ -11,34 +11,57 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :description %><br>
-    <%= f.text_area :description %>
-  </div>
-  <div class="field">
-    <%= f.label :location %><br>
-    <%= f.text_area :location %>
-  </div>
-  <div class="field">
-    <%= f.label :summary %><br>
-    <%= f.text_area :summary %>
-  </div>
-  <div class="field">
-    <%= f.label :dtstart %><br>
-    <%= f.datetime_select :dtstart %>
-  </div>
-  <div class="field">
-    <%= f.label :dtend %><br>
-    <%= f.datetime_select :dtend %>
-  </div>
-  </div>
-  <div class="field">
-  </div>
-  </div>
-  </div>
-  </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= link_to :back, {:class=>"btn btn-default"} do %>
+      <i class="fa fa-arrow-left"></i>
+    <% end %>
+    <%= f.submit "SAVE", class:"btn btn-danger" %>
+    <%= link_to 'Discard', events_path, {:class=>"btn btn-default"} %>
+  </div>
+  <hr>
+  <div class="field">
+    <%= f.text_field :summary, :placeholder => "Untitled event" %>
+  </div>
+  <div class="field input-group">
+    <%= f.text_field :dtstart, id:"eventStartTime" %>  to  <%= f.text_field :dtend, id:"eventEndTime" %>
+  </div>
+  <div>
+    <input type="checkbox" data-bind="checked: allDayChecked"> All day
+    <input type="checkbox" data-bind="checked: repeatChecked"> Repeat...
+  </div>
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="active" role="presentation">
+      <a aria-controls="detail" data-toggle="tab" href="#detail" id="detail-tab" role="tab">Event details</a>
+    </li>
+  </ul>
+
+  <div class="field form-group">
+    <div class="tab-content">
+      <div class="tab-pane active" id="detail" role="tabpanel">
+        <div class="field">
+          <table>
+            <tbody>
+              <tr>
+                <th class="form-th">
+                  <%= f.label :Where %>
+                </th>
+                <td>
+                  <%= f.text_field :location, :placeholder => "Enter a location" %>
+                </td>
+              </tr>
+              <tr>
+                <th valign="top" class="form-th">
+                  <%= f.label :description %>
+                </th>
+                <td>
+                  <%= f.text_area :description %>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
   <%= f.hidden_field :categories %>
   <%= f.hidden_field :status %>
