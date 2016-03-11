@@ -5,32 +5,48 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title">New Event</h4>
       </div>
-      <div class="modal-body">
-        <form id="createEventForm" class="modal-body">
-          <label class="control-label" for="inputSummary">Summary:</label>
-          <div class="controls">
-            <div class="input-group">
-              <input type="text" id="eventSummary" class="form-control">
-            </div>
-          </div>
-          <label class="control-label" for="inputDate">Start:</label>
-          <div class="controls">
-            <div class="input-group">
-              <input type="text" id="eventStartTime" class="form-control">
-            </div>
-          </div>
-          <label class="control-label" for="inputDate">End:</label>
-          <div class="controls">
-            <div class="input-group">
-              <input type="text" id="eventEndTime" class="form-control">
-                    <input type="hidden" id="eventAllDay" />
-            </div>
-          </div>
-        </form>
-      </div>
+      <form id="createEventForm" class="modal-body">
+        <div class="modal-body">
+          <table>
+            <tbody>
+              <tr>
+                <th class="event-form-key">
+                  When:
+                </th>
+                <td class="event-form-val">
+                  <div data-bind="visible: singleDay">
+                    <span data-bind="text: startDate"></span>
+                  </div>
+                  <div data-bind="visible: multiDays">
+                    <span data-bind="text: startDate"></span>〜<span data-bind="text: endDate"></span>
+                  </div>
+                  <input type="hidden" id="eventStartDateHidden" name="eventStartDateHidden" data-bind="value: startDate" class="form-control">
+                  <input type="hidden" id="eventEndDateHidden" name="eventEndDateHidden" data-bind="value: endDate" class="form-control">
+                </td>
+              </tr>
+              <tr>
+                <th class="event-form-key">
+                  What:
+                </th>
+                <td class="event-form-val">
+                  <input type="text" id="eventSummary" class="form-control">
+                </td>
+              </tr>
+              <tr>
+                <th class="event-form-key">
+                  Calendar:
+                </th>
+                <td class="event-form-val">
+                  <select></select>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </form>
       <div class="modal-footer">
-        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
-        <button type="submit" class="btn btn-primary" id="submitButton">Save</button>
+        <button type="submit" class="btn set-left" id="submitButton">Creat event</button>
+        <%= link_to "Edit event »", {:controller => "events", :action => "new"}, {:class => "btn btn-link set-left"} %>
       </div>
     </div>
   </div>
