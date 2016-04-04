@@ -1,7 +1,7 @@
 <%= form_tag '/missions/inbox', :method => 'get', :class => 'search' do %>
   <p class="form-inline" align="right">
     <%= check_box_tag :narrow, true, false, {} %>
-    <span class="checkbox-caption">再利用メール</span>
+    <span class="checkbox-caption">Reused mails only</span>
     <%= text_field_tag :search, nil, class: 'form-control', style: 'width:150px' %>
     <i class="fa fa-search search-icon" onclick="$('.search').submit()"></i>
   </p>
@@ -17,31 +17,12 @@
         <th data-field="icon" class="ct-icon"></th>
       </tr>
     </thead>
-    <tbody>
-      <% if clams.present? %>
-        <% clams.each do |clam| %>
-        <% if clam.fixed == false %>
-          <tr class="draggable-clam fixed"
-              data-id="<%= clam.id %>"
-              data-summary="<%= clam.summary %>">
-        <% else %>
-          <tr class="draggable-clam"
-              data-id="<%= clam.id %>"
-              data-summary="<%= clam.summary %>">
-        <% end %>
-            <td></td>
-            <td class="show-clam">
-	      <% if !clam.fixed %>
-	        <a href="#" class="fa fa-comment-o suggest-icon"></a>
-	      <% end %>
-	      <%= clam.summary %>
-	    </td>
-            <td class="show-clam"><%= clam.originator %></td>
-            <td class="show-clam"><%= process_date(clam.date, clam.date) %></td>
-            <td><%= link_to "", { controller: "mail", action: "new", clam_id: clam.id }, class: "fa fa-repeat" %></td>
-          </tr>
-        <% end %>
-      <% end %>
+    <tbody id="tbody_elements">
+      <%= render partial: "clam_table", locals: {clams: clams} %>
     </tbody>
   </table>
+  <div id="paginator">
+    <%= link_to_next_page clams, 'Next', remote: true, class: 'next-page' %>
+  </div>
+  <div class="pickuped-clam"></div>
 </div>

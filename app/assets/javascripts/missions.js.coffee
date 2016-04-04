@@ -310,6 +310,18 @@ showEventModal = (clamId,sourceEventId) ->
   $('.mail').empty().append("<a href='#' id='mail' data-id='#{clam.id}'>#{clam.summary}</a>")
   $('#create-event-modal').modal('show')
 
+setPaginator = ->
+  $('#paginator').on 'ajax:success', (e, result) ->
+    $(result.tbody_elements).appendTo('#tbody_elements').hide().fadeIn(1000)
+    $('#paginator').html(result.link_to_next_page)
+    initDraggableClam()
+
+  $obj = $('.clams-table .fixed-table-body')
+  $obj.get(0).onscroll = ->
+    scrollPosition = $(this).scrollTop() + $(this).height()
+    scrollHeight = this.scrollHeight
+    if scrollPosition / scrollHeight == 1
+      $('.next-page').click()
 
 ready = ->
   initDraggableClam()
@@ -320,19 +332,21 @@ ready = ->
     displayMissions()
   $('#submit-button').click ->
     submitEvent()
-  $('.show-clam').click ->
+  $(this).on 'click', '.show-clam', ->
     clam = $(this).parent()
     showBodyColumns(clam)
     if clam.hasClass("fixed")
       changeFixed(clam)
     showClamPopover(clam) if clam.find('.suggest-icon').size()
-  $(this).on 'click','.show-related-task', ->
+  $(this).on 'click', '.show-related-task', ->
     $('.calendar-icon').trigger('click')
     showEventPopover($(this).attr('task-id'))
   $(this).on 'click', 'a[related-clam-id]', ->
     scrollClamsTable($(this).attr('related-clam-id'))
   $(this).on 'click', 'a[source-event-id]', ->
-    showEventModal($(this).attr('clam-id'),$(this).attr('source-event-id'))
+    showEventModal($(this).attr('clam-id'), $(this).attr('source-event-id'))
+  # For paginate
+  setPaginator()
 
 $(document).ready(ready)
 $(document).on('page:load', ready)

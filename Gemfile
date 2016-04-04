@@ -63,3 +63,6 @@ gem "factory_girl_rails", group: :test
 
 # Knockoutjs
 gem "knockoutjs-rails"
+
+# For pagenation
+gem "kaminari"
