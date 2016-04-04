@@ -307,6 +307,45 @@ showEventModal = (clamId,sourceEventId) ->
   $('.mail').empty().append("<a href='#' id='mail' data-id='#{clam.id}'>#{clam.summary}</a>")
   $('#create-event-modal').modal('show')
 
+showRelatedClam = (clamId) ->
+  $('.related-clam-field').empty()
+  clam = getClam(clamId)
+  source_clam = clam.reuse_source
+  events = clam.events
+
+  reuse_source =
+    if source_clam?
+      "再利用元のメール：<a href='#' class='show-reuse-source' source-id='#{source_clam.id}'>#{source_clam.summary}</a>"
+    else ""
+
+  related_tasks =
+    if events.length
+      buf = "関連するタスク："
+      for event in events
+        buf += "<a href='#' class='show-related-task' task-id='#{event.id}'>#{event.summary}</a>"
+        buf += ", "
+      buf.slice(0, -2)
+    else ""
+
+  reuse_link = "<a href='/mail/new?clam_id=#{clam.id}' class='btn btn-primary fa fa-repeat'></a>"
+
+  clamBody =
+    """
+    <pre>
+      <table>
+        <tr><th>差出人</th><td>#{clam.options.originator}</td><td>#{reuse_link}</td></tr>
+        <tr><th>件名</th><td>#{clam.summary}</td></tr>
+        <tr><th>宛先</th><td>#{clam.options.recipients}</td></tr>
+        <tr><td colspan='2'>#{clam.options.description}</td></tr>
+      </table>
+      <hr width='90%'>
+      #{reuse_source}
+      #{related_tasks}
+    </pre>
+    """
+
+  $('.related-clam-field').append(clamBody)
+
 setPaginator = ->
   $('#paginator').on 'ajax:success', (e, result) ->
     $(result.tbody_elements).appendTo('#tbody_elements').hide().fadeIn(1000)
@@ -339,7 +378,8 @@ ready = ->
     $('.calendar-icon').trigger('click')
     showEventPopover($(this).attr('task-id'))
   $(this).on 'click', 'a[related-clam-id]', ->
-    scrollClamsTable($(this).attr('related-clam-id'))
+    showRelatedClam($(this).attr('related-clam-id'))
+    $('.related-clam-field').toggle(500)
   $(this).on 'click', 'a[source-event-id]', ->
     showEventModal($(this).attr('clam-id'), $(this).attr('source-event-id'))
   # For paginate
@@ -349,8 +389,8 @@ ready = ->
     $('.fc-event').each ->
       if !$(this).is(e.target) and $(this).has(e.target).length == 0 and $('.popover').has(e.target).length == 0 or $(this).length == 0
         $(this).popover('destroy')
-    if !$('a[related-clam-id]').is(e.target) and $('.pickuped-clam').has(e.target).length == 0
-      $('.pickuped-clam').hide(500)
+    if !$('a[related-clam-id]').is(e.target) and $('.related-clam-field').has(e.target).length == 0
+      $('.related-clam-field').hide(500)
   $(this).on 'click', '.fc-right', ->
     $('.popover').remove()
 
