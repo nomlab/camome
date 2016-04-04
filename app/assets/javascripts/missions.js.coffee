@@ -279,9 +279,6 @@ createEventPopover = (clickedEvent) ->
     placement: 'bottom'
     title: clickedEvent.title
     content: content
-  .on 'show.bs.popover', ->
-    $('.popover').remove()
-    # $(".fc-event").not(this).popover('destroy')
   .on 'hidden.bs.popover', ->
     $(this).popover('destroy')
 
@@ -347,6 +344,15 @@ ready = ->
     showEventModal($(this).attr('clam-id'), $(this).attr('source-event-id'))
   # For paginate
   setPaginator()
+  # Bind click event to body to close a popover by clicking outside
+  $('body').on 'click', (e) ->
+    $('.fc-event').each ->
+      if !$(this).is(e.target) and $(this).has(e.target).length == 0 and $('.popover').has(e.target).length == 0 or $(this).length == 0
+        $(this).popover('destroy')
+    if !$('a[related-clam-id]').is(e.target) and $('.pickuped-clam').has(e.target).length == 0
+      $('.pickuped-clam').hide(500)
+  $(this).on 'click', '.fc-right', ->
+    $('.popover').remove()
 
 $(document).ready(ready)
 $(document).on('page:load', ready)
