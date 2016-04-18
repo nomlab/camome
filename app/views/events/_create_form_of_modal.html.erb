@@ -1,3 +1,4 @@
+<%= form_for @event , :url => {:action => 'new'} do |f| %>
 <div id="createEventModal" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -20,8 +21,8 @@
                   <div data-bind="visible: multiDays">
                     <span data-bind="text: startDate"></span>〜<span data-bind="text: endDate"></span>
                   </div>
-                  <input type="hidden" id="eventStartDateHidden" name="eventStartDateHidden" data-bind="value: startDate" class="form-control">
-                  <input type="hidden" id="eventEndDateHidden" name="eventEndDateHidden" data-bind="value: endDate" class="form-control">
+                  <%= f.hidden_field :dtstart, :id => 'eventStartDateHidden', 'data-bind' => "value: startDate" %>
+                  <%= f.hidden_field :dtend, :id => 'eventEndDateHidden', 'data-bind' => "value: endDate" %>
                 </td>
               </tr>
               <tr>
@@ -29,7 +30,7 @@
                   What:
                 </th>
                 <td class="event-form-val">
-                  <input type="text" id="eventSummary" class="form-control">
+                  <%= f.text_field :summary, :id => 'eventSummary' %>
                 </td>
               </tr>
               <tr>
@@ -46,8 +47,9 @@
       </form>
       <div class="modal-footer">
         <button type="submit" class="btn set-left" id="submitButton">Creat event</button>
-        <%= link_to "Edit event »", {:controller => "events", :action => "new"}, {:class => "btn btn-link set-left"} %>
+        <%= f.submit "Edit event »", {:class => "btn btn-link set-left"} %>
       </div>
     </div>
   </div>
 </div>
+<% end %>

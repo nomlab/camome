@@ -183,7 +183,7 @@ ready = ->
     optionNum: [1..30]
     selectedOptionValue : ko.observable("Weekly")
     repeatChecked : ko.observable(false)
-    allDayChecked : ko.observable(false)
+    allDayChecked : ko.observable(true)
     startDate : ko.observable("")
     endDate : ko.observable("")
 
