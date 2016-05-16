@@ -20,10 +20,10 @@ fullCalendar = ->
 
     select:
       (start, end, allDay) ->
-        starttime = moment(start).format("YYYY/MM/DD H:mm")
-        endtime = moment(end).format("YYYY/MM/DD H:mm")
-        $('#createEventModal #eventStartTime').val(starttime)
-        $('#createEventModal #eventEndTime').val(endtime)
+        starttime = moment(start).format("YYYY/MM/DD")
+        endtime = moment(end).subtract(1, 'days').format("YYYY/MM/DD")
+        $('#createEventModal #eventStartDateHidden').val(starttime).change()
+        $('#createEventModal #eventEndDateHidden').val(endtime).change()
         $('#createEventModal #eventAllDay').val(allDay)
         $('#createEventModal').modal("show")
 
@@ -75,15 +75,15 @@ doSubmit = ->
     e.preventDefault()
     $("#createEventModal").modal('hide')
     console.log($('#eventSummary').val())
-    console.log($('#eventStartTime').val())
-    console.log($('#eventEndTime').val())
+    console.log($('#eventStartDateHidden').val())
+    console.log($('#eventEndDateHidden').val())
     console.log($('#eventAllDay').val())
 
     data = {
       event:
         summary: $('#eventSummary').val()
-        dtstart: new Date($('#eventStartTime').val())
-        dtend: new Date($('#eventEndTime').val())
+        dtstart: new Date($('#eventStartDateHidden').val())
+        dtend: new Date($('#eventEndDateHidden').val())
     }
 
     $ . ajax
@@ -95,8 +95,8 @@ doSubmit = ->
         $("#calendar").fullCalendar('renderEvent',
         {
            title: $('#eventSummary').val()
-           start: new Date($('#eventStartTime').val())
-           end: new Date($('#eventEndTime').val())
+           start: new Date($('#eventStartDateHidden').val())
+           end: new Date($('#eventEndDateHidden').val())
            allDay: ($('#eventAllDay').val() == "true")
         },
         true)
@@ -183,7 +183,9 @@ ready = ->
     optionNum: [1..30]
     selectedOptionValue : ko.observable("Weekly")
     repeatChecked : ko.observable(false)
-    allDayChecked : ko.observable(false)
+    allDayChecked : ko.observable(true)
+    startDate : ko.observable("")
+    endDate : ko.observable("")
 
   vm.repeatByWeek = ko.computed((->
     vm.selectedOptionValue() == "Weekly"
@@ -200,6 +202,12 @@ ready = ->
   ), vm)
   vm.notAllDayChecked = ko.computed((->
     !vm.allDayChecked()
+  ),vm)
+  vm.singleDay = ko.computed((->
+    vm.startDate() == vm.endDate()
+  ),vm)
+  vm.multiDays = ko.computed((->
+    vm.startDate() != vm.endDate()
   ),vm)
 
   ko.applyBindings vm

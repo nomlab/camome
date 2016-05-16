@@ -16,12 +16,12 @@ class EventsController < ApplicationController
     @point_date = DateTime.now.prev_year.beginning_of_month
     @point_event = Event.where("dtstart  >= ?", @point_date).order("dtstart ASC").first
     @recurrences = Recurrence.all
+    @event = Event.new
 
     respond_to do |format|
       format.html
       format.json {render json: @events.map(&:to_event)}
     end
-
   end
 
   # GET /events/1
@@ -37,6 +37,9 @@ class EventsController < ApplicationController
   # GET /events/new
   def new
     @event = Event.new
+    @event.summary = params[:event][:summary]
+    @event.dtstart = params[:event][:dtstart]
+    @event.dtend = params[:event][:dtend]
   end
 
   # GET /events/1/edit

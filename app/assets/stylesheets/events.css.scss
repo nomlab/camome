@@ -28,12 +28,19 @@
   display: none;
 }
 
-.form-th {
-  padding: 0px 15px 0px 0px;
-  text-align: right;
+.event-form-key {
+  padding: 0.4em 1em 0.4em 0em;
+}
+
+.event-form-val {
+  padding: 0.4em 0em;
 }
 
 .modal-repeat {
   width:450px;
   margin-left: 75px;
+}
+
+.set-left {
+  float: left;
 }

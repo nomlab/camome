@@ -48,15 +48,15 @@
                 <th class="form-th">
                   <%= f.label :Where %>
                 </th>
-                <td>
+                <td class="event-form-val">
                   <%= f.text_field :location, :placeholder => "Enter a location" %>
                 </td>
               </tr>
               <tr>
-                <th valign="top" class="form-th">
+                <th valign="top" class="event-form-key">
                   <%= f.label :description %>
                 </th>
-                <td>
+                <td class="event-form-val">
                   <%= f.text_area :description %>
                 </td>
               </tr>
@@ -78,27 +78,27 @@
           <table align="center">
             <tbody>
               <tr>
-                <th class="form-th">
+                <th class="event-form-key">
                   Repeats:
                 </th>
-                <td>
+                <td class="event-form-val">
                   <select data-bind="options: optionValues, value: selectedOptionValue" class="repeat-type"></select>
                 </td>
               </tr>
               <tr data-bind="visible: repeatByWeek">
-                <th class="form-th">
+                <th class="event-form-key">
                   Repeat every:
                 </th>
-                <td>
+                <td class="event-form-val">
                   <select data-bind="options: optionNum"></select>
                   weeks
                 </td>
               </tr>
               <tr data-bind="visible: repeatByWeek">
-                <th class="form-th">
+                <th class="event-form-key">
                   Repeat on:
                 </th>
-                <td>
+                <td class="event-form-val">
                   <input type="checkbox" name="wday" value="1">S
                   <input type="checkbox" name="wday" value="2">M
                   <input type="checkbox" name="wday" value="3">T
@@ -109,55 +109,55 @@
                 </td>
               </tr><!-- /.weekly -->
               <tr data-bind="visible: repeatByMonth">
-                <th class="form-th">
+                <th class="event-form-key">
                   Repeat every:
                 </th>
-                <td>
+                <td class="event-form-val">
                   <select data-bind="options: optionNum"></select>
                   months
                 </td>
               </tr>
               <tr data-bind="visible: repeatByMonth">
-                <th class="form-th">
+                <th class="event-form-key">
                   Repeat by:
                 </th>
-                <td>
+                <td class="event-form-val">
                   <input type="radio" name="repeat_by_month" value="by_month" checked>day of the month
                   <input type="radio" name="repeat_by_week" value="by_week">day of the week
                 </td>
               </tr><!-- /.monthly -->
               <tr data-bind="visible: repeatByYear">
-                <th class="form-th">
+                <th class="event-form-key">
                   Repeat every:
                 </th>
-                <td>
+                <td class="event-form-val">
                   <select data-bind="options: optionNum"></select>
                   years
                 </td>
               </tr><!-- /.yearly -->
               <tr>
-                <th class="form-th">
+                <th class="event-form-key">
                   Starts on:
                 </th>
-                <td>
+                <td class="event-form-val">
                   <input type="text" value="Select date" disabled="disabled" />
                 </td>
               </tr>
               <tr>
-                <th valign="top" class="form-th">
+                <th valign="top" class="event-form-key">
                   Ends:
                 </th>
-                <td>
+                <td class="event-form-val">
                   <input type="radio" name="never" checked> Never <br>
                   <input type="radio" name="times"> After <input type="text" size="5" name="tims_input" value="15"> occurrences <br>
                   <input type="radio" name="until"> On <input type="date" name="until_input">
                 </td>
               </tr>
               <tr>
-                <th class="form-th">
+                <th class="event-form-key">
                   Summary:
                 </th>
-                <td>
+                <td class="event-form-val">
                   Summary
                 </td>
               </tr>

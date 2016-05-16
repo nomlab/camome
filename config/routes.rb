@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   post "gate/login"
 
   match "events/create_recurrence", :via => :post
+  post "events/new"
 
   get "inbox/missions"
   get "inbox/recurrences"
