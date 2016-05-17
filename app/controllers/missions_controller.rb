@@ -15,6 +15,13 @@ class MissionsController < ApplicationController
     show_clams = show_clams.search(params[:search]) if params[:search]
     show_clams = show_clams.narrow_by_reuseinfo if params[:narrow]
     @clams = @mission ? @mission.clams : show_clams.order("date desc")
+    @clams = @clams.page(params[:page]).per(100)
+
+    if request.xhr?
+      tbody_elements = render_to_string(partial: 'clam_table', locals: {clams: @clams})
+      link_to_next_page = view_context.link_to_next_page(@clams, 'Next', remote: true, class: 'next-page')
+      render json: {tbody_elements: tbody_elements, link_to_next_page: link_to_next_page}
+    end
   end
 
   # GET /missions/new

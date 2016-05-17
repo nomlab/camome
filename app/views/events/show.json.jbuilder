@@ -1,1 +1,1 @@
-json.extract! @event, :id, :uid, :categories, :description, :location, :status, :summary, :dtstart, :dtend, :recurrence_id, :related_to, :exdate, :rdate, :created, :last_modified, :sequence, :rrule, :created_at, :updated_at
+json.extract! @event, :id, :uid, :categories, :description, :location, :status, :summary, :dtstart, :dtend, :recurrence_id, :related_to, :exdate, :rdate, :created, :last_modified, :sequence, :rrule, :created_at, :updated_at, :clams

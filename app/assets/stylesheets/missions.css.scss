@@ -13,6 +13,7 @@
 }
 
 .clams-table{
+    position: relative;
     width: 80%;
     float: right;
     height: 580px;
@@ -59,4 +60,19 @@
 
 .ct-icon{
   width: 3%;
+}
+
+.related-clam-field{
+  position: absolute;
+  display: none;
+  top: 0px;
+  height: 85%;
+  overflow: auto;
+  background-color: rgba(255,255,255,1);
+  border-radius: 0.5em;
+  box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, 0.5);
+}
+
+#paginator{
+  display: none;
 }

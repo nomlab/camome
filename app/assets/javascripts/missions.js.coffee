@@ -14,19 +14,80 @@ fullCalendar = ->
       day: 'HH:mm'
     events: '/events.json'
 
-    eventClick:
-      (calEvent) ->
-        document.location = "../events/#{calEvent.id}"
-
-    drop:
+    dayClick:
       (date) ->
-        clam  = getClam($(this).data('clam').id)
+        $('#create-event-modal').find("input, textarea").val('')
         $('#create-event-modal #event-dtstart').val(moment(date).format("YYYY/MM/DD H:mm"))
         $('#create-event-modal #event-dtend').val(moment(date).format("YYYY/MM/DD H:mm"))
-        $('#create-event-modal #event-summary').val(clam.summary)
-        $('#create-event-modal #event-description').val(clam.options.description)
-        $('.mail').append("<a href='#' id='mail' data-id='#{clam.id}'>#{clam.summary}</a>")
-        $('#create-event-modal').modal('show')
+        $('#create-event-modal').modal("show")
+
+    eventClick: (calEvent) ->
+      createEventPopover(calEvent)
+      $(".fc-event[event-id=#{calEvent.id}]").popover('toggle')
+
+    dayRender: (date, cell) ->
+      cell.droppable
+        tolerance: 'pointer'
+        drop: (ev, ui) ->
+          clam  = getClam(ui.draggable.data('clam').id)
+          $('#create-event-modal #event-dtstart').val(moment(date).format("YYYY/MM/DD H:mm"))
+          $('#create-event-modal #event-dtend').val(moment(date).format("YYYY/MM/DD H:mm"))
+          $('#create-event-modal #event-summary').val(clam.summary)
+          $('#create-event-modal #event-description').val(clam.options.description)
+          $('.mail').empty().append("<a href='#' id='mail' data-id='#{clam.id}'>#{clam.summary}</a>")
+          $('#create-event-modal').modal('show')
+
+    eventRender: (event, element) ->
+      element.attr("event-id", event.id)
+      element.droppable
+        tolerance: 'pointer'
+        activeClass: 'ui-state-focus'
+        hoverClass: 'ui-state-hover'
+        over: ->
+          $(".fc-day").droppable("disable")
+        out: ->
+          $(".fc-day").droppable("enable")
+        drop: (ev, ui) ->
+          clamId = ui.draggable.data("clam").id
+          eventId = event.id
+          clamSummary = ui.draggable.data("clam").summary
+          eventSummary = event.title
+          data = {
+            clam_id: clamId
+            event: getEvent(eventId)
+          }
+
+          patchEvent(eventId, data)
+          .done ->
+            alert("「#{eventSummary}」に「#{clamSummary}」を関連付けました．")
+          .fail ->
+            alert("関連付けに失敗しました．")
+
+          $(".fc-day").droppable("enable")
+
+getEvent = (id) ->
+  res = $ . ajax
+    type: 'GET'
+    url: "/events/#{id}.json"
+    dataType: "json"
+    async: false
+    error: ->
+      alert("error")
+  res.responseJSON
+
+patchEvent = (id, data) ->
+  dfd = $.Deferred()
+  $ . ajax
+    type: "PATCH"
+    url: "/events/#{id}"
+    data: data
+    dataType: "json"
+    timeout: 9000
+    success: ->
+      dfd.resolve()
+    error: ->
+      dfd.reject()
+  dfd.promise()
 
 getClam = (id) ->
   res = $ . ajax
@@ -100,12 +161,12 @@ showBodyColumns = (clickedClam) ->
     return if clamBodyId == clickedClam.attr("data-id")
 
   clam  = getClam(clickedClam.attr("data-id"))
-  parent_clam = getParentClam(clam.id)
-  events = getEventOfRelatedClam(clam.id)
+  source_clam = clam.reuse_source
+  events = clam.events
 
-  reuse_parent =
-    if parent_clam?
-      "再利用元のメール：<a href='#' class='show-reuse-parent' parent-id='#{parent_clam.id}'>#{parent_clam.summary}</a>"
+  reuse_source =
+    if source_clam?
+      "再利用元のメール：<a href='#' class='show-reuse-source' source-id='#{source_clam.id}'>#{source_clam.summary}</a>"
     else ""
 
   related_tasks =
@@ -132,7 +193,7 @@ showBodyColumns = (clickedClam) ->
           </pre>
         </div>
         <div>
-          #{reuse_parent}
+          #{reuse_source}
         </div>
         <div>
           #{related_tasks}
@@ -143,26 +204,6 @@ showBodyColumns = (clickedClam) ->
 
   $(".draggable-clam[data-id=#{clam.id}]").after(clamBody)
   $(".clam-body > td > div").hide().slideDown(200)
-
-getParentClam = (id) ->
-  res = $ . ajax
-    type: 'GET'
-    url: "/clams/#{id}/reuse_parent.json"
-    dataType: "json"
-    async: false
-    error: ->
-      alert("error")
-  res.responseJSON
-
-getEventOfRelatedClam = (id) ->
-  res = $ . ajax
-    type: 'GET'
-    url: "/clams/#{id}/events.json"
-    dataType: "json"
-    async: false
-    error: ->
-      alert("error")
-  res.responseJSON
 
 changeFixed = (clickedClam) ->
   clickedClam.removeClass("fixed")
@@ -183,18 +224,19 @@ changeFixed = (clickedClam) ->
     error: ->
       alert("error")
 
-showPopover = (clickedClam) ->
-  createPopover(clickedClam)
+showClamPopover = (clickedClam) ->
+  createClamPopover(clickedClam)
   clickedClam.find(".suggest-icon").focus()
 
-createPopover = (clickedClam) ->
-  id = clickedClam.attr("data-id")
-  parent_id = getParentClam(id).id
-  event_name = getEventOfRelatedClam(parent_id)[0].summary
+createClamPopover = (clickedClam) ->
+  clamId = clickedClam.attr("data-id")
+  source_clam_id = getClam(clamId).reuse_source.id
+  source_event = getClam(source_clam_id).events[0]
 
   content = """
-    「#{event_name}」というタスクを<br>
+    「#{source_event.summary}」というタスクを<br>
     登録してはどうでしょうか？<br>
+    <div align="right"><a href='javascript:void(0)' clam-id='#{clamId}' source-event-id='#{source_event.id}'>登録する</a>
     <div align="right"><a href="#">今後表示しない</a></div>
   """
 
@@ -205,14 +247,117 @@ createPopover = (clickedClam) ->
     content: content
   })
 
-changeRelatedEventColor = (eventId) ->
-  event = $('#calendar').fullCalendar('clientEvents', eventId)[0]
-  event.color = "#ffaaaa"
-  $('#calendar').fullCalendar('refetchEvents')
-  $('#calendar').fullCalendar('gotoDate', event.start)
-  setTimeout ->
-    $('#calendar').fullCalendar('updateEvent', event)
-  , 200
+showEventPopover = (eventId) ->
+  $(".fc-event").onReady ->
+    event = $('#calendar').fullCalendar('clientEvents', eventId)[0]
+    $('#calendar').fullCalendar('gotoDate', event.start)
+    $(".fc-event[event-id=#{eventId}]").onReady ->
+      $(".fc-event[event-id=#{eventId}]").click()
+
+createEventPopover = (clickedEvent) ->
+  ev = getEvent(clickedEvent.id)
+
+  related_clams =
+    if ev.clams.length
+      buf = "<br>関連するメール:<br>"
+      for clam in ev.clams
+        buf += "<a href='javascript:void(0)' related-clam-id='#{clam.id}'>#{clam.summary}</a><br>"
+      buf
+    else ""
+
+  content = """
+    #{clickedEvent.start.format('YYYY/MM/DD H:mm')} 〜 #{clickedEvent.end.format('YYYY/MM/DD H:mm')}<br>
+    #{related_clams}
+    <div align="right"><a href='/events/#{clickedEvent.id}'>詳細</a></div>
+  """
+
+  $(".fc-event[event-id=#{clickedEvent.id}]")
+  .popover
+    html: 'true'
+    container: 'body'
+    trigger: 'manual'
+    placement: 'bottom'
+    title: clickedEvent.title
+    content: content
+  .on 'hidden.bs.popover', ->
+    $(this).popover('destroy')
+
+scrollClamsTable = (clamId) ->
+  $clamsTable = $('.clams-table .fixed-table-body')
+  $clam = $clamsTable.find("[data-id=#{clamId}]")
+
+  $clam.find(".show-clam").click()
+  $clamsTable.find(".clam-body").onReady ->
+    clamPosition = $clam.offset().top
+    tableTop = $clamsTable.find("table tbody").offset().top
+    $clamsTable.animate
+      scrollTop: clamPosition - tableTop
+
+showEventModal = (clamId,sourceEventId) ->
+  clam = getClam(clamId)
+  sourceEvent  = getEvent(sourceEventId)
+  year = new Date().getFullYear()
+  dtstart = new Date(sourceEvent.dtstart).setFullYear(year)
+  dtend = new Date(sourceEvent.dtend).setFullYear(year)
+
+  $('#create-event-modal #event-dtstart').val(moment(dtstart).format("YYYY/MM/DD H:mm"))
+  $('#create-event-modal #event-dtend').val(moment(dtend).format("YYYY/MM/DD H:mm"))
+  $('#create-event-modal #event-summary').val(sourceEvent.summary)
+  $('#create-event-modal #event-description').val(sourceEvent.clams[0].options.description)
+  $('.mail').empty().append("<a href='#' id='mail' data-id='#{clam.id}'>#{clam.summary}</a>")
+  $('#create-event-modal').modal('show')
+
+showRelatedClam = (clamId) ->
+  $('.related-clam-field').empty()
+  clam = getClam(clamId)
+  source_clam = clam.reuse_source
+  events = clam.events
+
+  reuse_source =
+    if source_clam?
+      "再利用元のメール：<a href='#' class='show-reuse-source' source-id='#{source_clam.id}'>#{source_clam.summary}</a>"
+    else ""
+
+  related_tasks =
+    if events.length
+      buf = "関連するタスク："
+      for event in events
+        buf += "<a href='#' class='show-related-task' task-id='#{event.id}'>#{event.summary}</a>"
+        buf += ", "
+      buf.slice(0, -2)
+    else ""
+
+  reuse_link = "<a href='/mail/new?clam_id=#{clam.id}' class='btn btn-primary fa fa-repeat'></a>"
+
+  clamBody =
+    """
+    <pre>
+      <table>
+        <tr><th>差出人</th><td>#{clam.options.originator}</td><td>#{reuse_link}</td></tr>
+        <tr><th>件名</th><td>#{clam.summary}</td></tr>
+        <tr><th>宛先</th><td>#{clam.options.recipients}</td></tr>
+        <tr><td colspan='2'>#{clam.options.description}</td></tr>
+      </table>
+      <hr width='90%'>
+      #{reuse_source}
+      #{related_tasks}
+    </pre>
+    """
+
+  $('.related-clam-field').append(clamBody)
+
+setPaginator = ->
+  $('#paginator').on 'ajax:success', (e, result) ->
+    $(result.tbody_elements).appendTo('#tbody_elements').hide().fadeIn(1000)
+    $('#paginator').html(result.link_to_next_page)
+    initDraggableClam()
+
+  $obj = $('.clams-table .fixed-table-body')
+  $obj.get(0).onscroll = ->
+    scrollPosition = $(this).scrollTop() + $(this).height()
+    scrollHeight = this.scrollHeight
+    if scrollPosition / scrollHeight == 1
+      $('.next-page').click()
 
 ready = ->
   initDraggableClam()
@@ -223,15 +368,52 @@ ready = ->
     displayMissions()
   $('#submit-button').click ->
     submitEvent()
-  $('.show-clam').click ->
+  $(this).on 'click', '.show-clam', ->
     clam = $(this).parent()
     showBodyColumns(clam)
     if clam.hasClass("fixed")
       changeFixed(clam)
-    showPopover(clam) if clam.find('.suggest-icon').size()
-  $(this).on 'click','.show-related-task', ->
+    showClamPopover(clam) if clam.find('.suggest-icon').size()
+  $(this).on 'click', '.show-related-task', ->
     $('.calendar-icon').trigger('click')
-    changeRelatedEventColor($(this).attr('task-id'))
+    showEventPopover($(this).attr('task-id'))
+  $(this).on 'click', 'a[related-clam-id]', ->
+    showRelatedClam($(this).attr('related-clam-id'))
+    $('.related-clam-field').toggle(500)
+  $(this).on 'click', 'a[source-event-id]', ->
+    showEventModal($(this).attr('clam-id'), $(this).attr('source-event-id'))
+  # For paginate
+  setPaginator()
+  # Bind click event to body to close a popover by clicking outside
+  $('body').on 'click', (e) ->
+    $('.fc-event').each ->
+      if !$(this).is(e.target) and $(this).has(e.target).length == 0 and $('.popover').has(e.target).length == 0 or $(this).length == 0
+        $(this).popover('destroy')
+    if !$('a[related-clam-id]').is(e.target) and $('.related-clam-field').has(e.target).length == 0
+      $('.related-clam-field').hide(500)
+  $(this).on 'click', '.fc-right', ->
+    $('.popover').remove()
 
 $(document).ready(ready)
 $(document).on('page:load', ready)
+
+$.fn.extend
+  # Add handler which is called when the element is loaded.
+  # This is like "$(document).ready", but this can be used with selecter.
+  # Reference: https://github.com/mach3/js-jquery-onready
+  onReady: (func, delay = 100, limit = 5000) ->
+    s = @selector
+    start = (new Date).getTime()
+
+    progress = ->
+      e = $(s)
+      if e.length
+        func.apply(e)
+        return
+      if (new Date).getTime() - start > limit
+        return
+      setTimeout(progress, delay)
+      return
+
+    progress()
+    return

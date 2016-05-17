@@ -40,7 +40,7 @@ class ClamsController < ApplicationController
       end
     end
 
-    create_reuse_info(params[:clam][:parent_id], Clam.last.id)
+    create_reuse_relationship(params[:clam][:source_id], Clam.last.id) if params[:clam][:source_id].present?
   end
 
   # PATCH/PUT /clams/1
@@ -67,27 +67,10 @@ class ClamsController < ApplicationController
     end
   end
 
-  # GET /clams/1/reuse_parent.json
-  def get_parent_clam
-    parent = Clam.find(params[:id]).reuse_parent
-    respond_to do |format|
-      format.json { render json: parent }
-    end
-  end
-
-  # GET /clams/1/events.json
-  def get_related_events
-    parent = Clam.find(params[:id]).events
-    respond_to do |format|
-      format.json { render json: parent }
-    end
-  end
-
-
   private
-    def create_reuse_info(parent_id, child_id)
-      reuse_info = ReuseInfo.new(parent_id: parent_id, child_id: child_id)
-      reuse_info.save
+    def create_reuse_relationship(source_id, destination_id)
+      reuse_relationship = ReuseRelationship.new(source_id: source_id, destination_id: destination_id)
+      reuse_relationship.save
     end
 
     # Use callbacks to share common setup or constraints between actions.
