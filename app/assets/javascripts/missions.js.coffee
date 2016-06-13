@@ -99,6 +99,16 @@ getClam = (id) ->
       alert("error")
   res.responseJSON
 
+getClamSnippet = (id) ->
+  res = $ . ajax
+    type: 'GET'
+    url: "/clams/#{id}/snippet"
+    dataType: "html"
+    async: false
+    error: ->
+      alert("error")
+  res.responseText
+
 initDraggableClam = ->
   $('.draggable-clam').each ->
     clam = {
@@ -155,53 +165,15 @@ submitEvent = ->
       alert("error")
 
 showBodyColumns = (clickedClam) ->
+  id = clickedClam.attr("data-id")
   if ($('.clam-body').is(':visible') == true)
     clamBodyId = $('.clam-body').attr('clam-id')
     $(".clam-body").remove()
-    return if clamBodyId == clickedClam.attr("data-id")
+    return if clamBodyId == id
 
-  clam  = getClam(clickedClam.attr("data-id"))
-  source_clam = clam.reuse_source
-  events = clam.events
-
-  reuse_source =
-    if source_clam?
-      "再利用元のメール：<a href='#' class='show-reuse-source' source-id='#{source_clam.id}'>#{source_clam.summary}</a>"
-    else ""
-
-  related_tasks =
-    if events.length
-      buf = "関連するタスク："
-      for event in events
-        buf += "<a href='#' class='show-related-task' task-id='#{event.id}'>#{event.summary}</a>"
-        buf += ", "
-      buf.slice(0, -2)
-    else ""
-
-  clamBody =
-    """
-    <tr class='clam-body' clam-id='#{clam.id}' >
-      <td colspan='5'>
-        <div>
-          <pre>
-            <table>
-              <tr><th>差出人</th><td>#{clam.options.originator}</td></tr>
-              <tr><th>件名</th><td>#{clam.summary}</td></tr>
-              <tr><th>宛先</th><td>#{clam.options.recipients}</td></tr>
-              <tr><td colspan='2'>#{clam.options.description}</td></tr>
-            </table>
-          </pre>
-        </div>
-        <div>
-          #{reuse_source}
-        </div>
-        <div>
-          #{related_tasks}
-        </div>
-      </td>
-    </tr>
-    """
-
+  clam = getClam(id)
+  clamBody = getClamSnippet(id)
+  
   $(".draggable-clam[data-id=#{clam.id}]").after(clamBody)
   $(".clam-body > td > div").hide().slideDown(200)
 

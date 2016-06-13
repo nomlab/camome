@@ -1,0 +1,5 @@
+<tr class='clam-body' clam-id="<%= @clam.id %>">
+  <td colspan='2'>
+    <%= render partial: "clams/snippets/#{@template}", locals: {clam: @clam} rescue render partial: "clams/snippets/octet_stream", locals: {clam: @clam} %>
+  </td>
+</tr>

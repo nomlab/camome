@@ -67,6 +67,16 @@ class ClamsController < ApplicationController
     end
   end
 
+  # Return clam's html template for displaying in inbox
+  # GET /clams/1/snippet
+  def show_snippet
+    @clam = Clam.find(params[:id])
+    @clam.content_type =~ /^Resource::(.*)$/
+    @template = $1 ? $1.downcase : "octet_stream"
+
+    render :action => "clam_snippet", :layout => false
+  end
+  
   private
     def create_reuse_relationship(source_id, destination_id)
       reuse_relationship = ReuseRelationship.new(source_id: source_id, destination_id: destination_id)
