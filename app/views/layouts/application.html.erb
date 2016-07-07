@@ -37,29 +37,47 @@
     <%= javascript_include_tag "application" %>
   </head>
   <body>
-    <div class="navbar navbar-default navbar-static-top">
-      <div class="navbar-header">
+    <nav class="navbar navbar-static-top navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
         <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse"> -->
         <!--   <span class="icon-bar"></span> -->
         <!--   <span class="icon-bar"></span> -->
         <!--   <span class="icon-bar"></span> -->
         <!-- </button> -->
         <a class="navbar-brand" href="#">Camome</a>
-        <!-- <div class="navbar-collapse collapse navbar-responsive-collapse"> -->
-        <p class="navbar-text">
-          <!-- <ul class="nav navbar-nav"> -->
-            <!-- <li><%= link_to "Calendar", "/events"  %></li> -->
-            <%= link_to "Calendar", "/events" %>
-            <!-- <li><%= link_to "Organize_mission", "/inbox/missions"  %></li> -->
-            <!-- <li><%= link_to "Inbox", "/inbox/recurrences"  %></li> -->
-            <%= link_to "Inbox", "/inbox/recurrences" %>
-            <%= link_to "Mail", "/missions/inbox" %>
-          <!-- </ul> -->
-        </p>
-        <!-- </div> -->
+        </div>
+        <div class="collapse navbar-collapse" id="navbar">
+          <% if user_signed_in? %>
+            <ul class="nav navbar-nav navbar-left">
+              <li>
+                <%= link_to "Calendar", "/events" %>
+              </li>
+              <li>
+                <%= link_to "Inbox", "/inbox/recurrences" %>
+              </li>
+              <li>
+                <%= link_to "Mail", "/missions/inbox" %>
+              </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li>
+                <%= link_to 'Sign out', destroy_user_session_path, method: :delete %>
+              </li>
+            </ul>
+          <% else %>
+            <ul class="nav navbar-nav navbar-right">
+              <li>
+                <%= link_to 'Sign up', new_user_registration_path %>
+              </li>
+              <li>
+                <%= link_to 'Sign in', new_user_session_path %>
+              </li>
+            </ul>
+          <% end %>
+        </div>
       </div>
-    </div>
-
+    </nav>
     <div class="container">
           <%= bootstrap_flash %>
           <%= yield %>
