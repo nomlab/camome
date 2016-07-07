@@ -16,7 +16,13 @@ Rails.application.routes.draw do
 
   resources :clams
 
-  resources :users
+  devise_for :users, controllers: {
+               registrations: 'users/registrations',
+               confirmations: 'users/confirmations',
+               passwords: 'users/passwords',
+               sessions: 'users/sessions',
+               unlocks: 'users/unlocks',
+             }
 
   get "calendars/import"
   post "calendars/import"

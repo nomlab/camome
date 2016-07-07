@@ -66,3 +66,6 @@ gem "knockoutjs-rails"
 
 # For pagenation
 gem "kaminari"
+
+# For authentication
+gem 'devise'
