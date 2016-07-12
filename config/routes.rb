@@ -23,6 +23,7 @@ Rails.application.routes.draw do
                passwords: 'users/passwords',
                sessions: 'users/sessions',
                unlocks: 'users/unlocks',
+               invitations: 'users/invitations'
              }
 
   get "calendars/import"

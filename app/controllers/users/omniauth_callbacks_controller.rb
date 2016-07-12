@@ -28,14 +28,32 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   # end
 
   def google_oauth2
-    @user = User.find_for_google_oauth2(request.env["omniauth.auth"])
+    params = request.env["omniauth.params"]
+    invitation_token = params["state"]
+    auth = request.env["omniauth.auth"]
 
-    if @user.persisted?
-      flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => "Google"
-      sign_in_and_redirect @user, :event => :authentication
+    if invitation_token != nil
+      user = User.where("invitation_token is ?", invitation_token).first
+      if user
+        user.provider = auth.provider
+        user.uid = auth.uid
+        user.email = auth.info.email
+        user.token = auth.credentials.token
+        user.save
+
+        sign_in_and_redirect user
+      else
+        flash[:error] = "Invalid invitation token"
+        redirect_to '/welcome/index'
+      end
     else
-      session["devise.google_data"] = request.env["omniauth.auth"]
-      redirect_to new_user_registration_url
+      user = User.where(email: auth.info.email).first
+      if user
+        sign_in_and_redirect user, :event => :authentication
+      else
+        flash[:error] = "Your google account has not been registered"
+        redirect_to '/welcome/index'
+      end
     end
   end
 end
