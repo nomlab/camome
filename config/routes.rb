@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   resources :clams
 
   devise_for :users, controllers: {
+               omniauth_callbacks: "users/omniauth_callbacks",
                registrations: 'users/registrations',
                confirmations: 'users/confirmations',
                passwords: 'users/passwords',

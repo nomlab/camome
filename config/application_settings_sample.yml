@@ -1,0 +1,18 @@
+##
+## config/application_settings.yml
+##
+##
+default: &default
+  oauth:
+    google:
+      applicatoin_id: XXXXXXXXXXXXXXXXX
+      application_secret: XXXXXXXXXXXXXXXXX
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default
