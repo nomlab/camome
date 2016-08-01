@@ -47,7 +47,12 @@ fullCalendar = ->
         event = createEventFromOldEvent(data)
         clam = getClamRelatedEvent(origin_event_id)
         if (clam.length > 0)
-          displayNoticeIcon(clam[0], event)
+          displayNoticeIconForMail(clam[0], event)
+
+        if !$(this).hasClass('suggest')
+          display_events = getSameMissionIdEvents($(this).attr('mission_id'), Number($(this).attr('id')))
+          if (display_events.length > 0)
+            displayNoticeIconForEvent(display_events, event)
 
     eventAfterAllRender:
       (view) ->
@@ -57,7 +62,7 @@ fullCalendar = ->
         $('#calendar').droppable
           tolerance: 'pointer'
 
-displayNoticeIcon = (clam, event) ->
+displayNoticeIconForMail = (clam, event) ->
   $(".calendar-header").prepend("<i class='fa fa-bell fa-2x notice-icon'></i>")
   setInterval (->
     $('.notice-icon').fadeOut(500).fadeIn(500)
@@ -75,7 +80,6 @@ displayNoticeIcon = (clam, event) ->
       content: content
      })
 
-
 getClamRelatedEvent = (id) ->
   res = $ . ajax
     type: 'GET'
@@ -84,6 +88,49 @@ getClamRelatedEvent = (id) ->
     async: false
     error: ->
       alert("error")
+  res.responseJSON
+
+displayNoticeIconForEvent = (display_events,event) ->
+  $(".calendar-header").prepend("<i class='fa fa-bell fa-2x notice-icon'></i>")
+  setInterval (->
+    $('.notice-icon').fadeOut(500).fadeIn(500)
+  ), 1000
+
+  d_event = ""
+  display_events.forEach (e) ->
+    d_event += "<div id='#{e.id}' class='fc-event ui-draggable ui-draggable-handle suggest' mission_id='' duration='86400.0' dtstart='#{moment(e.dtstart).format("YYYY/MM/DD H:mm")}'>
+<p class='summary-label'>
+#{e.summary}
+</p>
+</div>
+"
+  $(".notice-icon").click ->
+    content = """
+      「#{event['summary']}」に関して<br>
+        <div id='suggest-events'>
+          #{d_event}
+        </div>
+        を登録してはどうですか？<br>
+    """
+    $(this).popover({
+      html: 'true'
+      placement: 'left'
+      content: content
+     })
+  $(".notice-icon").mouseleave ->
+    initDraggableSuggestEvent()
+
+getSameMissionIdEvents = (m_id,e_id) ->
+  res = $ . ajax
+    type: 'GET'
+    url: "/missions/#{m_id}/events"
+    dataType: "json"
+    async: false
+    error: ->
+      alert("error")
+  res.responseJSON.some (v, i) ->
+    if v.id == e_id
+      res.responseJSON.splice(i, 1)
   res.responseJSON
 
 createEventFromOldEvent = (data) ->
@@ -159,6 +206,27 @@ initDraggableOldEvent = ->
       zIndex: 999
       revert: "invalid"
       helper: "clone"
+
+initDraggableSuggestEvent = ->
+  $('.suggest').each ->
+    event = {
+      id: $(this).attr("id")
+      title: $.trim($(this).text()).match(/.*/).toString()
+      dtstart: $(this).attr("dtstart")
+      duration: $(this).attr("duration")
+      color: "#9FC6E7"
+      textColor: "#000000"
+    }
+
+    $(this).data('event', event)
+
+    $(this).draggable
+      appendTo: "body"
+      zIndex: 999
+      revert: "invalid"
+      helper: "clone"
+      stop: ->
+        $(this).remove()
 
 ready = ->
   fullCalendar()

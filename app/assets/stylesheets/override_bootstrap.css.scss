@@ -53,3 +53,21 @@ $base-color: #9FC6E7;
 .summary-label{
     font-size: 100%;
 }
+
+#suggest-events {
+	float: left;
+    position: relative;
+    width: 100%;
+    padding: 0 10px;
+    text-align: left;
+    overflow: scroll;
+}
+
+#suggest-events .fc-event {
+    margin: 10px 0;
+	cursor: pointer;
+    color: black;
+    background-color: lighten($base-color,10%);
+    border: none;
+
+}

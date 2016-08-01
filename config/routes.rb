@@ -31,6 +31,7 @@ Rails.application.routes.draw do
   match "events/create_recurrence", :via => :post
   post "events/ajax_create_event_from_old_event"
   get "events/:id/clams", to: "events#get_related_clams"
+  get "missions/:id/events", to: "missions#events"
 
   get "inbox/missions"
   get "inbox/recurrences"

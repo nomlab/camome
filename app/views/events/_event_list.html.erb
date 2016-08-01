@@ -6,7 +6,7 @@
     <%= event.dtstart.strftime('%B') %> <%= event.dtstart.year %>
     </div>
     <% end %>
-  <div id="<%=event.id%>" class="fc-event" dtstart="<%=event.dtstart.to_s(:to_js)%>" duration="<%=event.duration%>">
+  <div id="<%=event.id%>" class="fc-event" dtstart="<%=event.dtstart.to_s(:to_js)%>" duration="<%=event.duration%>" mission_id="<%=event.mission_id%>">
     <p class="summary-label"><%= event.summary %>
       <small class="date-label"><%= event.dtstart.strftime("%b %d") %></small>
     </p>

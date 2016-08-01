@@ -80,6 +80,14 @@ class MissionsController < ApplicationController
       render json: e.message, status: :unprocessable_entity
   end
 
+  def events
+    mission_id = params[:id]
+    events = Event.where("mission_id is ?", mission_id)
+    respond_to do |format|
+      format.json { render json: events }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_mission
