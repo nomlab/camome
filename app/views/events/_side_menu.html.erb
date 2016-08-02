@@ -1,19 +1,25 @@
 <div class="side-menu calendar">
   <ul class="nav nav-tabs" role="tablist" id="myTab">
-    <li role="presentation" class="active">
-      <a href="#calendars" aria-controls="calendars" role="tab" data-toggle="tab">calendars</a>
-    </li>
+    <!-- <li role="presentation" class="active"> -->
+    <!--   <a href="#calendars" aria-controls="calendars" role="tab" data-toggle="tab">calendars</a> -->
+    <!-- </li> -->
     <li role="presentation">
       <a href="#old_events" aria-controls="old_events" role="tab" data-toggle="tab">old events</a>
+    </li>
+    <li role="presentation">
+      <a href="#forecasted" aria-controls="forecasted_events" role="tab" data-toggle="tab">forecasted</a>
     </li>
   </ul>
 
   <div class="tab-content" id="tab-con">
-    <div role="tabpanel" class="tab-pane active" id="calendars">
-      <%= render :partial => "events/calendar_list" %>
-    </div>
+    <!-- <div role="tabpanel" class="tab-pane active" id="calendars"> -->
+    <!--   <%= render :partial => "events/calendar_list" %> -->
+    <!-- </div> -->
     <div role="tabpanel" class="tab-pane" id="old_events">
       <%= render :partial => "events/event_list" , :locals => {:events => events, :point_event => point_event} %>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="forecasted">
+      <%= render :partial => "events/forecasted_list" , :locals => {:events => events} %>
     </div>
   </div>
 </div>

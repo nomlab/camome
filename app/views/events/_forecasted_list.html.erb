@@ -1,0 +1,19 @@
+<div id="external-events">
+  <% prev_event_month = nil %>
+  <% events.each do |event| %>
+    <% if event.id == 802 %>
+      <% event.dtstart += 1.year %>
+      <% if prev_event_month != event.dtstart.beginning_of_month %>
+      <div id="<%=event.dtstart.strftime("start%Y%m")%>" class="date">
+      <%= event.dtstart.strftime('%B') %> <%= event.dtstart.year %>
+      </div>
+      <% end %>
+    <div id="<%=event.id%>" class="fc-event" dtstart="<%=event.dtstart.to_s(:to_js)%>" duration="<%=event.duration%>" mission_id="<%=event.mission_id%>">
+      <p class="summary-label"><%= event.summary %>
+        <span style="float: right;"><%= event.dtstart.strftime("%d(%a)") %></span>
+      </p>
+    </div>
+    <% prev_event_month = event.dtstart.beginning_of_month %>
+    <% end %>
+  <% end %>
+</div>
