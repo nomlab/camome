@@ -17,7 +17,7 @@ $base-color: #9FC6E7;
     width: 100%;
 }
 
-#external-events {
+.event-list {
 	float: left;
     position: relative;
     width: 100%;
@@ -37,7 +37,7 @@ $base-color: #9FC6E7;
     overflow: scroll;
 }
 
-#external-events .fc-event {
+.event-list .fc-event {
     margin: 10px 0;
 	cursor: pointer;
     color: black;

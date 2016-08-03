@@ -121,17 +121,21 @@ displayNoticeIconForEvent = (display_events,event) ->
     initDraggableSuggestEvent()
 
 getSameMissionIdEvents = (m_id,e_id) ->
-  res = $ . ajax
-    type: 'GET'
-    url: "/missions/#{m_id}/events"
-    dataType: "json"
-    async: false
-    error: ->
-      alert("error")
-  res.responseJSON.some (v, i) ->
-    if v.id == e_id
-      res.responseJSON.splice(i, 1)
-  res.responseJSON
+  if m_id
+    res = $ . ajax
+      type: 'GET'
+      url: "/missions/#{m_id}/events"
+      dataType: "json"
+      async: false
+      error: ->
+        alert("error")
+    res.responseJSON.some (v, i) ->
+      if v.id == e_id
+        res.responseJSON.splice(i, 1)
+    res.responseJSON
+  else
+    res = ""
+    res
 
 createEventFromOldEvent = (data) ->
   res = $ . ajax
@@ -243,6 +247,7 @@ ready = ->
         view = $('#calendar').fullCalendar('getView')
         target_id = "#start" + view.intervalStart.clone().subtract(1,'years').format("YYYYMM")
         if $(target_id).length
+          console.log(target_id)
           scrollOldEvents(target_id)
         )
       $('#calendar').css('width','80%')

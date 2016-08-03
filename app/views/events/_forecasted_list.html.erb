@@ -1,13 +1,18 @@
-<div id="external-events">
+<div class="event-list">
   <% prev_event_month = nil %>
   <% events.each do |event| %>
-    <% if event.id == 802 %>
+    <% if event.id == 802 || event.id == 285 || event.id == 523 || event.id == 689 || event.id == 861 %>
       <% event.dtstart += 1.year %>
+      <% event.dtstart += 2.day if event.id == 285 %>
+      <% event.dtstart += 2.day if event.id == 523 %>
       <% if prev_event_month != event.dtstart.beginning_of_month %>
       <div id="<%=event.dtstart.strftime("start%Y%m")%>" class="date">
       <%= event.dtstart.strftime('%B') %> <%= event.dtstart.year %>
       </div>
       <% end %>
+      <% event.summary = "第130回GN談話会" if event.id == 523 %>
+      <% event.summary = "第203回GN検討打合せ" if event.id == 689 %>
+      <% event.summary = "第307回New検討打ち合わせ" if event.id == 861 %>
     <div id="<%=event.id%>" class="fc-event" dtstart="<%=event.dtstart.to_s(:to_js)%>" duration="<%=event.duration%>" mission_id="<%=event.mission_id%>">
       <p class="summary-label"><%= event.summary %>
         <span style="float: right;"><%= event.dtstart.strftime("%d(%a)") %></span>
