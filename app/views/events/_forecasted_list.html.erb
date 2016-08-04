@@ -14,8 +14,9 @@
       <% event.summary = "第203回GN検討打合せ" if event.id == 689 %>
       <% event.summary = "第307回New検討打ち合わせ" if event.id == 861 %>
     <div id="<%=event.id%>" class="fc-event" dtstart="<%=event.dtstart.to_s(:to_js)%>" duration="<%=event.duration%>" mission_id="<%=event.mission_id%>">
-      <p class="summary-label"><%= event.summary %>
-        <span style="float: right;"><%= event.dtstart.strftime("%d(%a)") %></span>
+      <p class="summary-label">
+        <%= event.summary %>
+        <small class="date-label"><%= event.dtstart.strftime("%d(%a)") %></small>
       </p>
     </div>
     <% prev_event_month = event.dtstart.beginning_of_month %>
