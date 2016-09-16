@@ -1,4 +1,9 @@
- <pre>
-   <h1 class='clam-body'>Hello Event</h1>
-   <%= clam.summary %>
- </pre>
+<div>
+  <pre>
+    <table>
+      <tr><td><%= clam.date.strftime("%Y/%m/%d %T") %> ~ <%= clam.date.strftime("%Y/%m/%d %T") %></td></tr>
+      <tr><td>Where : 10番講義室</td></tr>
+      <tr><td colspan='2'><a href='test'>Show details</a></td></tr>
+    </table>
+  </pre>
+</div>
