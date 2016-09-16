@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160712021200) do
+ActiveRecord::Schema.define(version: 20160916063843) do
 
   create_table "auth_infos", force: true do |t|
     t.string   "login_name"
@@ -150,8 +150,6 @@ ActiveRecord::Schema.define(version: 20160712021200) do
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.string   "provider"
-    t.string   "uid"
-    t.string   "token"
     t.string   "invitation_token"
     t.datetime "invitation_created_at"
     t.datetime "invitation_sent_at"
@@ -160,6 +158,7 @@ ActiveRecord::Schema.define(version: 20160712021200) do
     t.integer  "invited_by_id"
     t.string   "invited_by_type"
     t.integer  "invitations_count",      default: 0
+    t.string   "auth_name"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

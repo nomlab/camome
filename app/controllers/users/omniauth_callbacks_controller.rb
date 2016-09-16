@@ -36,9 +36,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       user = User.where("invitation_token is ?", invitation_token).first
       if user
         user.provider = auth.provider
-        user.uid = auth.uid
-        user.email = auth.info.email
-        user.token = auth.credentials.token
+        user.auth_name = auth.info.email
         user.save
 
         sign_in_and_redirect user
@@ -47,7 +45,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         redirect_to '/welcome/index'
       end
     else
-      user = User.where(email: auth.info.email).first
+      user = User.where(auth_name: auth.info.email).first
       if user
         sign_in_and_redirect user, :event => :authentication
       else
