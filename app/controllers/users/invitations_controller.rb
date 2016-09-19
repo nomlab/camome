@@ -1,4 +1,5 @@
 class Users::InvitationsController < Devise::InvitationsController
+  prepend_before_filter :require_no_authentication, :only => [:update, :destroy]
   skip_before_action :authenticate
   def new
     super

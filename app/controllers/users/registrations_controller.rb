@@ -18,9 +18,18 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # PUT /resource
-  # def update
-  #   super
-  # end
+  def update
+   attr = params.require("user").permit("name","email")
+   respond_to do |format|
+      if @user.update(attr)
+        format.html { redirect_to "/users/edit", notice: 'User was successfully updated.' }
+        format.json { render :edit, status: :ok, location: @user }
+      else
+        format.html { render :edit }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
 
   # DELETE /resource
   # def destroy
