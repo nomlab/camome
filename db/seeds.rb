@@ -7,13 +7,14 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 def create_admin_user
-  admin_user = User.new(:name => "admin_user")
-  admin_user.master_pass = "admin"
-  admin_auth_info = MasterAuthInfo.new(:login_name => "admin")
-  admin_auth_info = KeyVault.lock(admin_auth_info, admin_user)
-  admin_user.auth_info = admin_auth_info
+  admin_user = User.new(:name => ApplicationSettings.admin.name)
+  admin_user.email = ApplicationSettings.admin.email
+  admin_user.password = ApplicationSettings.admin.password
   admin_user.save
   puts "ok: admin user is created."
+  puts "  name: " + admin_user.name
+  puts "  email: " + admin_user.email
+  puts "  password: " + admin_user.password
 end
 
 def create_inbox_recurrence
