@@ -321,6 +321,7 @@ Devise.setup do |config|
   # config.omniauth_path_prefix = '/my_engine/users/auth'
   config.omniauth :google_oauth2,
                   ApplicationSettings.oauth.google.application_id,
-                  ApplicationSettings.oauth.google.application_secret
+                  ApplicationSettings.oauth.google.application_secret,
+                  skip_jwt: true
   config.scoped_views = true
 end
