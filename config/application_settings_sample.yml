@@ -5,12 +5,8 @@
 default: &default
   oauth:
     google:
-      applicatoin_id: XXXXXXXXXXXXXXXXX
+      application_id: XXXXXXXXXXXXXXXXX
       application_secret: XXXXXXXXXXXXXXXXX
-   admin:
-    name: "admin"
-    email: "XXXXXXX@gmail.com"
-    password: "XXXXXXXX"
 
 development:
   <<: *default
