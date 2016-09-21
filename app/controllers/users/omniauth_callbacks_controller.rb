@@ -39,6 +39,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         user.auth_name = auth.info.email
         user.save
 
+        sign_in user
         redirect_to '/users/edit'
       else
         flash[:error] = "Invalid invitation token"
