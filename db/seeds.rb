@@ -1,3 +1,4 @@
+# coding: utf-8
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 #
@@ -5,15 +6,21 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+require Rails.root.join("app/models/user.rb")
 
 def create_admin_user
-  admin_user = User.new(:name => "admin_user")
-  admin_user.master_pass = "admin"
-  admin_auth_info = MasterAuthInfo.new(:login_name => "admin")
-  admin_auth_info = KeyVault.lock(admin_auth_info, admin_user)
-  admin_user.auth_info = admin_auth_info
-  admin_user.save
-  puts "ok: admin user is created."
+  unless User.first
+    admin_user = User.new(:name => "admin")
+    admin_user.email = "admin@camome.com"
+    admin_user.password = "adminadmin" # ※over 6 char
+    admin_user.save
+    puts "ok: admin user is created."
+    puts "  name: " + admin_user.name
+    puts "  email: " + admin_user.email
+    puts "  password: " + admin_user.password
+  else
+    puts "User already exist"
+  end
 end
 
 def create_inbox_recurrence

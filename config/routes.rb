@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  root 'welcome#index'
+
+  get 'welcome/index'
+
   get 'mail/new'
 
   resources :states
@@ -13,7 +17,15 @@ Rails.application.routes.draw do
   get "clams/:id/snippet", to: "clams#show_snippet"
   resources :clams
 
-  resources :users
+  devise_for :users, controllers: {
+               omniauth_callbacks: "users/omniauth_callbacks",
+               registrations: 'users/registrations',
+               confirmations: 'users/confirmations',
+               passwords: 'users/passwords',
+               sessions: 'users/sessions',
+               unlocks: 'users/unlocks',
+               invitations: 'users/invitations'
+             }
 
   get "calendars/import"
   post "calendars/import"

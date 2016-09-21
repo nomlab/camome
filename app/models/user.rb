@@ -1,4 +1,8 @@
 class User < ActiveRecord::Base
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable and :omniauthable
+  devise :database_authenticatable, :registerable, :invitable,
+         :recoverable, :rememberable, :trackable, :validatable, :omniauthable
   has_many :calendars, dependent: :destroy
   has_one :auth_info, as: :parent,
   class_name: "MasterAuthInfo", dependent: :destroy
@@ -31,5 +35,4 @@ class User < ActiveRecord::Base
     end
     return nil
   end
-
 end
