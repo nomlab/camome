@@ -10,6 +10,7 @@ Rails.application.routes.draw do
 
   resources :resources
 
+  get "clams/:id/snippet", to: "clams#show_snippet"
   resources :clams
 
   resources :users
