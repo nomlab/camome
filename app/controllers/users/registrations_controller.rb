@@ -19,9 +19,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # PUT /resource
   def update
-   attr = params.require("user").permit("name","email")
-   respond_to do |format|
-      if @user.update(attr)
+    attr = params.require("user").permit("name","email")
+    @user.master_pass = params.require("user").permit("password")[:password]
+    master_auth_info = MasterAuthInfo.where(:parent_id => @user.id, :parent_type => @user.class.name).first
+    KeyVault.lock(master_auth_info, @user)
+    respond_to do |format|
+      if @user.update(attr) && master_auth_info.save
         format.html { redirect_to "/users/edit", notice: 'User was successfully updated.' }
         format.json { render :edit, status: :ok, location: @user }
       else

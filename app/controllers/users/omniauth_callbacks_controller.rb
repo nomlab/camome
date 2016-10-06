@@ -39,6 +39,9 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         user.auth_name = auth.info.email
         user.save
 
+        master_auth_info = MasterAuthInfo.new(parent_id: user.id, parent_type: "User")
+        master_auth_info.save
+
         sign_in user
         redirect_to '/users/edit'
       else
