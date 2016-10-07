@@ -12,7 +12,7 @@ fullCalendar = ->
       month: 'HH:mm'
       week: 'HH:mm'
       day: 'HH:mm'
-    events: '/events.json'
+    events: getCalendar()
 
     eventClick:
       (calEvent) ->
@@ -102,6 +102,23 @@ doSubmit = ->
         true)
       error: ->
         alert "error"
+
+getCalendar = ->
+  res = $.ajax
+      type: 'GET'
+      url: '/events/fetch'
+      timeout: 9000
+      async: false
+      success: () ->
+      error: ->
+      	alert "error"
+    events = []
+    res.responseJSON.forEach (event) ->
+      events.push
+        title: event.summary
+        start: event.start.date
+    console.log(events)
+  return events
 
 initDraggableOldEvent = ->
   $('.fc-event').each ->

@@ -1,5 +1,5 @@
 <div id="external-calendars">
-<% User.current.calendars.each do |c| %>
+<% current_user.calendars.each do |c| %>
   <div>
   <font color=<%= c.color %>>■</font><%= c.displayname %>
   </div>

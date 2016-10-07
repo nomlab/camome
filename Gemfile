@@ -75,3 +75,6 @@ gem 'devise'
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'devise_invitable'
+
+gem 'googleauth'
+gem 'google-api-client'
