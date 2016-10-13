@@ -26,6 +26,10 @@ Rails.application.routes.draw do
                unlocks: 'users/unlocks',
                invitations: 'users/invitations'
              }
+  devise_scope :user do
+    get "users/edit/profile" => "users/registrations#edit_profile"
+    get "users/edit/applications" => "users/registrations#edit_applications"
+  end
 
   get "calendars/import"
   post "calendars/import"

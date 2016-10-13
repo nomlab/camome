@@ -17,6 +17,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   super
   # end
 
+  def edit_profile
+  end
+
+  def edit_applications
+  end
+
   # PUT /resource
   def update
     attr = params.require("user").permit("name","email")
