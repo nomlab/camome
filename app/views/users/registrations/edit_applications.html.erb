@@ -1,0 +1,29 @@
+<%= render :partial => "users/registrations/auth_modal"%>
+<div class="container">
+    <div class="row content">
+        <%= render 'side_bar' %>
+        <div class="col-md-9">
+            <div class="page-header">
+                <h2>Applications</h2>
+            </div>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <div class="media">
+                        <div class="pull-left">
+                            <a href="#">
+                                <%= image_tag("google_icon.png", :class => "media-object") %>
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">Google</h4>
+                            google!!!
+                        </div>
+                        <div class="pull-right">
+                            <a type="button" class="auth-application-button btn btn-lg btn-default" href="#">Authorize</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
