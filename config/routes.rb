@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   get "clams/:id/snippet", to: "clams#show_snippet"
   resources :clams
 
+  post "users/authorize_application", to: "users#authorize_application"
   devise_for :users, controllers: {
                omniauth_callbacks: "users/omniauth_callbacks",
                registrations: 'users/registrations',
