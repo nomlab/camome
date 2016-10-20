@@ -124,25 +124,19 @@ class EventsController < ApplicationController
 
   def fetch
     #config = YML.load_file('~/.config/camome/config.yml')
-    @user_id = "pa7n2xfm@s.okayama-u.ac.jp"
-    @calendar_ids = ["pa7n2xfm@s.okayama-u.ac.jp"]
-    @client_id = "180186309378-bk5o6f9dk79cvcj2o4mbpaql6nskpnsu.apps.googleusercontent.com"
-    @client_secret = "WoEMM9q6kgryHIu4bhmA5kuT"
+    @user_id = "*************"
+    @calendar_ids = [@user_id]
+    @client_id = ApplicationSettings.oauth.google.application_id
+    @client_secret = ApplicationSettings.oauth.google.application_secret
     @oob_url = 'urn:ietf:wg:oauth:2.0:oob'
     
     collection = []
-    timeMax = Time.local(2016, 11, 30, 23, 59, 59).iso8601
-    timeMin = Time.local(2016, 9, 1, 0).iso8601
+    timeMax = Time.parse(params["end"]).iso8601
+    timeMin = Time.parse(params["start"]).iso8601
     @calendar_ids.each do |calendar_id|
-      border = DateTime.parse("2016-10-01T04:21:46+00:00")
-      response = get_events(border, calendar_id)
-      #response = get_events(timeMax, timeMin, calendar_id)
-      last = border
+      response = get_events(timeMax, timeMin, calendar_id)
       response.items.each do |item|
-        next if item.status == "cancelled"
-        created = item.created
-        collection << item if created > border
-        last = created if created > last
+        collection << {title: item.summary, start: item.start.date, end: item.end.date}
       end
     end
     render json: collection
@@ -150,10 +144,8 @@ class EventsController < ApplicationController
   
   private
   
-  #def get_events(timeMax, timeMin, calendar_id)
-  #params = {:order_by => "startTime", :show_deleted => "true", :timeMax => timeMax, :timeMin => timeMin}
-  def get_events(time, calendar_id)
-    params = {:order_by => "updated", :show_deleted => "false", :updated_min => time.strftime("%Y-%m-%dT%H:%M:%SZ")}
+  def get_events(timeMax, timeMin, calendar_id)
+    params = {:order_by => "startTime", :single_events => "true", :show_deleted => "false", :time_max => timeMax, :time_min => timeMin}
     return google_calendar_api(params, calendar_id)
   end
   
@@ -184,9 +176,7 @@ class EventsController < ApplicationController
     service.client_options.application_name = @application_name
     service.authorization = authorize()
     service.authorization.refresh!
-    #response = service.list_events(calendar_id, single_events: true, order_by: 'startTime', time_max: Time.utc(2016, 11, 30, 23, 59, 59).iso8601, time_min: Time.utc(2016, 11, 30, 23, 59, 59).iso8601)
-    response = service.list_events(calendar_id, order_by: params[:order_by], show_deleted: params[:show_deleted], updated_min: params[:updated_min])
-
+    response = service.list_events(calendar_id, order_by: params[:order_by], show_deleted: params[:show_deleted], single_events: params[:single_events], time_max: params[:time_max], time_min: params[:time_min])
     return response
   end
 
