@@ -59,7 +59,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         flash[:error] = "Invalid token"
         redirect_to '/welcome/index'
       end
-    else
+    when "login"
       user = User.where(auth_name: auth.info.email).first
       if user
         sign_in_and_redirect user, :event => :authentication
@@ -67,6 +67,9 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         flash[:error] = "Your google account has not been registered"
         redirect_to '/welcome/index'
       end
+    else
+      flash[:error] = "We can't understand the purpose of auth"
+      redirect_to '/welcome/index'
     end
   end
 end

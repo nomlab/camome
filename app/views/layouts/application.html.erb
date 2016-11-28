@@ -68,7 +68,7 @@
           <% else %>
             <ul class="nav navbar-nav navbar-right">
               <li>
-                <%= link_to 'Signin with Google', omniauth_authorize_path(:user, :google_oauth2) %>
+                <%= link_to 'Signin with Google', omniauth_authorize_path(:user, :google_oauth2, :state => "login") %>
               </li>
               <li>
                 <%= link_to 'Sign up', new_user_registration_path %>
