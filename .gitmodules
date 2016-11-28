@@ -1,3 +1,6 @@
 [submodule "vendor/assets/bootstrap-table"]
 	path = vendor/assets/bootstrap-table
 	url = git@github.com:wenzhixin/bootstrap-table.git
+[submodule "vendor/assets/jsSHA"]
+	path = vendor/assets/jsSHA
+	url = git@github.com:Caligatio/jsSHA.git

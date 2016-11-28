@@ -22,3 +22,4 @@
 //= require jquery-ui
 //= require bootstrap-table
 //= require knockout
+//= require sha
