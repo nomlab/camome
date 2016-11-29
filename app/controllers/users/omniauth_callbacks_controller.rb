@@ -29,15 +29,21 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def google_oauth2
     params = request.env["omniauth.params"]
-    invitation_token = params["state"]
+    token = params["token"]
+    state = params["state"]
     auth = request.env["omniauth.auth"]
 
-    if invitation_token != nil
-      user = User.where("invitation_token is ?", invitation_token).first
+    case state
+    when "invitation"
+      user = User.where("invitation_token is ?", token).first
       if user
         user.provider = auth.provider
         user.auth_name = auth.info.email
         user.save
+
+        master_auth_info = MasterAuthInfo.new()
+        user.auth_info = master_auth_info
+        master_auth_info.save
 
         sign_in user
         redirect_to '/users/edit'
@@ -45,7 +51,15 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         flash[:error] = "Invalid invitation token"
         redirect_to '/welcome/index'
       end
-    else
+    when "application"
+      if session[:app_token] == token
+        # In the future, we will create CalendarAuthInfo at this timing
+        redirect_to '/users/edit/applications'
+      else
+        flash[:error] = "Invalid token"
+        redirect_to '/welcome/index'
+      end
+    when "login"
       user = User.where(auth_name: auth.info.email).first
       if user
         sign_in_and_redirect user, :event => :authentication
@@ -53,6 +67,9 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         flash[:error] = "Your google account has not been registered"
         redirect_to '/welcome/index'
       end
+    else
+      flash[:error] = "We can't understand the purpose of auth"
+      redirect_to '/welcome/index'
     end
   end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160916063843) do
+ActiveRecord::Schema.define(version: 20161013043526) do
 
   create_table "auth_infos", force: true do |t|
     t.string   "login_name"
@@ -23,6 +23,8 @@ ActiveRecord::Schema.define(version: 20160916063843) do
     t.string   "parent_type"
     t.string   "salt"
     t.string   "url"
+    t.string   "token"
+    t.string   "refresh_token"
   end
 
   create_table "calendars", force: true do |t|

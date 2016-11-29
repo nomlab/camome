@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   get "clams/:id/snippet", to: "clams#show_snippet"
   resources :clams
 
+  post "users/authorize_application", to: "users#authorize_application"
   devise_for :users, controllers: {
                omniauth_callbacks: "users/omniauth_callbacks",
                registrations: 'users/registrations',
@@ -26,6 +27,10 @@ Rails.application.routes.draw do
                unlocks: 'users/unlocks',
                invitations: 'users/invitations'
              }
+  devise_scope :user do
+    get "users/edit/profile" => "users/registrations#edit_profile"
+    get "users/edit/applications" => "users/registrations#edit_applications"
+  end
 
   get "calendars/import"
   post "calendars/import"
