@@ -1,0 +1,2 @@
+class GoogleCalendarProvider < CalendarProvider
+end

@@ -11,7 +11,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161013043526) do
+ActiveRecord::Schema.define(version: 20161222041502) do
+
   create_table "auth_infos", force: true do |t|
     t.string   "login_name"
     t.string   "encrypted_pass"
@@ -26,6 +27,13 @@ ActiveRecord::Schema.define(version: 20161013043526) do
     t.string   "refresh_token"
   end
 
+  create_table "calendar_providers", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "type"
+    t.integer  "user_id"
+  end
+
   create_table "calendars", force: true do |t|
     t.string   "displayname"
     t.string   "color"
@@ -33,6 +41,7 @@ ActiveRecord::Schema.define(version: 20161013043526) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
+    t.integer  "calendar_provider_id"
   end
 
   create_table "clam_events", force: true do |t|
@@ -160,7 +169,6 @@ ActiveRecord::Schema.define(version: 20161013043526) do
     t.string   "invited_by_type"
     t.integer  "invitations_count",      default: 0
     t.string   "auth_name"
-    t.string   "api_token"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
