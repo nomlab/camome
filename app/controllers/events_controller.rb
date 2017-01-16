@@ -52,6 +52,11 @@ class EventsController < ApplicationController
       @clam.events << @event
     end
 
+    json = event_to_json(@event)
+    puts "----------------------"
+    puts json
+    puts "----------------------"
+
     respond_to do |format|
       if @event.save
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
@@ -124,6 +129,22 @@ class EventsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-      params.require(:event).permit(:uid, :categories, :description, :location, :status, :summary, :dtstart, :dtend, :recurrence_id, :related_to, :exdate, :rdate, :created, :last_modified, :sequence, :rrule)
+      params.require(:event).permit(:uid, :categories, :description, :location, :status, :summary, :dtstart, :dtend, :recurrence_id, :related_to, :exdate, :rdate, :created, :last_modified, :sequence, :rrule, :all_day)
+    end
+
+    def event_to_json(event)
+      e = {}
+      if event.all_day
+        e["end"] = {"date" => event.dtend, "timeZone" => "Asia/Tokyo"}
+        e["start"] = {"date" => event.dtstart, "timeZone" => "Asia/Tokyo"}
+      else
+        e["end"] = {"dateTime" => event.dtend, "timeZone" => "Asia/Tokyo"}
+        e["start"] = {"dateTime" => event.dtstart, "timeZone" => "Asia/Tokyo"}
+      end
+      e["summary"] = event.summary
+      e["location"] = event.location
+      e["description"] = event.description
+
+      return e.to_json
     end
 end
