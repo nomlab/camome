@@ -22,14 +22,16 @@
   <div class="field">
     <%= f.text_field :summary, :placeholder => "Untitled event" %>
   </div>
-  <div class="field input-group" data-bind="visible: notAllDayChecked">
-    <%= f.text_field :dtstart, id:"eventStartTime" %>  to  <%= f.text_field :dtend, id:"eventEndTime" %>
-  </div>
-  <div class="field input-group" data-bind="visible: allDayChecked">
-    <%= f.text_field :dtstart, id:"eventStartDate" %>  to  <%= f.text_field :dtend, id:"eventEndDate" %>
+  <div class="field input-group">
+    <div data-bind="if: notAllDayChecked">
+      <%= f.text_field :dtstart, id:"eventStartTime" %>  to  <%= f.text_field :dtend, id:"eventEndTime" %>
+    </div>
+    <div data-bind="if: allDayChecked">
+      <%= f.text_field :dtstart, id:"eventStartDate" %>  to  <%= f.text_field :dtend, id:"eventEndDate" %>
+    </div>
   </div>
   <div>
-    <input type="checkbox" data-bind="checked: allDayChecked"> All day
+    <input type="checkbox" id="allDay" name="event[all_day]" value="true" data-bind="checked: allDayChecked"> All day
     <input type="checkbox" data-bind="checked: repeatChecked"> Repeat...
   </div>
   <ul class="nav nav-tabs" role="tablist">
@@ -67,7 +69,7 @@
     </div>
   </div>
 
-  <div class="modal fade" id="repeatSettings" tabindex="-1" role="dialog">
+  <div class="modal fade" id="repeatSettings" tabindex="-1" role="dialog" data-bind="if: repeatChecked">
     <div class="modal-dialog">
       <div class="modal-content modal-repeat">
         <div class="modal-header">
@@ -174,7 +176,7 @@
 
   <%= f.hidden_field :categories %>
   <%= f.hidden_field :status %>
-  <%= f.hidden_field :recurrence_id, :value => "Inbox" %>
+  <%= f.hidden_field :recurrence_id, :value => "1" %>
   <%= f.hidden_field :related_to %>
   <%= f.hidden_field :uid %>
   <%= f.hidden_field :created %>
