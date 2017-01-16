@@ -140,37 +140,39 @@ ready = ->
         )
       $('#calendar').css('width','80%')
 
-  $('#eventStartTime').datetimepicker
-    format: "YYYY/MM/DD H:mm"
-    icons:
-      time: "fa fa-clock-o"
-      date: "fa fa-calendar"
-      up: "fa fa-chevron-up"
-      down: "fa fa-chevron-down"
-      previous: "fa fa-chevron-left"
-      next: "fa fa-chevron-right"
+  $('#allDay').on
+    mouseleave: ->
+      $('#eventStartTime').datetimepicker
+        format: "YYYY/MM/DD H:mm"
+        icons:
+          time: "fa fa-clock-o"
+          date: "fa fa-calendar"
+          up: "fa fa-chevron-up"
+          down: "fa fa-chevron-down"
+          previous: "fa fa-chevron-left"
+          next: "fa fa-chevron-right"
 
-  $('#eventEndTime').datetimepicker
-    format: "YYYY/MM/DD H:mm"
-    icons:
-      time: "fa fa-clock-o"
-      date: "fa fa-calendar"
-      up: "fa fa-chevron-up"
-      down: "fa fa-chevron-down"
-      previous: "fa fa-chevron-left"
-      next: "fa fa-chevron-right"
+      $('#eventEndTime').datetimepicker
+        format: "YYYY/MM/DD H:mm"
+        icons:
+          time: "fa fa-clock-o"
+          date: "fa fa-calendar"
+          up: "fa fa-chevron-up"
+          down: "fa fa-chevron-down"
+          previous: "fa fa-chevron-left"
+          next: "fa fa-chevron-right"
 
-  $('#eventStartDate').datetimepicker
-    format: "YYYY/MM/DD"
-    icons:
-      previous: "fa fa-chevron-left"
-      next: "fa fa-chevron-right"
+      $('#eventStartDate').datetimepicker
+        format: "YYYY/MM/DD"
+        icons:
+          previous: "fa fa-chevron-left"
+          next: "fa fa-chevron-right"
 
-  $('#eventEndDate').datetimepicker
-    format: "YYYY/MM/DD"
-    icons:
-      previous: "fa fa-chevron-left"
-      next: "fa fa-chevron-right"
+      $('#eventEndDate').datetimepicker
+        format: "YYYY/MM/DD"
+        icons:
+          previous: "fa fa-chevron-left"
+          next: "fa fa-chevron-right"
 
   $('#myTab a:last').tab('show')
 
