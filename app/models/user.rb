@@ -4,8 +4,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :invitable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
   has_many :calendars, dependent: :destroy
-  has_one :auth_info, as: :parent,
-  class_name: "MasterAuthInfo", dependent: :destroy
+  has_one :master_auth_info, as: :parent, dependent: :destroy
 
   attr_accessor :master_pass
 
