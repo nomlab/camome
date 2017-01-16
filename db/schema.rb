@@ -12,7 +12,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 20161013043526) do
-
   create_table "auth_infos", force: true do |t|
     t.string   "login_name"
     t.string   "encrypted_pass"
@@ -161,6 +160,7 @@ ActiveRecord::Schema.define(version: 20161013043526) do
     t.string   "invited_by_type"
     t.integer  "invitations_count",      default: 0
     t.string   "auth_name"
+    t.string   "api_token"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

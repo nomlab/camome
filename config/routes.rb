@@ -31,6 +31,7 @@ Rails.application.routes.draw do
     get "users/edit/profile" => "users/registrations#edit_profile"
     get "users/edit/applications" => "users/registrations#edit_applications"
   end
+  get "users/:id" , to: "users#show"
 
   get "calendars/import"
   post "calendars/import"
