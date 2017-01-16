@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
   private
 
   def authenticate_by_token
-    return false unless params[:api_token]
+    return false if params[:api_token].blank?
     user = User.find_by("api_token IS ?", "#{params[:api_token]}")
     if user
       sign_in user
