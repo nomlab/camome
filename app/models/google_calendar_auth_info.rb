@@ -1,0 +1,2 @@
+class GoogleCalendarAuthInfo < AuthInfo
+end
