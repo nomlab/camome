@@ -14,6 +14,11 @@ class Event < ActiveRecord::Base
   end
 
   def to_event
+    if self.dtstart.seconds_since_midnight == 0 && self.dtend.seconds_since_midnight == 0
+      all_day = true
+    else
+      all_day = false
+    end
     return {
       id: id,
       recurrence_id: self.recurrence_id,
@@ -22,7 +27,8 @@ class Event < ActiveRecord::Base
       end: dtend,
       arrange_date: ApplicationController.helpers.process_date(self.dtstart, self.dtend),
       color: "#9FC6E7",
-      textColor: "#000000"
+      textColor: "#000000",
+      allDay: all_day
     }
   end
 end
