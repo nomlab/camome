@@ -35,22 +35,12 @@ fullCalendar = ->
         dtstart = moment(dtstart).hour(moment(origin_dtstart).hour())
         dtstart = moment(dtstart).minute(moment(origin_dtstart).minute())
         dtend = moment(dtstart).add(duration,'seconds')
-        data = {
-          event:
-            summary: $(this).data('event').title
-            dtstart: new Date(dtstart)
-            dtend: new Date(dtend)
-            origin_event_id: $(this).data('event').id
-        }
-
-        $ . ajax
-          type: 'POST'
-          url: '/events/ajax_create_event_from_old_event'
-          data: data
-          timeout: 9000
-          success: ->
-          error: ->
-            alert "error"
+        summary = $(this).data('event').title
+        $('#duplicateEventModal #startTime').val(moment(dtstart).format("YYYY/MM/DD H:mm"))
+        $('#duplicateEventModal #endTime').val(moment(dtend).format("YYYY/MM/DD H:mm"))
+        $('#duplicateEventModal #duplicateEventSummary').val(summary)
+        $('#duplicateEventModal #originalId').val($(this).data('event').id)
+        $('#duplicateEventModal').modal("show")
 
     eventAfterAllRender:
       (view) ->
@@ -100,6 +90,27 @@ doSubmit = ->
            allDay: ($('#eventAllDay').val() == "true")
         },
         true)
+      error: ->
+        alert "error"
+
+  $('#duplicateButton').on 'click', (e) ->
+    e.preventDefault()
+    $("#duplicateEventModal").modal('hide')
+
+    data = {
+      event:
+        summary: $('#duplicateEventSummary').val()
+        dtstart: new Date($('#startTime').val())
+        dtend: new Date($('#endTime').val())
+        origin_event_id: $('#originalId').val()
+    }
+
+    $ . ajax
+      type: 'POST'
+      url: '/events/ajax_create_event_from_old_event'
+      data: data
+      timeout: 9000
+      success: ->
       error: ->
         alert "error"
 
