@@ -36,6 +36,7 @@ fullCalendar = ->
         dtstart = moment(dtstart).minute(moment(origin_dtstart).minute())
         dtend = moment(dtstart).add(duration,'seconds')
         summary = $(this).data('event').title
+        $('.ui-draggable-dragging').remove()
         $('#duplicateEventModal #startTime').val(moment(dtstart).format("YYYY/MM/DD H:mm"))
         $('#duplicateEventModal #endTime').val(moment(dtend).format("YYYY/MM/DD H:mm"))
         $('#duplicateEventModal #duplicateEventSummary').val(summary)
@@ -130,7 +131,7 @@ initDraggableOldEvent = ->
     $(this).draggable
       appendTo: "body"
       zIndex: 999
-      revert: "invalid"
+      #revert: "invalid"
       helper: "clone"
 
 ready = ->
