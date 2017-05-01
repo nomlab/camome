@@ -75,3 +75,6 @@ gem 'devise'
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'devise_invitable'
+
+# for redis
+gem 'redis'

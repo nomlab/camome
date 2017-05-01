@@ -38,7 +38,6 @@ Rails.application.routes.draw do
   post "calendars/create_caldav"
   resources :calendars
   resources :recurrences
-  resources :events
 
   get "gate/index"
   get "gate/login"
@@ -47,6 +46,8 @@ Rails.application.routes.draw do
 
   match "events/create_recurrence", :via => :post
   post "events/new"
+  get "events/fetch"
+  resources :events
 
   get "inbox/missions"
   get "inbox/recurrences"

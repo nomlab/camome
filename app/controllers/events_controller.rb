@@ -121,6 +121,23 @@ class EventsController < ApplicationController
     end
   end
 
+  def fetch
+    redis = Redis.new
+    date_start = Date.parse(params["start"])
+    date_end = Date.parse(params["end"])
+    month_list = (date_start .. date_end).map(&:beginning_of_month).uniq
+    collection = []
+    month_list.each do |date|
+      month = "#{date.year}-#{date.month}"
+      events = get_events(redis,month)
+      events.each do |event|
+        collection << format_event(event)
+      end
+    end
+    render json: collection
+  end
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_event
@@ -146,5 +163,27 @@ class EventsController < ApplicationController
       e["description"] = event.description
 
       return e.to_json
+    end
+
+    def get_events(redis, month)
+      begin
+        JSON.parse(redis.get(month))
+      rescue
+        []
+      end
+    end
+
+    def format_event(e)
+      event = {}
+      event["id"] = e["id"]
+      event["title"] = e["summary"]
+      event["start"] = e["start"]["dateTime"] || e["start"]["date"]
+      event["end"] = e["end"]["dateTime"] || e["end"]["date"]
+      if  e["start"]["date"] then
+        event["allDay"] = true
+      else
+        event["allDay"] = false
+      end
+      return event
     end
 end
