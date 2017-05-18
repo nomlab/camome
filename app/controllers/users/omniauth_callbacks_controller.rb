@@ -36,13 +36,14 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     case state
     when "invitation"
       user = User.where("invitation_token is ?", token).first
+      User.current = user
       if user
         user.provider = auth.provider
         user.auth_name = auth.info.email
         user.save
 
         master_auth_info = MasterAuthInfo.new()
-        user.auth_info = master_auth_info
+        user.master_auth_info = master_auth_info
         master_auth_info.save
 
         sign_in user
@@ -61,6 +62,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       end
     when "login"
       user = User.where(auth_name: auth.info.email).first
+      User.current = user
       if user
         sign_in_and_redirect user, :event => :authentication
       else
