@@ -37,12 +37,13 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     when "invitation"
       user = User.where("invitation_token is ?", token).first
       if user
+        User.current = user
         user.provider = auth.provider
         user.auth_name = auth.info.email
         user.save
 
         master_auth_info = MasterAuthInfo.new()
-        user.auth_info = master_auth_info
+        user.master_auth_info = master_auth_info
         master_auth_info.save
 
         sign_in user
@@ -62,6 +63,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     when "login"
       user = User.where(auth_name: auth.info.email).first
       if user
+        User.current = user
         sign_in_and_redirect user, :event => :authentication
       else
         flash[:error] = "Your google account has not been registered"
