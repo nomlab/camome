@@ -12,7 +12,7 @@ fullCalendar = ->
       month: 'HH:mm'
       week: 'HH:mm'
       day: 'HH:mm'
-    events: '/events/fetch'
+    events: '/events/list'
 
     eventClick:
       (calEvent) ->

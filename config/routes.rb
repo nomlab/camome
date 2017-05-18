@@ -46,7 +46,7 @@ Rails.application.routes.draw do
 
   match "events/create_recurrence", :via => :post
   post "events/new"
-  get "events/fetch"
+  get "events/list"
   resources :events
 
   get "inbox/missions"

@@ -121,7 +121,7 @@ class EventsController < ApplicationController
     end
   end
 
-  def fetch
+  def list
     redis = DataStore.create(:redis)
     date_start = Date.parse(params["start"])
     date_end = Date.parse(params["end"])
