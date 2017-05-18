@@ -9,7 +9,7 @@ class KeyVault
     else
       auth_info.encrypted_pass =
         crypt_word(auth_info.decrypted_pass,
-                   user.auth_info.decrypted_pass,
+                   user.master_auth_info.decrypted_pass,
                    auth_info.salt).unpack("H*").join
     end
 
@@ -24,9 +24,9 @@ class KeyVault
                      user.master_pass,
                      auth_info.salt)
     else
-      auth_info.decrypted_pass =
+      auth_info.decrypted_pass = 
         decrypt_word([auth_info.encrypted_pass].pack("H*"),
-                     user.auth_info.decrypted_pass,
+                     user.master_auth_info.decrypted_pass,
                      auth_info.salt)
     end
     return auth_info

@@ -28,7 +28,7 @@ class UsersController < ApplicationController
     @user = User.new(:name => params["display_name"])
     @user.master_pass = params["password"]
     auth_info = KeyVault.lock(auth_info, @user)
-    @user.auth_info = auth_info
+    @user.master_auth_info = auth_info
 
     respond_to do |format|
       if @user.save
@@ -68,7 +68,7 @@ class UsersController < ApplicationController
   def authorize_application
     begin
       current_user.master_pass = params[:pass]
-      auth_info = KeyVault.unlock(current_user.auth_info, current_user)
+      auth_info = KeyVault.unlock(current_user.master_auth_info, current_user)
       token = Digest::SHA1.hexdigest(current_user.name + DateTime.new.to_s)
       session[:app_token] = token
       redirect_to omniauth_authorize_path(:user, :google_oauth2, :token => token, :state => "application")
