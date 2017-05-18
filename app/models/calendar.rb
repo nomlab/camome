@@ -10,7 +10,7 @@ class Calendar < ActiveRecord::Base
   belongs_to :user
   belongs_to :calendar_provider
   has_one :auth_info, as: :parent,
-  class_name: "CalendarAuthInfo", dependent: :destroy
+  class_name: "GoogleCalendarAuthInfo", dependent: :destroy
 
   def self.already_impored_url?(url)
     !AuthInfo.where(["url = ? AND parent_type = ? AND parent_id = ?", url, "Calendar", User.current.id]).empty?
@@ -37,7 +37,7 @@ class Calendar < ActiveRecord::Base
         :user_id     => User.current.id
       })
 
-      auth_info = CalendarAuthInfo.new(
+      auth_info = GoogleCalendarAuthInfo.new(
         :login_name => params["username"],
         :url => url
       )
