@@ -131,7 +131,7 @@ class EventsController < ApplicationController
       month = "#{date.year}-#{date.month}"
       events = kvs.load(month)
       events.each do |event|
-        collection << kvs.format_event(event)
+        collection << GoogleCalendarEvent.to_fullcalendar(event)
       end
     end
     render json: collection
