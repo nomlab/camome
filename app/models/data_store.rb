@@ -1,12 +1,11 @@
 module DataStore
-
-    def self.create(type, options = {})
-      if type = :redis
-        return DataStore::RedisCalender.new
-      else
-        raise 'Does not exists #{type} for DataStore'
-      end
+  def self.create(type, options = {})
+    if type = :redis
+      return DataStore::RedisStore.new
+    else
+      raise 'Does not exists #{type} for DataStore'
     end
+  end
 
   class Base
     def load(key)
@@ -23,5 +22,5 @@ module DataStore
 
   end# end Base
   dir = File.dirname(__FILE__)
-  autoload :RedisCalender, "#{dir}/redis_calender.rb"
+  autoload :RedisStore, "#{dir}/redis_store.rb"
 end# end DataStore

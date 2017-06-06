@@ -122,50 +122,44 @@ class EventsController < ApplicationController
   end
 
   def list
-    redis = DataStore.create(:redis)
+    kvs = DataStore.create(:redis)
     date_start = Date.parse(params["start"])
     date_end = Date.parse(params["end"])
     month_list = (date_start .. date_end).map(&:beginning_of_month).uniq
     collection = []
     month_list.each do |date|
       month = "#{date.year}-#{date.month}"
-      events = redis.load(month)
+      events = kvs.load(month)
       events.each do |event|
-        collection << redis.format_event(event)
+        collection << kvs.format_event(event)
       end
     end
     render json: collection
   end
 
-
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_event
-      @event = Event.find(params[:id])
+  # Use callbacks to share common setup or constraints between actions.
+  def set_event
+    @event = Event.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def event_params
+    params.require(:event).permit(:uid, :categories, :description, :location, :status, :summary, :dtstart, :dtend, :recurrence_id, :related_to, :exdate, :rdate, :created, :last_modified, :sequence, :rrule, :all_day)
+  end
+
+  def event_to_json(event)
+    e = {}
+    if event.all_day
+      e["end"] = {"date" => event.dtend, "timeZone" => "Asia/Tokyo"}
+      e["start"] = {"date" => event.dtstart, "timeZone" => "Asia/Tokyo"}
+    else
+      e["end"] = {"dateTime" => event.dtend, "timeZone" => "Asia/Tokyo"}
+      e["start"] = {"dateTime" => event.dtstart, "timeZone" => "Asia/Tokyo"}
     end
-
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def event_params
-      params.require(:event).permit(:uid, :categories, :description, :location, :status, :summary, :dtstart, :dtend, :recurrence_id, :related_to, :exdate, :rdate, :created, :last_modified, :sequence, :rrule, :all_day)
-    end
-
-    def event_to_json(event)
-      e = {}
-      if event.all_day
-        e["end"] = {"date" => event.dtend, "timeZone" => "Asia/Tokyo"}
-        e["start"] = {"date" => event.dtstart, "timeZone" => "Asia/Tokyo"}
-      else
-        e["end"] = {"dateTime" => event.dtend, "timeZone" => "Asia/Tokyo"}
-        e["start"] = {"dateTime" => event.dtstart, "timeZone" => "Asia/Tokyo"}
-      end
-      e["summary"] = event.summary
-      e["location"] = event.location
-      e["description"] = event.description
-
-      return e.to_json
-    end
-
-
-
-
-end
+    e["summary"] = event.summary
+    e["location"] = event.location
+    e["description"] = event.description
+    return e.to_json
+  end# end event_to_json
+end# end EventsController

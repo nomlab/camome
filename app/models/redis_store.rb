@@ -1,5 +1,5 @@
 module DataStore
-  class RedisCalender < Base
+  class RedisStore < Base
     def initialize
       @redis = Redis.new
     end
@@ -20,8 +20,6 @@ module DataStore
       @redis.del(key)
     end
 
-
-
     def format_event(e)
       event = {}
       event["id"] = e["id"]
@@ -34,6 +32,6 @@ module DataStore
         event["allDay"] = false
       end
       return event
-    end
-  end
-end
+    end# end format event
+  end# end RedisStore
+end# end DataStore
