@@ -130,8 +130,10 @@ class EventsController < ApplicationController
     month_list.each do |date|
       month = "#{date.year}-#{date.month}"
       events = kvs.load(month)
-      events.each do |event|
-        collection << GoogleCalendarEvent.to_fullcalendar(event)
+      if events != nil then
+        events["items"].each do |event|
+          collection << GoogleCalendarEvent.to_fullcalendar(event)
+        end
       end
     end
     render json: collection

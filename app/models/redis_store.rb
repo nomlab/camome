@@ -8,7 +8,7 @@ module DataStore
       begin
         JSON.parse(@redis.get(month))
       rescue
-        []
+        nil
       end
     end
 
