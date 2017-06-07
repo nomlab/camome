@@ -32,6 +32,35 @@ class KeyVault
     return auth_info
   end
 
+  def self.crypt_token(auth_info, user, token, refresh_token)
+    auth_info.token =
+      crypt_word(token,
+                 user.master_pass,
+                 auth_info.salt).unpack("H*").join
+
+    auth_info.refresh_token =
+      crypt_word(refresh_token,
+                 user.master_pass,
+                 auth_info.salt).unpack("H*").join
+
+    return auth_info
+  end
+
+  def self.decrypt_token(auth_info, user)
+    auth_info.decrypted_token = {}
+    auth_info.decrypted_token[:token] =
+      decrypt_word([auth_info.token].pack("H*"),
+                   user.master_pass,
+                   auth_info.salt)
+    
+    auth_info.decrypted_token[:refresh_token] =
+      decrypt_word([auth_info.refresh_token].pack("H*"),
+                   user.master_pass,
+                   auth_info.salt)
+    
+    return auth_info
+  end
+
   def self.crypt_word(word, secret_key, salt)
     cipher = OpenSSL::Cipher::Cipher.new("AES-256-CBC")
     cipher.encrypt

@@ -31,6 +31,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     params = request.env["omniauth.params"]
     token = params["token"]
     state = params["state"]
+    pass = params["pass"]
     auth = request.env["omniauth.auth"]
 
     case state
@@ -56,6 +57,11 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     when "application"
       if session[:app_token] == token
         # In the future, we will create CalendarAuthInfo at this timing
+        user = current_user
+        user.master_pass = pass
+        auth_info = user.master_auth_info
+        auth_info = KeyVault.crypt_token(auth_info, user, auth[:credentials][:token], auth[:credentials][:refresh_token])
+        auth_info.save
         redirect_to '/users/edit/applications'
       else
         flash[:error] = "Invalid token"

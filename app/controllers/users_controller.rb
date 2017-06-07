@@ -71,7 +71,7 @@ class UsersController < ApplicationController
       auth_info = KeyVault.unlock(current_user.master_auth_info, current_user)
       token = Digest::SHA1.hexdigest(current_user.name + DateTime.new.to_s)
       session[:app_token] = token
-      redirect_to omniauth_authorize_path(:user, :google_oauth2, :token => token, :state => "application")
+      redirect_to omniauth_authorize_path(:user, :google_oauth2, :token => token, :state => "application", :pass => current_user.master_pass)
     rescue
       flash[:error] = "Invalid password or Password has not been set"
       redirect_to '/users/edit/applications'
