@@ -132,7 +132,7 @@ class EventsController < ApplicationController
       events = kvs.load(month)
       if events != nil then
         events["items"].each do |event|
-          collection << GoogleCalendarEvent.to_fullcalendar(event)
+          collection << GoogleCalendarEvent.new(event).to_fullcalendar
         end
       end
     end

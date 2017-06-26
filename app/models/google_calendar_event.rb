@@ -1,15 +1,19 @@
-class GoogleCalendarEvent < Event
-  def self.to_fullcalendar(e)
-    event = {}
-    event["id"] = e["id"]
-    event["title"] = e["summary"]
-    event["start"] = e["start"]["dateTime"] || e["start"]["date"]
-    event["end"] = e["end"]["dateTime"] || e["end"]["date"]
-    if  e["start"]["date"] then
-      event["allDay"] = true
+class GoogleCalendarEvent
+  def initialize(event)
+    @event = event
+  end
+
+  def to_fullcalendar
+    full_event = {}
+    full_event["id"] = @event["id"]
+    full_event["title"] = @event["summary"]
+    full_event["start"] = @event["start"]["dateTime"] || @event["start"]["date"]
+    full_event["end"] = @event["end"]["dateTime"] || @event["end"]["date"]
+    if  @event["start"]["date"] then
+      full_event["allDay"] = true
     else
-      event["allDay"] = false
+      full_event["allDay"] = false
     end
-    return event
+    return full_event
   end
 end
