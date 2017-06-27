@@ -122,21 +122,11 @@ class EventsController < ApplicationController
   end
 
   def list
-    kvs = DataStore.create(:redis)
+    cal = CalendarCollection.new(DataStore.create(:redis))
     date_start = Date.parse(params["start"])
     date_end = Date.parse(params["end"])
-    month_list = (date_start .. date_end).map(&:beginning_of_month).uniq
-    collection = []
-    month_list.each do |date|
-      month = "#{date.year}-#{date.month}"
-      events = kvs.load(month)
-      if events != nil then
-        events["items"].each do |event|
-          collection << GoogleCalendarEvent.new(event).to_fullcalendar
-        end
-      end
-    end
-    render json: collection
+    events = cal.scan(date_start, date_end)
+    render json: events
   end
 
   private
