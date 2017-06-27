@@ -7,8 +7,8 @@ class GoogleCalendarEvent
     full_event = {}
     full_event["id"] = @event["id"]
     full_event["title"] = @event["summary"]
-    full_event["start"] = @event["start"]["dateTime"] || @event["start"]["date"]
-    full_event["end"] = @event["end"]["dateTime"] || @event["end"]["date"]
+    full_event["start"] = @event["start"]["dateTime"] || @event["start"]["date"] || @event["start"]["date_time"]
+    full_event["end"] = @event["end"]["dateTime"] || @event["end"]["date"] || @event["end"]["date_time"]
     if  @event["start"]["date"] then
       full_event["allDay"] = true
     else
