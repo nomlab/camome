@@ -38,8 +38,7 @@ Rails.application.routes.draw do
   post "calendars/create_caldav"
   resources :calendars
   resources :recurrences
-  resources :events
-
+  
   get "gate/index"
   get "gate/login"
   get "gate/logout"
@@ -47,13 +46,16 @@ Rails.application.routes.draw do
 
   match "events/create_recurrence", :via => :post
   post "events/new"
-
+  get "events/fetch"
+  resources :events
+ 
   get "inbox/missions"
   get "inbox/recurrences"
 
   post "recurrences/add_events"
   post "events/ajax_create_event_from_old_event"
 
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

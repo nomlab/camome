@@ -1,4 +1,10 @@
 require 'date'
+require 'googleauth'
+require 'googleauth/stores/file_token_store'
+require 'google/api_client/client_secrets'
+require 'google/apis/calendar_v3'
+require 'json'
+require 'yaml'
 
 class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
@@ -121,7 +127,64 @@ class EventsController < ApplicationController
     end
   end
 
+  def fetch
+    #config = YML.load_file('~/.config/camome/config.yml')
+    @user_id = "*************"
+    @calendar_ids = [@user_id]
+    @client_id = ApplicationSettings.oauth.google.application_id
+    @client_secret = ApplicationSettings.oauth.google.application_secret
+    @oob_url = 'urn:ietf:wg:oauth:2.0:oob'
+    
+    collection = []
+    timeMax = Time.parse(params["end"]).iso8601
+    timeMin = Time.parse(params["start"]).iso8601
+    @calendar_ids.each do |calendar_id|
+      response = get_events(timeMax, timeMin, calendar_id)
+      response.items.each do |item|
+        collection << {title: item.summary, start: item.start.date, end: item.end.date}
+      end
+    end
+    render json: collection
+  end
+  
   private
+  
+  def get_events(timeMax, timeMin, calendar_id)
+    params = {:order_by => "startTime", :single_events => "true", :show_deleted => "false", :time_max => timeMax, :time_min => timeMin}
+    return google_calendar_api(params, calendar_id)
+  end
+  
+  def authorize
+    dir_path = "~/.config/camome"
+    client_id = Google::Auth::ClientId.new(@client_id, @client_secret)
+    token_store = Google::Auth::Stores::FileTokenStore.new(
+      file: File.expand_path("#{dir_path}/google_access_tokens.yml", __FILE__))
+    scope = 'https://www.googleapis.com/auth/calendar'
+    authorizer = Google::Auth::UserAuthorizer.new(client_id, scope, token_store)
+    
+    credentials = authorizer.get_credentials(@user_id)
+    if credentials.nil?
+      url = authorizer.get_authorization_url(
+        base_url: @oob_url)
+      puts "Open the following URL in the browser and enter the " +
+           "resulting code after authorization"
+      puts url
+      code = STDIN.gets.chomp
+      credentials = authorizer.get_and_store_credentials_from_code(
+        user_id: @user_id, code: code, base_url: @oob_url)
+    end
+    return credentials
+  end
+  
+  def google_calendar_api(params, calendar_id)
+    service = Google::Apis::CalendarV3::CalendarService.new
+    service.client_options.application_name = @application_name
+    service.authorization = authorize()
+    service.authorization.refresh!
+    response = service.list_events(calendar_id, order_by: params[:order_by], show_deleted: params[:show_deleted], single_events: params[:single_events], time_max: params[:time_max], time_min: params[:time_min])
+    return response
+  end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_event
       @event = Event.find(params[:id])
