@@ -31,10 +31,17 @@
                     </div>
                 </div>
 
+		<div class="field form-group row">
+                    <div class="col-xs-4">
+                        <%= f.label :current_password %><br />
+                        <%= f.password_field :password, autofocus: true, class: 'form-control' %>
+                    </div>
+                </div>
+
                 <div class="field form-group row">
                     <div class="col-xs-4">
-                        <%= f.label :password %><br />
-                        <%= f.password_field :password, autofocus: true, class: 'form-control' %>
+                        <%= f.label :new_password, "New password (if you want to change)" %><br />
+                        <%= f.password_field :new_password, autofocus: true, class: 'form-control' %>
                     </div>
                 </div>
 

@@ -27,16 +27,35 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # PUT /resource
   def update
     attr = params.require("user").permit("name","email")
-    @user.master_pass = params.require("user").permit("password")[:password]
     master_auth_info = MasterAuthInfo.where(:parent_id => @user.id, :parent_type => @user.class.name).first
-    KeyVault.lock(master_auth_info, @user)
+    current_pass =  params.require("user").permit("password")[:password]
+    @user.master_pass = current_pass
+    if master_auth_info.encrypted_pass == nil
+      valid_pass = true
+      KeyVault.lock(master_auth_info, @user)
+    else
+      new_pass = params.require("user").permit("new_password")[:new_password]
+      auth_info = KeyVault.unlock(master_auth_info, @user)
+      if auth_info.decrypted_pass == Digest::SHA1.hexdigest(auth_info.salt + current_pass)
+        valid_pass = true
+        if !new_pass.empty?
+          auth_info = KeyVault.decrypt_token(auth_info)
+          @user.master_pass = new_pass
+          KeyVault.lock(master_auth_info, @user)
+          master_auth_info = KeyVault.crypt_token(auth_info, auth_info.decrypted_pass, auth_info.decrypted_token[:token], auth_info.decrypted_token[:refresh_token])
+        end
+      else
+        valid_pass = false
+      end
+    end
     respond_to do |format|
-      if @user.update(attr) && master_auth_info.save
-        format.html { redirect_to "/users/edit", notice: 'User was successfully updated.' }
+      if valid_pass && @user.update(attr) && master_auth_info.save
+        format.html { redirect_to "/users/edit/profile", notice: 'User was successfully updated.' }
         format.json { render :edit, status: :ok, location: @user }
       else
-        format.html { render :edit }
+        format.html { render :edit_profile} 
         format.json { render json: @user.errors, status: :unprocessable_entity }
+        flash[:error] = "Invalid password."
       end
     end
   end

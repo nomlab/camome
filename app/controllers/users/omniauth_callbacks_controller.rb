@@ -31,13 +31,11 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     params = request.env["omniauth.params"]
     token = params["token"]
     state = params["state"]
-    pass = params["pass"]
     auth = request.env["omniauth.auth"]
 
     case state
     when "invitation"
       user = User.where("invitation_token is ?", token).first
-      User.current = user
       if user
         User.current = user
         user.provider = auth.provider
@@ -58,9 +56,9 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       if session[:app_token] == token
         # In the future, we will create CalendarAuthInfo at this timing
         user = current_user
-        user.master_pass = pass
+        User.current = user
         auth_info = user.master_auth_info
-        auth_info = KeyVault.crypt_token(auth_info, user, auth[:credentials][:token], auth[:credentials][:refresh_token])
+        auth_info = KeyVault.crypt_token(auth_info, session[:decrypted_pass], auth[:credentials][:token], auth[:credentials][:refresh_token])
         auth_info.save
         redirect_to '/users/edit/applications'
       else
@@ -69,7 +67,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       end
     when "login"
       user = User.where(auth_name: auth.info.email).first
-      User.current = user
       if user
         User.current = user
         sign_in_and_redirect user, :event => :authentication
