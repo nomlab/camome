@@ -55,6 +55,11 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     when "application"
       if session[:app_token] == token
         # In the future, we will create CalendarAuthInfo at this timing
+        user = current_user
+        User.current = user
+        auth_info = user.master_auth_info
+        auth_info = KeyVault.crypt_token(auth_info, session[:decrypted_pass], auth[:credentials][:token], auth[:credentials][:refresh_token])
+        auth_info.save
         redirect_to '/users/edit/applications'
       else
         flash[:error] = "Invalid token"
