@@ -122,7 +122,7 @@ class EventsController < ApplicationController
   end
 
   def list
-    cal = CalendarCollection.new(DataStore.create(:redis))
+    cal = GoogleCalendar::Calendar.new(DataStore.create(:redis))
     date_start = Date.parse(params["start"])
     date_end = Date.parse(params["end"])
     events = cal.scan(date_start, date_end)
