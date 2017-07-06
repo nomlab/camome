@@ -1,6 +1,6 @@
 class CalendarCollection
-  def initialize(resource)
-    @resource = resource
+  def initialize(data_store)
+    @data_store = data_store
   end
 
   def scan(date_start, date_end)
@@ -8,7 +8,7 @@ class CalendarCollection
     collection = []
     month_list.each do |date|
       month = "#{date.year}-#{date.month}"
-      events = @resource.load(month)
+      events = @data_store.load(month)
       if events != nil then
         events["items"].each do |event|
           collection << GoogleCalendarEvent.new(event).to_fullcalendar
