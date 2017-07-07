@@ -52,3 +52,5 @@ config/application_settings.yml
 bower.json
 
 attic/
+
+config/environments/development.rb
