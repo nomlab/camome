@@ -9,14 +9,16 @@ module GoogleCalendar
       collection = []
       month_list.each do |date|
         month = "#{date.year}-#{date.month}"
-        events = @data_store.load(month)
+        events = @data_store.load("*-#{month}")
         if events != nil then
-          events["items"].each do |event|
-            collection << GoogleCalendar::Event.new(event).to_fullcalendar
+          events.each do |k, v|
+            v["items"].each do |event|
+              collection << GoogleCalendar::Event.new(event).to_fullcalendar
+            end
           end
         end
       end
-      return collection
+      collection
     end# method scan
   end# class Calnedar
 end# module GoogleCalendar
