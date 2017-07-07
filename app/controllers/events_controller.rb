@@ -13,6 +13,13 @@ class EventsController < ApplicationController
       @events = Event.all.order("dtstart DESC")
     end
 
+    ds = DataStore::RedisStore.new
+    if ds.load(User.current.auth_name)==nil
+      auth_info = User.current.master_auth_info
+      auth_info = KeyVault.decrypt_token(auth_info)
+      ds.store(User.curent.auth_name, { :token => auth_info.decrypted_token[:token], :refresh_token => auth_info.decrypted_token[:refresh_token] })
+    end
+
     @point_date = DateTime.now.prev_year.beginning_of_month
     @point_event = Event.where("dtstart  >= ?", @point_date).order("dtstart ASC").first
     @recurrences = Recurrence.all
