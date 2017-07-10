@@ -121,30 +121,37 @@ class EventsController < ApplicationController
     end
   end
 
+  def list
+    cal = GoogleCalendar::Calendar.new(DataStore.create(:redis))
+    date_start = Date.parse(params["start"])
+    date_end = Date.parse(params["end"])
+    events = cal.scan(date_start, date_end)
+    render json: events
+  end
+
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_event
-      @event = Event.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_event
+    @event = Event.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def event_params
-      params.require(:event).permit(:uid, :categories, :description, :location, :status, :summary, :dtstart, :dtend, :recurrence_id, :related_to, :exdate, :rdate, :created, :last_modified, :sequence, :rrule, :all_day)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def event_params
+    params.require(:event).permit(:uid, :categories, :description, :location, :status, :summary, :dtstart, :dtend, :recurrence_id, :related_to, :exdate, :rdate, :created, :last_modified, :sequence, :rrule, :all_day)
+  end
 
-    def event_to_json(event)
-      e = {}
-      if event.all_day
-        e["end"] = {"date" => event.dtend, "timeZone" => "Asia/Tokyo"}
-        e["start"] = {"date" => event.dtstart, "timeZone" => "Asia/Tokyo"}
-      else
-        e["end"] = {"dateTime" => event.dtend, "timeZone" => "Asia/Tokyo"}
-        e["start"] = {"dateTime" => event.dtstart, "timeZone" => "Asia/Tokyo"}
-      end
-      e["summary"] = event.summary
-      e["location"] = event.location
-      e["description"] = event.description
-
-      return e.to_json
+  def event_to_json(event)
+    e = {}
+    if event.all_day
+      e["end"] = {"date" => event.dtend, "timeZone" => "Asia/Tokyo"}
+      e["start"] = {"date" => event.dtstart, "timeZone" => "Asia/Tokyo"}
+    else
+      e["end"] = {"dateTime" => event.dtend, "timeZone" => "Asia/Tokyo"}
+      e["start"] = {"dateTime" => event.dtstart, "timeZone" => "Asia/Tokyo"}
     end
-end
+    e["summary"] = event.summary
+    e["location"] = event.location
+    e["description"] = event.description
+    return e.to_json
+  end# end event_to_json
+end# end EventsController
