@@ -1,9 +1,11 @@
 <div id="external-calendars">
-<% User.current.calendars.each do |c| %>
+  <% calendars["calendars"]["items"].each do |c| %>
   <div>
-  <font color=<%= c.color %>>■</font><%= c.displayname %>
+  <font color=<%= c["background_color"] %>>■</font><%= c["summary"] %>
   </div>
-<% end %>
+  <% end %>
+  <input type="checkbox" id="cbox1" value="first_checkbox" checked><font color=#16a765> calendar1</font><br>
+  <input type="checkbox" id="cbox2" value="second_checkbox" checked> calendar2
 <div align="right">
   <%= link_to "他のカレンダーをインポート",
       :controller => "calendars",
