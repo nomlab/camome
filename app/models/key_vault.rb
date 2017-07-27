@@ -24,7 +24,7 @@ class KeyVault
                      user.master_pass,
                      auth_info.salt)
     else
-      auth_info.decrypted_pass = 
+      auth_info.decrypted_pass =
         decrypt_word([auth_info.encrypted_pass].pack("H*"),
                      user.master_auth_info.decrypted_pass,
                      auth_info.salt)
@@ -52,18 +52,18 @@ class KeyVault
       decrypt_word([auth_info.token].pack("H*"),
                    auth_info.decrypted_pass,
                    auth_info.salt)
-    
+
     auth_info.decrypted_token[:refresh_token] =
       decrypt_word([auth_info.refresh_token].pack("H*"),
                    auth_info.decrypted_pass,
                    auth_info.salt)
-    
+
     return auth_info
   end
 
   def self.crypt_word(word, secret_key, salt)
     cipher = OpenSSL::Cipher::Cipher.new("AES-256-CBC")
-    cipher.padding = 0
+    cipher.padding = 1
     cipher.encrypt
     cipher.pkcs5_keyivgen(secret_key, salt)
     cipher.update(word) + cipher.final
@@ -72,7 +72,7 @@ class KeyVault
 
   def self.decrypt_word(word, secret_key, salt)
     cipher = OpenSSL::Cipher::Cipher.new("AES-256-CBC")
-    cipher.padding = 0
+    cipher.padding = 1
     cipher.decrypt
     cipher.pkcs5_keyivgen(secret_key, salt)
     cipher.update(word) + cipher.final
