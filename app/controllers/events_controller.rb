@@ -140,7 +140,7 @@ class EventsController < ApplicationController
     unlocked_auth_info = KeyVault.unlock(master_auth_info, user)
     auth_info = KeyVault.decrypt_token(unlocked_auth_info)
     ds = DataStore::RedisStore.new
-    ds.store(user.auth_name, { :token => auth_info.decrypted_token[:token], :refresh_token => auth_info.decrypted_token[:refresh_token] })
+    ds.store(user.auth_name, { :token => auth_info.decrypted_token[:token], :refresh_token => auth_info.decrypted_token[:refresh_token] }.to_json)
     redirect_to :action => "index"
   end
 
