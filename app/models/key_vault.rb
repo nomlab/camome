@@ -63,7 +63,6 @@ class KeyVault
 
   def self.crypt_word(word, secret_key, salt)
     cipher = OpenSSL::Cipher::Cipher.new("AES-256-CBC")
-    cipher.padding = 1
     cipher.encrypt
     cipher.pkcs5_keyivgen(secret_key, salt)
     cipher.update(word) + cipher.final
@@ -72,7 +71,6 @@ class KeyVault
 
   def self.decrypt_word(word, secret_key, salt)
     cipher = OpenSSL::Cipher::Cipher.new("AES-256-CBC")
-    cipher.padding = 1
     cipher.decrypt
     cipher.pkcs5_keyivgen(secret_key, salt)
     cipher.update(word) + cipher.final
