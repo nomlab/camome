@@ -1,7 +1,8 @@
 module GoogleCalendar
   class Event
-    def initialize(event)
+    def initialize(event,color)
       @event = event
+      @color = color
     end
 
     def to_fullcalendar
@@ -10,6 +11,7 @@ module GoogleCalendar
       full_event["title"] = @event["summary"]
       full_event["start"] = @event["start"]["dateTime"] || @event["start"]["date"] || @event["start"]["date_time"]
       full_event["end"] = @event["end"]["dateTime"] || @event["end"]["date"] || @event["end"]["date_time"]
+      full_event["color"] = @color
       if  @event["start"]["date"] then
         full_event["allDay"] = true
       else

@@ -10,10 +10,21 @@ module GoogleCalendar
       month_list.each do |date|
         month = "#{date.year}-#{date.month}"
         events = @data_store.load("*-#{month}")
+        calendars = @data_store.load("calendars")
         if events != nil then
           events.each do |k, v|
+            calendar_id = k.split("-")[0]
+            color = ""
+            calendars["calendars"]["items"].each do |calendar|
+              if calendar_id == calendar["id"] then
+                color = calendar["background_color"]
+                break
+              else
+                color = "blue"
+              end
+            end
             v["items"].each do |event|
-              collection << GoogleCalendar::Event.new(event).to_fullcalendar
+              collection << GoogleCalendar::Event.new(event,color).to_fullcalendar
             end
           end
         end
