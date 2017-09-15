@@ -14,14 +14,14 @@ module GoogleCalendar
       collection = []
       month_list.each do |date|
         month = "#{date.year}-#{date.month}"
-        events = @data_store.load("*-#{month}")
-        if events != nil then
-          events.each do |k, v|
-            calendar_id = k.split("-")[0]
-            color = @calendars["#{calendar_id}"]["background_color"]
-            v["items"].each do |event|
-              collection << GoogleCalendar::Event.new(event,color).to_fullcalendar
+        @data_store.glob("*-#{month}").each do |key|
+          begin
+            events = JSON.parse(@data_store.load(key))
+            events["items"].each do |event|
+              collection << GoogleCalendar::Event.new(event).to_fullcalendar
             end
+          rescue
+            Rails.logger.warn("There are invalid format events.")
           end
         end
       end

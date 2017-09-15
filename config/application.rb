@@ -36,5 +36,6 @@ module Camome
     # config.i18n.default_locale = :de
 
     config.time_zone = 'Tokyo'
+    config.logger = Logger.new('log/development.log')
   end
 end
