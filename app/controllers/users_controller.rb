@@ -73,7 +73,12 @@ class UsersController < ApplicationController
       token = Digest::SHA1.hexdigest(current_user.name + DateTime.new.to_s)
       session[:app_token] = token
       session[:decrypted_pass] = auth_info.decrypted_pass
-      redirect_to omniauth_authorize_path(:user, :google_oauth2, :token => token, :state => "application")
+      ds = DataStore::RedisStore.new
+      if ds.load(current_user.auth_name) == nil
+        redirect_to omniauth_authorize_path(:user, :google_oauth2, :token => token, :state => "application")
+      else
+        redirect_to omniauth_authorize_path(:user, :google_oauth2, :token => token, :state => "update")
+      end
     rescue
       flash[:error] = "Invalid password or Password has not been set"
       redirect_to '/users/edit/applications'
