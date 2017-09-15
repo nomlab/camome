@@ -39,11 +39,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
         valid_pass = true
         new_pass = params.require("user").permit("new_password")[:new_password]
         if !new_pass.empty?
-          auth_info = KeyVault.decrypt_token(auth_info)
-          auth_info.decrypted_pass = Digest::SHA1.hexdigest(auth_info.salt + new_pass)
-          @user.master_pass = new_pass
-          locked_auth_info = KeyVault.lock(auth_info, @user)
-          master_auth_info = KeyVault.crypt_token(locked_auth_info, auth_info.decrypted_pass, auth_info.decrypted_token[:token], auth_info.decrypted_token[:refresh_token])
+          if @user.master_auth_info.token != nil
+            auth_info = KeyVault.decrypt_token(auth_info)
+            auth_info.decrypted_pass = Digest::SHA1.hexdigest(auth_info.salt + new_pass)
+            @user.master_pass = new_pass
+            locked_auth_info = KeyVault.lock(auth_info, @user)
+            master_auth_info = KeyVault.crypt_token(locked_auth_info, auth_info.decrypted_pass, auth_info.decrypted_token[:token], auth_info.decrypted_token[:refresh_token])
+          else
+            @user.master_pass = new_pass
+            KeyVault.lock(auth_info, @user)
+          end
         end
       else
         valid_pass = false
