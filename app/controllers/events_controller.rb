@@ -2,6 +2,7 @@ require 'date'
 
 class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
+  before_action :exist_token?, only: [:index]
 
   # GET /events
   # GET /events.json
@@ -129,7 +130,22 @@ class EventsController < ApplicationController
     render json: events
   end
 
+  def input_master_pass
+  end
+
+  def set_token
+    user = current_user
+    user.master_pass = params[:password]
+    master_auth_info = MasterAuthInfo.where(:parent_id => user.id, :parent_type => user.class.name).first
+    unlocked_auth_info = KeyVault.unlock(master_auth_info, user)
+    auth_info = KeyVault.decrypt_token(unlocked_auth_info)
+    ds = DataStore::RedisStore.new
+    ds.store(user.auth_name, { :token => auth_info.decrypted_token[:token], :refresh_token => auth_info.decrypted_token[:refresh_token] }.to_json)
+    redirect_to :action => "index"
+  end
+
   private
+
   # Use callbacks to share common setup or constraints between actions.
   def set_event
     @event = Event.find(params[:id])
@@ -154,4 +170,12 @@ class EventsController < ApplicationController
     e["description"] = event.description
     return e.to_json
   end# end event_to_json
+
+  def exist_token?
+    ds = DataStore::RedisStore.new
+    user = current_user
+    if ds.load(user.auth_name) == nil && user.master_auth_info.token != nil
+      redirect_to :action => "input_master_pass"
+    end
+  end
 end# end EventsController

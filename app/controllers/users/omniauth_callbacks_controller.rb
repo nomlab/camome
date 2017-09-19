@@ -65,6 +65,20 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         flash[:error] = "Invalid token"
         redirect_to '/welcome/index'
       end
+    when "update"
+      if session[:app_token] == token
+        user = current_user
+        User.current = user
+        auth_info = user.master_auth_info
+        ds = DataStore::RedisStore.new
+        ds.store(user.auth_name, { :token => auth[:credentials][:token], :refresh_token => auth[:credentials][:refresh_token] }.to_json)
+        auth_info = KeyVault.crypt_token(auth_info, session[:decrypted_pass], auth[:credentials][:token], auth[:credentials][:refresh_token])
+        auth_info.save
+        redirect_to '/users/edit/applications'
+      else
+        flash[:error] = "Invalid token"
+        redirect_to '/welcome/index'
+      end
     when "login"
       user = User.where(auth_name: auth.info.email).first
       if user

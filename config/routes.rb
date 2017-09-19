@@ -47,6 +47,10 @@ Rails.application.routes.draw do
   match "events/create_recurrence", :via => :post
   post "events/new"
   get "events/list"
+
+  get "events/input_master_pass", to: "events#input_master_pass"
+  post "events/set_token", to: "events#set_token"
+
   resources :events
 
   get "inbox/missions"
