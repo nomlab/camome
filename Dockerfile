@@ -5,10 +5,12 @@ RUN git clone https://github.com/nomlab/camome.git
 
 WORKDIR camome
 
+ADD Gemfile Gemfile
 RUN bundle install --path vendor/bundle
 ADD config/secrets.yml config/secrets.yml
 ADD config/application_settings.yml config/application_settings.yml
 ADD config/database.yml config/database.yml
+ADD config/environments/development.rb config/environments/development.rb
 RUN git submodule init
 RUN git config submodule.vendor/assets/bootstrap-table.url https://github.com/wenzhixin/bootstrap-table.git
 RUN git config submodule.vendor/assets/jsSHA.url https://github.com/Caligatio/jsSHA.git

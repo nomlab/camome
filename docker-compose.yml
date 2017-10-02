@@ -1,5 +1,5 @@
 version: '2'
-services:
+services:    
   db:
     container_name: db
     image: postgres
@@ -9,7 +9,7 @@ services:
   web:
     container_name: camome
     build: .
-    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    command: bundle exec rails s -p 3000 -b 0.0.0.0
     ports:
       - "3000:3000"
     links:
