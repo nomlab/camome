@@ -19,10 +19,14 @@ class EventsController < ApplicationController
     @recurrences = Recurrence.all
     @event = Event.new
 
+    data_store = DataStore.create(:redis)
+    @calendars = data_store.load("calendars")
+    
     respond_to do |format|
       format.html
       format.json {render json: @events.map(&:to_event)}
     end
+
   end
 
   # GET /events/1
