@@ -1,0 +1,48 @@
+<%= form_for @event , :url => {:action => 'new'} do |f| %>
+<div id="duplicateEventModal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Duplicate Event</h4>
+      </div>
+      <form id="createEventForm" class="modal-body">
+        <div class="modal-body">
+          <table>
+            <tbody>
+              <tr>
+                <th class="event-form-key">
+                  When:
+                </th>
+                <td class="event-form-val">
+                    <%= f.text_field :dtstart, :id => 'startTime' %>  to  <%= f.text_field :dtend, :id => 'endTime' %>
+                </td>
+              </tr>
+              <tr>
+                <th class="event-form-key">
+                  What:
+                </th>
+                <td class="event-form-val">
+                  <%= f.text_field :summary, :id => 'duplicateEventSummary' %>
+                </td>
+              </tr>
+              <tr>
+                <th class="event-form-key">
+                  Calendar:
+                </th>
+                <td class="event-form-val">
+                  <select></select>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <%= f.hidden_field :recurrence, :id => 'originalId' %>
+        </div>
+      </form>
+      <div class="modal-footer">
+        <button type="submit" class="btn set-left" id="duplicateButton">Duplicate event</button>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>
