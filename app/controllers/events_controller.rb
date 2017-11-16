@@ -20,8 +20,8 @@ class EventsController < ApplicationController
     @event = Event.new
 
     data_store = DataStore.create(:redis)
-    @calendars = data_store.load("calendars")
-    
+    @calendars = JSON.parse(data_store.load("calendars"))
+
     respond_to do |format|
       format.html
       format.json {render json: @events.map(&:to_event)}
@@ -130,7 +130,11 @@ class EventsController < ApplicationController
     cal = GoogleCalendar::Calendar.new(DataStore.create(:redis))
     date_start = Date.parse(params["start"])
     date_end = Date.parse(params["end"])
-    events = cal.scan(date_start, date_end)
+    begin
+      events = cal.scan(date_start, date_end)
+    rescue JSON::ParserError => e
+      logger.warn("There are invalid format events.")
+    end
     render json: events
   end
 

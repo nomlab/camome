@@ -3,8 +3,8 @@ module GoogleCalendar
     def initialize(data_store)
       @data_store = data_store
       @calendars = {}
-      calendars = @data_store.load("calendars")
-      calendars["calendars"]["items"].each do |calendar|
+      calendars = JSON.parse(@data_store.load("calendars"))
+      calendars["items"].each do |calendar|
         @calendars["#{calendar["id"]}"] = calendar
       end
     end
@@ -14,14 +14,12 @@ module GoogleCalendar
       collection = []
       month_list.each do |date|
         month = "#{date.year}-#{date.month}"
-        events = @data_store.load("*-#{month}")
-        if events != nil then
-          events.each do |k, v|
-            calendar_id = k.split("-")[0]
-            color = @calendars["#{calendar_id}"]["background_color"]
-            v["items"].each do |event|
-              collection << GoogleCalendar::Event.new(event,color).to_fullcalendar
-            end
+        @data_store.glob("*-#{month}").each do |key|
+          calendar_id = key.split("-")[0]
+          color = @calendars["#{calendar_id}"]["background_color"]
+          events = JSON.parse(@data_store.load(key))
+          events["items"].each do |event|
+            collection << GoogleCalendar::Event.new(event,color).to_fullcalendar
           end
         end
       end
