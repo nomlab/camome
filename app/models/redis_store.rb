@@ -16,8 +16,15 @@ module DataStore
       @redis.del(key)
     end
 
-    def glob(pattern)
-      @redis.keys(pattern)
+    def glob(pattern, &block)
+      keys = @redis.keys(pattern)
+      if block_given?
+        keys.each do |key|
+          yield key
+        end
+      else
+        keys
+      end
     end
   end# end RedisStore
 end# end DataStore
