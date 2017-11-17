@@ -14,7 +14,7 @@ module GoogleCalendar
       collection = []
       month_list.each do |date|
         month = "#{date.year}-#{date.month}"
-        @data_store.glob("*-#{month}").each do |key|
+        @data_store.glob("*-#{month}") do |key|
           calendar_id = key.split("-")[0]
           color = @calendars["#{calendar_id}"]["background_color"]
           events = JSON.parse(@data_store.load(key))
