@@ -19,7 +19,7 @@ module GoogleCalendar
           color = @calendars["#{calendar_id}"]["background_color"]
           events = JSON.parse(@data_store.load(key))
           events["items"].each do |event|
-            collection << GoogleCalendar::Event.new(event,color).to_fullcalendar
+            collection << GoogleCalendar::Event.new(event,color,calendar_id).to_fullcalendar
           end
         end
       end

@@ -140,6 +140,15 @@ ready = ->
         )
       $('#calendar').css('width','80%')
 
+  $('.event_view_switch').click ->
+    if $(this).is(':checked')
+      $('.' + selectorEscape($(this).val())).show()
+    else
+      $('.' + selectorEscape($(this).val())).hide()
+
+  selectorEscape = (val) ->
+    val.replace /[ !"#$%&'()*+,.\/:;<=>?@\[\\\]^`{|}~]/g, '\\$&'
+
   $('#allDay').on
     mouseleave: ->
       $('#eventStartTime').datetimepicker
