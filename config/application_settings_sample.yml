@@ -7,6 +7,8 @@ default: &default
     google:
       application_id: XXXXXXXXXXXXXXXXX
       application_secret: XXXXXXXXXXXXXXXXX
+  redis:
+    url: redis://XXXXX:6379
 
 development:
   <<: *default

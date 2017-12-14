@@ -1,7 +1,9 @@
+require 'uri'
 module DataStore
   class RedisStore < Base
     def initialize
-      @redis = Redis.new
+      uri = URI.parse(ApplicationSettings.redis.url)
+      @redis = Redis.new(host: uri.host, port: uri.port)
     end
 
     def load(key)
