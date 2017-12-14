@@ -54,3 +54,5 @@ bower.json
 attic/
 
 config/environments/development.rb
+
+.env
