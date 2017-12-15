@@ -182,7 +182,7 @@ class EventsController < ApplicationController
   def exist_token?
     ds = DataStore::RedisStore.new
     user = current_user
-    if ds.load(user.auth_name) == nil && user.master_auth_info.token != nil
+    if ds.load(user.auth_name) == nil
       redirect_to :action => "input_master_pass"
     end
   end

@@ -1,0 +1,5 @@
+./config/application_settings.yml
+./config/database.yml
+./config/environments/deveropment.rb
+
+vender/bundle

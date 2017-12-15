@@ -1,0 +1,38 @@
+version: '3'
+services:    
+  db:
+    container_name: db
+    image: postgres
+    expose:
+      - "5432"
+    volumes:
+      - ./db/camome_pgdata:/var/lib/postgresql/data
+      
+  web:
+    build: .
+    container_name: camome
+    image: nomlab/camome
+    command: bundle exec rails s -p 3000 -b 0.0.0.0
+    ports:
+      - "3000:3000"
+    depends_on:
+      - redis
+      - db
+    volumes:
+      - ./config/application_settings.yml:/camome/config/application_settings.yml
+      - ./config/database.yml:/camome/config/database.yml
+      - ./config/environments/deveropment.rb:/camome/config/environments/deveropment.rb
+    env_file: .env
+    
+  redis:
+    container_name: redis
+    image: redis
+
+  goohub:
+    container_name: goohub
+    image: nomlab/goohub
+    links:
+      - redis
+      - web
+    volumes:
+      - ./goohub:/root/.config/goohub

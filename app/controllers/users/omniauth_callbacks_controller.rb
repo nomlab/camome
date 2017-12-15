@@ -35,7 +35,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     case state
     when "invitation"
-      user = User.where("invitation_token is ?", token).first
+      user = User.where("invitation_token = token").first
       if user
         User.current = user
         user.provider = auth.provider
